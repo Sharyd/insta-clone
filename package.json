@@ -6,9 +6,20 @@
     "start": "next start"
   },
   "dependencies": {
+    "@types/uuid": "^8.3.4",
+    "emoji-picker-react": "^4.4.5",
+    "firebase": "^9.13.0",
+    "framer-motion": "^7.6.4",
     "next": "latest",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-firebase-hooks": "^5.0.3",
+    "react-icons": "^4.6.0",
+    "react-loader-spinner": "^5.3.4",
+    "react-moment": "^1.1.2",
+    "recoil": "^0.7.6",
+    "tailwind-scrollbar-hide": "^1.1.7",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/node": "18.11.3",

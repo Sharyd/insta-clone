@@ -1,3 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=Lobster&family=Oleo+Script&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+@import url("http://fonts.cdnfonts.com/css/billabong");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-body text-black/80 bg-gray-100 tracking-[0.015em];
+  }
+}
+
+@layer components {
+  .lineAfter {
+    @apply after:absolute after:w-[6.1rem] sm:after:w-[7.1rem] after:bg-gray-300 after:h-[0.05rem] after:top-1 after:left-8;
+  }
+  .lineBefore {
+    @apply before:absolute before:right-8 before:w-[6.1rem] sm:before:w-[7.1rem] before:bg-gray-300 before:h-[0.05rem] before:top-1;
+  }
+  .iconHover {
+    @apply cursor-pointer rounded-full transition-all hover:bg-gray-100;
+  }
+  .mainColor {
+    @apply bg-[#0094f6];
+  }
+  .textMainColor {
+    @apply text-[#0094f6];
+  }
+  .inputCustomPlaceholder {
+    @apply absolute top-[-2.5px] left-0 pl-2.5 text-gray-400;
+  }
+  .leftArrow {
+    @apply absolute top-[45%] left-6 bg-white p-1 rounded-full opacity-80;
+  }
+  .rightArrow {
+    @apply absolute top-[45%] right-6 bg-white p-1 rounded-full opacity-80;
+  }
+}
