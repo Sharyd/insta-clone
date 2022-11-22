@@ -23,7 +23,8 @@ import { storage, db } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import Popup from "./ui/Popup";
-import { modalState, popupState } from "../atoms/modalAtom";
+
+import { popupState } from "../atoms/popupAtom";
 import { getSelectedImgLengthState } from "../atoms/postAtom";
 import { useRecoilState } from "recoil";
 import { RotatingLines } from "react-loader-spinner";
@@ -82,7 +83,7 @@ const CreatePost = () => {
       (data: { id: string }) => id !== data.id
     );
     setSelectedFilesURL(filteredItems);
-    setSlideIndex((prev) => prev - 1);
+    prevSlide();
   };
 
   const sendData = async () => {
@@ -90,7 +91,7 @@ const CreatePost = () => {
     setLoading(true);
 
     const docRef = await addDoc(collection(db, "posts"), {
-      id: user?.uid,
+      userid: user?.uid,
       username: user?.displayName,
       userImg:
         user?.photoURL === null
@@ -98,6 +99,7 @@ const CreatePost = () => {
           : user?.photoURL,
       text: text,
       timestamp: serverTimestamp(),
+      email: user?.email,
     });
 
     if (selectedFilesURL.length !== 0) {
@@ -179,9 +181,7 @@ const CreatePost = () => {
                   fill="currentColor"
                 ></path>
               </svg>
-              <h2 className=" text-xl  sm:text-2xl font-thin">
-                Drag photos and videos here
-              </h2>
+              <h2 className=" text-xl  sm:text-2xl font-thin">Select photos</h2>
               <div
                 onClick={() => refFileToElement.current.click()}
                 className="text-sm mainColor text-white py-1.5 px-2.5 font-semibold rounded-[4px] cursor-pointer"
@@ -227,7 +227,7 @@ const CreatePost = () => {
             {!loading ? (
               <div className="flex border-t flex-col md:flex-row">
                 <div className="relative">
-                  <div className="relative h-[20.5rem] w-[21.9rem] md:h-[38rem] md:w-[32.5rem] lg:h-[40.5rem] lg:w-[42rem]  overflow-hidden">
+                  <div className="bg-black relative h-[20.5rem] w-[21.9rem] md:h-[38rem] md:w-[32.5rem] lg:h-[40.5rem] lg:w-[42rem]  overflow-hidden">
                     {selectedFilesURL?.map(
                       (data: { id: string; files: string }, index: number) => (
                         <>
@@ -239,7 +239,7 @@ const CreatePost = () => {
                                 style={{
                                   backgroundImage: `url(${data.files})`,
                                   backgroundRepeat: "no-repeat",
-                                  backgroundSize: "cover",
+                                  backgroundSize: "contain",
                                   backgroundPosition: "center center",
                                 }}
                               >
@@ -369,6 +369,8 @@ const CreatePost = () => {
             <Popup
               mainText="Discard post?"
               text="If you leave, your edits won't be saved"
+              buttonTextNo="Cancel"
+              buttonTextYes="Discard"
             />
           </>
         )}

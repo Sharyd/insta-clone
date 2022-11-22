@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { modalState, modalTypeState, popupState } from "../../atoms/modalAtom";
+import { modalState, modalTypeState } from "../../atoms/modalAtom";
+import { popupState } from "../../atoms/popupAtom";
 import { getSelectedImgLengthState } from "../../atoms/postAtom";
 
 interface Props {

@@ -32,7 +32,7 @@ const Sidebar = () => {
     >
       <div className="mt-4 mb-2.5 space-y-2.5 flex flex-col xl:w-56 h-full flex-1">
         <Link href="/home">
-          <div className="mt-2 mb-6 flex items-center justify-center iconHover py-3 px-3 ">
+          <div className="mt-2 mb-6 group flex items-center justify-center py-3 px-3">
             <AiOutlineInstagram className="w-7 h-8 xl:hidden " />
             <h2 className="hidden font-insta text-[1.9rem] xl:block">
               Instagram
@@ -68,7 +68,7 @@ const Sidebar = () => {
             }
           />
         </div>
-        <Link href="/profile">
+        <Link href={`/profile/${user?.uid}`}>
           <SidebarLink
             text="Profile"
             img={

@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { AiOutlineHeart, AiFillHeart, AiOutlineSmile } from "react-icons/ai";
 import { SlPaperPlane } from "react-icons/sl";
 import { FaRegComment } from "react-icons/fa";
-import { BiBookmark } from "react-icons/bi";
+import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { HiOutlineTrash } from "react-icons/hi";
-
-import { v4 as uuidv4 } from "uuid";
+import { motion } from "framer-motion";
 import useSlider from "../hooks/use-slider";
 import BtnSlider from "./Slider/SliderBtn";
 import { AnimatePresence } from "framer-motion";
@@ -15,6 +14,7 @@ import {
   addDoc,
   collection,
   deleteDoc,
+  deleteField,
   doc,
   DocumentData,
   onSnapshot,
@@ -23,15 +23,21 @@ import {
   QueryDocumentSnapshot,
   serverTimestamp,
   setDoc,
+  updateDoc,
+  where,
 } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { modalState, modalTypeState } from "../atoms/modalAtom";
+import { popupState } from "../atoms/popupAtom";
 import { getPostState, getPostIdState } from "../atoms/postAtom";
 import EmojiPicker from "emoji-picker-react";
 import { EmojiStyle } from "emoji-picker-react";
 import useEmoji from "../hooks/use-emoji";
+
+import Comments from "./Comments";
+import Popup from "./ui/Popup";
 
 interface Props {
   post: DocumentData;
@@ -45,8 +51,16 @@ const Post = ({ post, id, modalPost }: Props) => {
   const [postState, setPostState] = useRecoilState(getPostState);
   const [postId, setPostId] = useRecoilState(getPostIdState);
   const [isPostOpen, setIsPostOpen] = useState(modalOpen);
+  const [popupOpen, setPopupOpen] = useRecoilState(popupState);
   const [likes, setLikes] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
+  const [bookmarks, setBookmarks] = useState<
+    QueryDocumentSnapshot<DocumentData>[]
+  >([]);
   const [liked, setLiked] = useState(false);
+  const [bookmarked, setBookmarked] = useState(false);
+
+  const [showComments, setShowComments] = useState(false);
+
   // const [comment, setComment] = useState("");
   const [comments, setComments] = useState<
     QueryDocumentSnapshot<DocumentData>[]
@@ -74,6 +88,13 @@ const Post = ({ post, id, modalPost }: Props) => {
     () => setLiked(likes.findIndex((like) => like?.id === user?.uid) !== -1),
     [likes]
   );
+  useEffect(
+    () =>
+      setBookmarked(
+        bookmarks.findIndex((bookmark) => bookmark?.id === id) !== -1
+      ),
+    [bookmarks]
+  );
 
   useEffect(
     () =>
@@ -82,14 +103,24 @@ const Post = ({ post, id, modalPost }: Props) => {
       }),
     [db]
   );
+  useEffect(
+    () =>
+      onSnapshot(
+        query(collection(db, "posts"), where("bookmarked", "==", user?.uid)),
+        (snapshot) => {
+          setBookmarks(snapshot.docs);
+        }
+      ),
+    [db]
+  );
 
   const sendLike = async () => {
     if (liked) {
       await deleteDoc(doc(db, "posts", id, "likes", user?.uid ?? ""));
     } else {
       await setDoc(doc(db, "posts", id, "likes", user?.uid ?? ""), {
-        username: username,
-        userImg: userImg,
+        username: user?.displayName,
+        userImg: user?.photoURL,
       });
     }
   };
@@ -107,6 +138,18 @@ const Post = ({ post, id, modalPost }: Props) => {
     // setIsOpen(false);
     resetEmojiAndText();
   };
+  console.log(bookmarked);
+  const bookmarkedPosts = async () => {
+    if (!bookmarked) {
+      await updateDoc(doc(db, "posts", id), {
+        bookmarked: user?.uid,
+      });
+    } else {
+      await updateDoc(doc(db, "posts", id), {
+        bookmarked: deleteField(),
+      });
+    }
+  };
 
   useEffect(
     () =>
@@ -119,7 +162,10 @@ const Post = ({ post, id, modalPost }: Props) => {
       ),
     [db, id]
   );
-  console.log(comments);
+
+  const deletePost = () => {
+    deleteDoc(doc(db, "posts", id));
+  };
 
   return (
     <div
@@ -141,9 +187,8 @@ const Post = ({ post, id, modalPost }: Props) => {
             key={index}
             src={data}
             alt=""
-            className={`min-w-full transition ease-in-out duration-500 object-cover ${
-              isPostOpen && "h-[400px]"
-            } ${isPostOpen && image.length >= 2 && "h-[375px]"}`}
+            className={`min-w-full transition max-h-[375px] lg:max-h-[445px] ease-in-out duration-500 object-contain bg-black  
+           `}
             style={{ transform: `translateX(${-100 * slideIndex}%)` }}
           />
         ))}
@@ -191,16 +236,21 @@ const Post = ({ post, id, modalPost }: Props) => {
           </div>
         )}
         <div className="flex items-center gap-2 justify-center">
-          {user?.uid === post?.id && (
+          {user?.uid === post?.userid && (
             <HiOutlineTrash
               onClick={() => {
-                deleteDoc(doc(db, "posts", id));
-                setModalOpen(false);
+                deletePost();
               }}
               className="w-7 h-7 cursor-pointer hover:text-gray-400"
             />
           )}
-          <BiBookmark className="w-7 h-7 cursor-pointer hover:text-gray-400" />
+          <div onClick={bookmarkedPosts}>
+            {bookmarked ? (
+              <FaBookmark className="w-6 h-6 cursor-pointer hover:text-gray-400 text-black " />
+            ) : (
+              <FaRegBookmark className="w-6 h-6 cursor-pointer hover:text-gray-400" />
+            )}
+          </div>
         </div>
       </div>
       <div className="flex flex-col gap-2 p-4 pb-0 text-sm">
@@ -220,9 +270,11 @@ const Post = ({ post, id, modalPost }: Props) => {
               setModalType("modalPost");
               setPostState(post);
               setPostId(id);
+
+              modalOpen && setShowComments((prev) => !prev);
             }}
           >
-            View{" "}
+            {showComments ? "Hide" : "Show"}{" "}
             <span>
               {comments.length >= 2 && "all"} {comments?.length}
             </span>{" "}
@@ -230,43 +282,74 @@ const Post = ({ post, id, modalPost }: Props) => {
           </p>
         )}
       </div>
+      {showComments && (
+        <motion.div
+          initial={{ y: "100%" }}
+          animate={{ y: "0%" }}
+          className={`overflow-y-scroll scrollbar-hide ${
+            comments.length >= 2 && "h-[8.5rem] md:h-36"
+          }`}
+        >
+          {comments.map((comment) => (
+            <Comments
+              key={comment.id}
+              id={comment.id}
+              comment={comment.data()}
+            />
+          ))}
+        </motion.div>
+      )}
       <span className="text-[0.7rem] text-gray-400 p-4">
         <Moment fromNow>{post?.timestamp?.toDate()}</Moment>
       </span>
-      <div className="relative flex items-center justify-between px-2 h-full w-full border-t">
-        <div className="flex gap-2 items-center justify-center">
-          <AiOutlineSmile
-            onClick={() => setShowEmojis((prev) => !prev)}
-            className="w-6 h-6 cursor-pointer"
-          />
+      <form onSubmit={sendComment}>
+        <div className="relative flex items-center justify-between px-2 h-full w-full border-t">
+          <div className="flex gap-2 items-center justify-center">
+            <AiOutlineSmile
+              onClick={() => setShowEmojis((prev) => !prev)}
+              className="w-6 h-6 cursor-pointer"
+            />
 
-          <textarea
-            placeholder="Add a comment..."
-            className="h-max w-72 outline-none text-sm resize-none mt-6"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
+            <textarea
+              placeholder="Add a comment..."
+              className={`${
+                modalOpen && "md:w-[30rem]"
+              } h-max w-72 outline-none text-sm resize-none mt-6 scrollbar-hide`}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
 
-          {showEmojis && (
-            <div className="absolute bottom-16 right-0">
-              <EmojiPicker
-                onEmojiClick={addEmoji}
-                width={350}
-                height={350}
-                emojiStyle={EmojiStyle.FACEBOOK}
-              />
-            </div>
-          )}
+            {showEmojis && (
+              <div className="absolute bottom-16 right-0">
+                <EmojiPicker
+                  onEmojiClick={addEmoji}
+                  width={350}
+                  height={350}
+                  emojiStyle={EmojiStyle.FACEBOOK}
+                />
+              </div>
+            )}
+          </div>
+          <button
+            type="submit"
+            disabled={!comment.trim()}
+            className="disabled:text-[#bae6fd] textMainColor text-sm mr-2"
+          >
+            Post
+          </button>
         </div>
-        <button
-          type="submit"
-          onClick={sendComment}
-          disabled={!comment.trim()}
-          className="disabled:text-[#bae6fd] textMainColor text-sm mr-2"
-        >
-          Post
-        </button>
-      </div>
+      </form>
+
+      {/* {popupOpen && (
+        <>
+          <Popup
+            mainText="Remove post?"
+            text="Are you sure completely remove post?"
+            buttonTextYes="Yes"
+            buttonTextNo="No"
+          />
+        </>
+      )} */}
     </div>
   );
 };

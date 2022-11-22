@@ -1,18 +1,26 @@
-import React from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import Backdrop from "./Backdrop";
 import { motion } from "framer-motion";
 import { animation } from "../../lib/animation";
 import { useRecoilState } from "recoil";
-import { modalState, modalTypeState, popupState } from "../../atoms/modalAtom";
+import { popupState } from "../../atoms/popupAtom";
+import { modalState, modalTypeState } from "../../atoms/modalAtom";
+import { getSelectedImgLengthState } from "../../atoms/postAtom";
 
 interface Props {
   mainText: string;
   text: string;
+  buttonTextYes: string;
+  buttonTextNo: string;
 }
 
-const Popup = ({ text, mainText }: Props) => {
+const Popup = ({ text, mainText, buttonTextYes, buttonTextNo }: Props) => {
   const [modalOpen, setModalOpen] = useRecoilState(modalState);
   const [popupOpen, setPopupOpen] = useRecoilState(popupState);
+  const [selectedFiles, setSelectedFiles] = useRecoilState(
+    getSelectedImgLengthState
+  );
+
   return (
     <Backdrop>
       <motion.div
@@ -23,7 +31,7 @@ const Popup = ({ text, mainText }: Props) => {
         animate="visible"
         exit="exit"
       >
-        <div className="rounded-xl w-[22rem] h-48 flex items-center z-100 bg-white text-black/80">
+        <div className="rounded-xl w-[22rem] h-48 flex items-center z-100 bg-white text-black/60">
           <div className="flex flex-col w-full h-full items-center justify-end">
             <div className="flex items-center justify-end flex-1 flex-col border-b w-full ">
               <h2 className="font-semibold mb-2">{mainText}</h2>
@@ -32,18 +40,21 @@ const Popup = ({ text, mainText }: Props) => {
 
             <button
               onClick={() => {
-                setModalOpen(false);
+                modalOpen && setModalOpen(false);
                 setPopupOpen(false);
+                setSelectedFiles(0);
               }}
               className="text-sm font-semibold p-3 border-b w-full text-red-500"
             >
-              Discard
+              {buttonTextYes}
             </button>
             <button
-              onClick={() => setPopupOpen(false)}
+              onClick={() => {
+                setPopupOpen(false);
+              }}
               className="text-sm p-3 w-full"
             >
-              Cancel
+              {buttonTextNo}
             </button>
           </div>
         </div>

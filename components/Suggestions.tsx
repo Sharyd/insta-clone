@@ -12,7 +12,10 @@ const Suggestions = () => {
     <div className="flex flex-col text-[0.7rem] mt-10 ml-4 w-[325px] text-gray-700">
       <div className="flex flex-col">
         <div className="flex items-center">
-          <Link href="/profile" className="flex items-center cursor-pointer">
+          <Link
+            href={`/profile/${user?.uid}`}
+            className="flex items-center cursor-pointer"
+          >
             <img
               src={
                 user?.photoURL === null

@@ -11,7 +11,7 @@ import {
 } from "../../atoms/postAtom";
 import Post from "../Post";
 import { AiOutlineClose } from "react-icons/ai";
-import { popupState } from "../../atoms/modalAtom";
+import { popupState } from "../../atoms/popupAtom";
 
 interface Props {
   type: string;
@@ -37,7 +37,7 @@ const Modal = ({ type, setModalOpen }: Props) => {
         <>
           <div
             onClick={(e) => e.stopPropagation()}
-            className="h-[100vh] w-[700px] p-12 scrollbar-hide"
+            className="h-[100vh] w-[800px] p-8 scrollbar-hide"
           >
             <Post post={post} id={id} modalPost />
           </div>
