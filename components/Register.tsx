@@ -7,7 +7,8 @@ import useInput from "../hooks/use-input";
 import { includesFunction } from "../lib/emailValidationFunc";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 interface Props {
   setLogin: Dispatch<SetStateAction<boolean>>;
@@ -37,7 +38,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
     valueChangeHandler: fullNameChangeHandler,
     valueBlurHandler: fullNameBlurHandler,
     reset: resetFullNameInput,
-  } = useInput((value) => value.trim() !== "");
+  } = useInput((value) => value.trim() !== "" && value.length <= 25);
   const {
     value: enteredUsername,
     isValid: enteredUsernameIsValid,
@@ -88,6 +89,13 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
           displayName: displayName,
           // userName: userName
         });
+
+        await setDoc(doc(db, "users", res.user.uid), {
+          uid: res.user.uid,
+          displayName,
+          email,
+        });
+
         router.replace("/home");
       } catch (err) {
         console.log(err);

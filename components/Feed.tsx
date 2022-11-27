@@ -12,6 +12,7 @@ import Post from "./Post";
 import { db } from "../firebase";
 import Slider from "./Slider/Slider";
 import Suggestions from "./Suggestions";
+
 const Feed = () => {
   const [posts, setPosts] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
 
@@ -26,7 +27,7 @@ const Feed = () => {
 
   return (
     <section className="m-auto lg:flex mt-16 gap-4 md:mt-8 ">
-      <div className="max-w-[380px]  sm:max-w-[440px]  ">
+      <div className="max-w-[410px]  sm:max-w-[440px]  ">
         <Slider />
         {posts.map((post) => (
           <Post key={post.id} id={post.id} post={post?.data()} modalPost />

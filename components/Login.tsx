@@ -67,7 +67,7 @@ const Login = ({ setLogin, FacebookProvider }: Props) => {
     resetEmailInput();
     resetPasswordInput();
   };
-  console.log(error);
+
   return (
     <div className="flex flex-col w-[18.5rem] text-sm sm:min-w-[20.5rem] ">
       <div className="bg-white p-10 pb-5 pt-5 border border-gray-300">

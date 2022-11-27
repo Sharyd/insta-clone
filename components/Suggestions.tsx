@@ -13,7 +13,7 @@ const Suggestions = () => {
       <div className="flex flex-col">
         <div className="flex items-center">
           <Link
-            href={`/profile/${user?.uid}`}
+            href={`/${user?.email}/`}
             className="flex items-center cursor-pointer"
           >
             <img

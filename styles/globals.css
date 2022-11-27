@@ -17,6 +17,11 @@
   .lineBefore {
     @apply before:absolute before:right-8 before:w-[6.1rem] sm:before:w-[7.1rem] before:bg-gray-300 before:h-[0.05rem] before:top-1;
   }
+
+  .lineActivePostsOrSaved {
+    @apply relative before:absolute before:right-0 before:w-full before:bg-gray-800 before:h-[0.05rem] before:bottom-9;
+  }
+
   .iconHover {
     @apply cursor-pointer rounded-full transition-all hover:bg-gray-100;
   }

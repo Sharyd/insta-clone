@@ -1,14 +1,25 @@
 import { useRouter } from "next/router";
+import { Component } from "react";
 
 interface Props {
-  Icon?: any;
   text: string;
+  activeSearch: boolean;
+  activeNotifications: boolean;
+  Icon?: any;
   active?: boolean;
-  img?: any;
+  img?: string;
 }
 
-const SidebarLink = ({ Icon, text, active, img }: Props) => {
+const SidebarLink = ({
+  Icon,
+  text,
+  active,
+  img,
+  activeSearch,
+  activeNotifications,
+}: Props) => {
   const router = useRouter();
+
   return (
     <div
       className={`flex group h-max items-center justify-center  gap-4 text-xl text-gray-800 xl:justify-start px-3 py-3 iconHover ${
@@ -27,10 +38,17 @@ const SidebarLink = ({ Icon, text, active, img }: Props) => {
         <img
           src={img}
           alt="user-profile"
-          className="h-7 w-7 rounded-full group-hover:scale-105 transition-all "
+          className={`
+           h-7 w-7 rounded-full group-hover:scale-105 transition-all`}
         />
       )}
-      <span className={`hidden xl:inline text-[1rem]`}>{text}</span>
+      <span
+        className={`${
+          (activeSearch || activeNotifications) && "xl:hidden"
+        } hidden xl:inline text-[1rem]`}
+      >
+        {text}
+      </span>
     </div>
   );
 };

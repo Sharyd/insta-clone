@@ -49,7 +49,7 @@ const PostsQuery = ({ id, post }: Props) => {
       <div className="relative flex items-center justify-center group cursor-pointer ">
         <img
           className="h-[125px] md:h-[200px] lg:h-[275px] w-full object-cover "
-          src={post?.image[0]}
+          src={post?.image}
           alt={post?.text}
         />
 

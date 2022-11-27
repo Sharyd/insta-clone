@@ -25,10 +25,10 @@ const home = () => {
       </div>
     );
   if (!user) router.push("/");
-  console.log(user);
+
   return (
     <>
-      {user && (
+      {user && !loading && (
         <Layout>
           <Feed />
         </Layout>

@@ -76,8 +76,7 @@ const Comments = ({ comment, id }: Props) => {
   const deleteComment = () => {
     deleteDoc(doc(db, "posts", postId, "comments", id));
   };
-  console.log(id);
-  console.log(comment);
+
   return (
     <div className="px-4 py-2 text-[0.8rem] flex justify-between items-center">
       <div className="flex flex-col gap-2">

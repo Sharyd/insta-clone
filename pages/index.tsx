@@ -4,7 +4,7 @@ import Login from "../components/Login";
 import MobileImages from "../components/MobileImages";
 import Register from "../components/Register";
 import Footer from "../components/Footer";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
   signInWithPopup,
@@ -13,6 +13,7 @@ import {
 } from "firebase/auth";
 import { useRouter } from "next/router";
 import { RotatingLines } from "react-loader-spinner";
+import { doc, setDoc } from "firebase/firestore";
 const Home: NextPage = () => {
   const [login, setLogin] = useState(true);
   const [user, loading] = useAuthState(auth);
@@ -21,15 +22,20 @@ const Home: NextPage = () => {
 
   const FacebookProvider = async () => {
     try {
-      const result = await signInWithPopup(auth, fbProvider);
+      const res = await signInWithPopup(auth, fbProvider);
 
-      const credantial = await FacebookAuthProvider.credentialFromResult(
-        result
-      );
+      const credantial = await FacebookAuthProvider.credentialFromResult(res);
 
       const token = credantial?.accessToken;
-      let photoUrl = result.user.photoURL + "?height=500&access_token=" + token;
-      await updateProfile(result.user, { photoURL: photoUrl });
+      let photoUrl = res.user.photoURL + "?height=500&access_token=" + token;
+      await updateProfile(res.user, { photoURL: photoUrl });
+
+      await setDoc(doc(db, "users", res.user.uid), {
+        uid: res.user.uid,
+        displayName: res.user.displayName,
+        email: res.user.email,
+        photoURL: res.user.photoURL,
+      });
       router.push("/home");
     } catch (error) {
       console.log(error);

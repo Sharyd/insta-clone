@@ -138,7 +138,7 @@ const Post = ({ post, id, modalPost }: Props) => {
     // setIsOpen(false);
     resetEmojiAndText();
   };
-  console.log(bookmarked);
+
   const bookmarkedPosts = async () => {
     if (!bookmarked) {
       await updateDoc(doc(db, "posts", id), {
@@ -240,6 +240,7 @@ const Post = ({ post, id, modalPost }: Props) => {
             <HiOutlineTrash
               onClick={() => {
                 deletePost();
+                modalOpen && setModalOpen(false);
               }}
               className="w-7 h-7 cursor-pointer hover:text-gray-400"
             />

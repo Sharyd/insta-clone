@@ -142,7 +142,7 @@ const CreatePost = () => {
     setSelectedFile(null);
     setSelectedFilesURL([]);
   };
-  console.log(slideIndex);
+
   // xl:w-[825px] xl:h-[875px] lg:w-[625px] lg:h-[675px] md:w-[425px] md:h-[475px] w-[350px] h-[375px]
   return (
     <>
