@@ -43,7 +43,6 @@ const Sidebar = ({
   const [modalOpen, setModalOpen] = useRecoilState(modalState);
   const [modalType, setModalType] = useRecoilState(modalTypeState);
   const router = useRouter();
-  console.log(router.asPath);
 
   return (
     <div
@@ -122,12 +121,14 @@ const Sidebar = ({
             />
           </Link>
 
-          <SidebarLink
-            text="Messages"
-            Icon={SlPaperPlane}
-            activeSearch={activeSearch}
-            activeNotifications={activeNotifications}
-          />
+          <Link href="/messages">
+            <SidebarLink
+              text="Messages"
+              Icon={SlPaperPlane}
+              activeSearch={activeSearch}
+              activeNotifications={activeNotifications}
+            />
+          </Link>
 
           <div
             onClick={() => {
@@ -155,7 +156,7 @@ const Sidebar = ({
                 modalOpen
                   ? router.pathname == "/home" ||
                     router.pathname == "/explore" ||
-                    router.asPath == `/${user?.email}/` ||
+                    router.asPath == `/${user?.email}` ||
                     router.asPath == `/${user?.email}/?saved`
                   : undefined
               }
@@ -166,13 +167,7 @@ const Sidebar = ({
 
           <Link
             href={{
-              pathname: `/${user?.email}/`,
-              query: {
-                uid: user?.uid,
-                photoURL: user?.photoURL,
-                displayName: user?.displayName,
-                email: user?.email,
-              },
+              pathname: `/${user?.uid}`,
             }}
           >
             <SidebarLink
@@ -183,7 +178,7 @@ const Sidebar = ({
                   : user?.photoURL
               }
               active={
-                router.asPath == `/${user?.email}/` ||
+                router.asPath == `/${user?.email}` ||
                 router.asPath == `/${user?.email}/?saved`
               }
               activeSearch={activeSearch}

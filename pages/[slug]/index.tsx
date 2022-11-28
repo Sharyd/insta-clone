@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -18,12 +18,19 @@ import {
 import PostsQuery from "../../components/PostsQuery";
 import { useRouter } from "next/router";
 import { RotatingLines } from "react-loader-spinner";
+
+interface dataQuery {
+  displayName: string;
+  uid: string;
+  photoURL: string;
+  email: string;
+}
+
 const ProfilePage = () => {
   const [user, loading] = useAuthState(auth);
-  const [isPosts, setIsPosts] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const router = useRouter();
-  const routerSaved = router.asPath;
+
   // if (!user) return router.push("/");
   const [createdPosts, setCreatedPosts] = useState<
     QueryDocumentSnapshot<DocumentData>[]
@@ -31,14 +38,30 @@ const ProfilePage = () => {
   const [savedPosts, setSavedPosts] = useState<
     QueryDocumentSnapshot<DocumentData>[]
   >([]);
-  const { displayName, email, uid, photoURL } = router?.query;
+
+  const data: any = router.query;
+
+  const { displayName, email, uid, photoURL } = data;
+  const { slug } = router?.query;
+
   const getCreatedData = () => {
-    const unsubscribe = onSnapshot(
-      query(collection(db, "posts"), where("email", "==", router?.query?.slug)),
-      (snapshot) => {
-        setCreatedPosts(snapshot?.docs);
-      }
-    );
+    let unsubscribe;
+
+    if (email) {
+      unsubscribe = onSnapshot(
+        query(collection(db, "posts"), where("email", "==", email)),
+        (snapshot) => {
+          setCreatedPosts(snapshot?.docs);
+        }
+      );
+    } else {
+      unsubscribe = onSnapshot(
+        query(collection(db, "posts"), where("email", "==", user?.email)),
+        (snapshot) => {
+          setCreatedPosts(snapshot?.docs);
+        }
+      );
+    }
 
     return unsubscribe;
   };
@@ -54,9 +77,10 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !data) return;
+
     getCreatedData();
-  }, [db, router?.query]);
+  }, [db, router?.query, data]);
 
   return (
     <Layout>
@@ -77,17 +101,17 @@ const ProfilePage = () => {
               <div className="flex w-full border-b mb-4 items-center justify-center">
                 <div className="flex w-full items-center gap-10 md:gap-20 xl:ml-10 flex-col md:flex-row mb-10">
                   <img
-                    src={user?.uid === uid ? user?.photoURL : photoURL}
+                    src={user?.uid === slug ? user?.photoURL ?? "" : photoURL}
                     alt="user profile"
                     className="w-28 h-28 md:w-40 md:h-40 rounded-full object-cover"
                   />
 
                   <div className="flex flex-col gap-2 md:gap-4 text-gray-700 ">
-                    <div className="flex flex-col md:flex-row items-center justify-between mb-4">
-                      <h2 className="text-xl md:text-2xl font-thin mb-4 md:mb-0">
-                        {displayName}
+                    <div className="flex flex-col md:flex-row items-center justify-between mb-4 gap-2">
+                      <h2 className="text-xl md:text-2xl font-thin mb-4 md:mb-0 ">
+                        {user?.uid === slug ? user?.displayName : displayName}
                       </h2>
-                      {user?.uid === uid ? (
+                      {user?.uid === slug ? (
                         <div className="flex items-center gap-2 justify-center">
                           <button className="font-semibold text-sm border px-3 py-1 rounded-sm">
                             Edit profile
@@ -119,22 +143,22 @@ const ProfilePage = () => {
                 </div>
               </div>
               <div className="flex flex-col items-center justify-center">
-                <div className="flex items-center justify-center gap-12 ">
+                <div
+                  className={`flex items-center justify-center ${
+                    user?.uid === slug ? "gap-12" : "gap-0"
+                  }`}
+                >
                   <div className={`${!isSaved && "lineActivePostsOrSaved"}`}>
-                    {user?.uid === uid ? (
-                      <button
-                        onClick={() => {
-                          setIsSaved(false);
-                        }}
-                      >
-                        POSTS
-                      </button>
-                    ) : (
-                      <p>POSTS</p>
-                    )}
+                    <button
+                      onClick={() => {
+                        setIsSaved(false);
+                      }}
+                    >
+                      POSTS
+                    </button>
                   </div>
                   <div className={`${isSaved && "lineActivePostsOrSaved"}`}>
-                    {user?.uid === uid && (
+                    {user?.uid === slug && (
                       <button
                         onClick={() => {
                           setIsSaved(true);
@@ -146,7 +170,7 @@ const ProfilePage = () => {
                     )}
                   </div>
                 </div>
-                {createdPosts?.length !== 0 && user?.uid === uid && (
+                {createdPosts?.length !== 0 && user?.uid === slug && (
                   <button className="text-sm textMainColor font-semibold ml-auto">
                     Share your photo
                   </button>
@@ -154,7 +178,7 @@ const ProfilePage = () => {
 
                 {!isSaved ? (
                   <div className="mt-5 md:mt-10 text-center">
-                    {createdPosts?.length === 0 && user?.uid === uid ? (
+                    {createdPosts?.length === 0 && user?.uid === slug ? (
                       <div
                         className={`${
                           createdPosts?.length === 0 ? "flex" : "hidden"
@@ -206,6 +230,9 @@ const ProfilePage = () => {
                         />
                       ))}
                   </div>
+                )}
+                {user?.uid !== slug && createdPosts.length === 0 && (
+                  <p className="text-lg">User has no posts!</p>
                 )}
               </div>
             </div>

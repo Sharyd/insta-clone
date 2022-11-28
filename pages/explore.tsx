@@ -23,7 +23,7 @@ const explore = () => {
   );
   return (
     <Layout>
-      <div className="mt-20 md:mt-10 grid grid-cols-3 max-h-full max-w-[900px] m-auto gap-2 md:gap-6">
+      <div className="mt-20 md:mt-10 grid grid-cols-3 max-h-full max-w-[900px] m-auto gap-2 md:gap-6 p-2">
         {posts?.map((post) => (
           <PostsQuery key={post.id} post={post.data()} id={post.id} />
         ))}

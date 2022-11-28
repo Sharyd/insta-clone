@@ -13,7 +13,8 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 interface Props {
   type: string;
@@ -22,6 +23,7 @@ interface Props {
 const SidebarSearch = ({ type }: Props) => {
   const [username, setUsername] = useRecoilState(searcUsers);
   const [users, setUsers] = useRecoilState<any>(searchedUsers);
+  const [user, loading] = useAuthState(auth);
   console.log(users);
 
   useEffect(
@@ -33,8 +35,9 @@ const SidebarSearch = ({ type }: Props) => {
   );
 
   const filteredUsers = useMemo(() => {
-    return users.filter((user: { displayName: string }) => {
-      return user.displayName.toLowerCase().includes(username.toLowerCase());
+    return users.filter((userr: { displayName: string; uid: string }) => {
+      if (userr.uid !== user?.uid)
+        return userr.displayName.toLowerCase().includes(username.toLowerCase());
     });
   }, [users, username]);
 
