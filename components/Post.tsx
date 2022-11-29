@@ -181,9 +181,15 @@ const Post = ({ post, id, modalPost }: Props) => {
         <BsThreeDots className="mr-4 w-5 h-5" />
       </div>
 
-      <div className="relative flex w-full">
+      <div className="relative flex w-full cursor-pointer">
         {image?.map((data: string, index: number) => (
           <img
+            onClick={() => {
+              setModalOpen(true);
+              setModalType("modalPost");
+              setPostState(post);
+              setPostId(id);
+            }}
             key={index}
             src={data}
             alt=""

@@ -6,7 +6,7 @@ const useEmoji = () => {
   const [showEmojis, setShowEmojis] = useState(false);
   const addEmoji = (e: { unified: string }) => {
     let sym = e.unified.split("-");
-    let codesArray: any[] = [];
+    let codesArray: Array<string | any> = [];
     sym.forEach((el: string) => codesArray.push("0x" + el));
     let emoji = String.fromCodePoint(...codesArray);
     console.log(codesArray);

@@ -1,4 +1,11 @@
-import React, { useState, useRef, MouseEventHandler, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  MouseEventHandler,
+  useEffect,
+  LegacyRef,
+  SetStateAction,
+} from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { BiArrowBack } from "react-icons/bi";
@@ -32,8 +39,8 @@ import useEmoji from "../hooks/use-emoji";
 import EmojiPicker from "emoji-picker-react";
 import { EmojiStyle } from "emoji-picker-react";
 const CreatePost = () => {
-  const [selectedFilesURL, setSelectedFilesURL] = useState<any>([]);
-  const [selectedFile, setSelectedFile] = useState<any>(null);
+  const [selectedFilesURL, setSelectedFilesURL] = useState<any[]>([]);
+  const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [popupOpen, setPopupOpen] = useRecoilState(popupState);
   const [lengthItems] = useState(selectedFilesURL.length);
@@ -41,7 +48,7 @@ const CreatePost = () => {
     getSelectedImgLengthState
   );
   const [next, setNext] = useState(false);
-  const refFileToElement = useRef<any>(null);
+  const refFileToElement = useRef<HTMLInputElement>(null);
   const [user] = useAuthState(auth);
 
   const {
@@ -60,9 +67,10 @@ const CreatePost = () => {
     setSlideIndex(index);
   };
 
-  const addImageToPost = (e: any) => {
-    if (e.target.files[0]) {
-      setSelectedFile(URL.createObjectURL(e.target.files[0]));
+  const addImageToPost = (e: { target: { files: any } }) => {
+    const files = e.target.files[0] as Blob | MediaSource;
+    if (files) {
+      setSelectedFile(URL.createObjectURL(files));
       setSelectedFilesURL((prev: string[]) => [
         ...prev,
         {
@@ -103,7 +111,7 @@ const CreatePost = () => {
     });
 
     if (selectedFilesURL.length !== 0) {
-      const promises: any[] = [];
+      const promises: unknown[] = [];
 
       selectedFilesURL?.map((file: { images: File }) => {
         const storageRef = ref(
@@ -183,7 +191,7 @@ const CreatePost = () => {
               </svg>
               <h2 className=" text-xl  sm:text-2xl font-thin">Select photos</h2>
               <div
-                onClick={() => refFileToElement.current.click()}
+                onClick={() => refFileToElement?.current?.click()}
                 className="text-sm mainColor text-white py-1.5 px-2.5 font-semibold rounded-[4px] cursor-pointer"
               >
                 <p>Select from computer</p>
@@ -283,7 +291,7 @@ const CreatePost = () => {
 
                   {!next && (
                     <div
-                      onClick={() => refFileToElement.current.click()}
+                      onClick={() => refFileToElement?.current?.click()}
                       className="flex items-center justify-center absolute bottom-4 right-4 bg-black/60 h-10 w-10 rounded-full cursor-pointer hover:opacity-80 transition-all"
                     >
                       <AiOutlinePlusCircle className="w-7 h-7 text-white" />

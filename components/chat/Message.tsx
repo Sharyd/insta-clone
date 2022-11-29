@@ -3,7 +3,9 @@ import React from "react";
 const Message = () => {
   return (
     <div className="flex flex-col ">
-      <span className="text-center p-4">september 30, 2022 1:03 pm</span>
+      <span className="text-center p-4 text-gray-400">
+        september 30, 2022 1:03 pm
+      </span>
       <div className="flex flex-col gap-2 p-4">
         <img
           src="gal-7.jpeg"
