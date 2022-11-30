@@ -1,25 +1,58 @@
-import React from "react";
+import React, { useContext, useEffect, useRef } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase";
+import { ChatContext } from "../../store/ChatContext";
 
-const Message = () => {
+interface Props {
+  message: any;
+}
+
+const Message = ({ message }: Props) => {
+  const [currentUser] = useAuthState(auth);
+  const { data } = useContext(ChatContext);
+  const ref = useRef<any>(null);
+
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  }, [message]);
+
+  console.log(message);
+
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col " ref={ref}>
       <span className="text-center p-4 text-gray-400">
         september 30, 2022 1:03 pm
       </span>
-      <div className="flex flex-col gap-2 p-4">
-        <img
-          src="gal-7.jpeg"
-          alt=""
-          className="h-[300px] w-[200px] object-contain bg-black rounded-lg ml-4 "
-        />
-        <div className="flex items-center gap-2">
+      <div
+        className={`flex  gap-2 p-4 ${
+          message.senderId === currentUser?.uid
+            ? "flex-row-reverse"
+            : " flex-col"
+        }`}
+      >
+        {message.img && (
           <img
-            src="user-5.jpg"
+            src={message.img}
+            alt=""
+            className="h-[300px] w-[200px] object-contain bg-black rounded-lg ml-4 "
+          />
+        )}
+        <div
+          className={`flex items-center gap-2  ${
+            message.senderId === currentUser?.uid ? "flex-row-reverse" : ""
+          }`}
+        >
+          <img
+            src={
+              message.senderId === currentUser?.uid
+                ? currentUser?.photoURL
+                : data?.user?.photoURL
+            }
             alt=""
             className="w-8 h-8 rounded-full object-cover mt-auto"
           />
           <div className="border p-3 rounded-full">
-            <p>text text</p>
+            <p>{message.text}</p>
           </div>
         </div>
       </div>

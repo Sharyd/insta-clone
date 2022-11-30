@@ -95,6 +95,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
           displayName,
           email,
         });
+        await setDoc(doc(db, "userChats", res.user.uid), {});
 
         router.replace("/home");
       } catch (err) {

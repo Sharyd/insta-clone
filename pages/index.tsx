@@ -36,6 +36,7 @@ const Home: NextPage = () => {
         email: res.user.email,
         photoURL: res.user.photoURL,
       });
+      await setDoc(doc(db, "userChats", res.user.uid), {});
       router.push("/home");
     } catch (error) {
       console.log(error);
