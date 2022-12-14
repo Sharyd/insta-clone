@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Login from "../components/Login";
 import MobileImages from "../components/MobileImages";
 import Register from "../components/Register";
@@ -14,17 +14,19 @@ import {
 import { useRouter } from "next/router";
 import { RotatingLines } from "react-loader-spinner";
 import { doc, setDoc } from "firebase/firestore";
+import { ChatContext } from "../store/ChatContext";
 const Home: NextPage = () => {
   const [login, setLogin] = useState(true);
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
   const fbProvider = new FacebookAuthProvider();
+  const { dispatch } = useContext(ChatContext);
 
   const FacebookProvider = async () => {
     try {
       const res = await signInWithPopup(auth, fbProvider);
 
-      const credantial = await FacebookAuthProvider.credentialFromResult(res);
+      const credantial = FacebookAuthProvider.credentialFromResult(res);
 
       const token = credantial?.accessToken;
       let photoUrl = res.user.photoURL + "?height=500&access_token=" + token;
@@ -36,11 +38,13 @@ const Home: NextPage = () => {
         email: res.user.email,
         photoURL: res.user.photoURL,
       });
-      await setDoc(doc(db, "userChats", res.user.uid), {});
+      await setDoc(doc(db, "userChat", res.user.uid), {});
+
       router.push("/home");
     } catch (error) {
       console.log(error);
     }
+    dispatch({ type: "CHANGE_USER", payload: {} });
   };
 
   useEffect(() => {

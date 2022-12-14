@@ -10,9 +10,10 @@ import Modal from "./ui/Modal";
 import SidebarSearch from "./SidebarWindow";
 interface Props {
   children: JSX.Element[] | JSX.Element;
+  hideFooter?: boolean;
 }
 
-const Layout = ({ children }: Props) => {
+const Layout = ({ children, hideFooter }: Props) => {
   const [modalOpen, setModalOpen] = useRecoilState(modalState);
   const [modalType, setModalType] = useRecoilState(modalTypeState);
 
@@ -42,9 +43,11 @@ const Layout = ({ children }: Props) => {
           >
             {children}
           </main>
-          <div className="pb-20 md:p-6 mt-16">
-            <Footer />
-          </div>
+          {!hideFooter && (
+            <div className="pb-20 md:p-6 mt-16">
+              <Footer />
+            </div>
+          )}
         </div>
         <div className="mt-auto w-full fixed bottom-0 left-0 p-4 border-t-[1px] md:hidden bg-white z-20">
           <BottomNav

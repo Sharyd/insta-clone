@@ -22,18 +22,20 @@ import { ChatContext } from "../../store/ChatContext";
 interface Props {
   user: DocumentData;
   setUsername: Dispatch<SetStateAction<string>>;
+  username: string;
+  setUser: Dispatch<SetStateAction<null | DocumentData>>;
 }
 
-const ChatUsers = ({ user, setUsername }: Props) => {
+const ChatUsers = ({ user, setUsername, setUser }: Props) => {
   const [loggedUser] = useAuthState(auth);
 
   const currentUser: any = loggedUser;
-
-  const handleSelectUser = useCallback(async () => {
+  console.log(currentUser);
+  const handleSelectUser = async () => {
     const combinedId =
-      currentUser.uid > user.uid
-        ? currentUser.uid + user.uid
-        : user.uid + currentUser.uid;
+      currentUser?.uid > user?.uid
+        ? currentUser?.uid + user?.uid
+        : user?.uid + currentUser?.uid;
     try {
       const res = await getDoc(doc(db, "chats", combinedId));
 
@@ -41,33 +43,34 @@ const ChatUsers = ({ user, setUsername }: Props) => {
         // create a chat in chats collection
         await setDoc(doc(db, "chats", combinedId), { messages: [] });
         //create user chats
-        await updateDoc(doc(db, "userChats", currentUser.uid), {
+        await updateDoc(doc(db, "userChat", currentUser.uid), {
           [combinedId + ".userInfo"]: {
-            uid: user.uid,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
+            uid: user?.uid,
+            displayName: user?.displayName,
+            photoURL: user?.photoURL ?? null,
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
-        await updateDoc(doc(db, "userChats", user.uid), {
+        await updateDoc(doc(db, "userChat", user.uid), {
           [combinedId + ".userInfo"]: {
-            uid: currentUser.uid,
-            displayName: currentUser.displayName,
-            photoURL: currentUser.photoURL,
+            uid: currentUser?.uid,
+            displayName: currentUser?.displayName,
+            photoURL: currentUser?.photoURL,
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
       }
+      setUser(null);
       setUsername("");
     } catch (err) {
       console.log(err);
     }
-  }, [currentUser, user]);
+  };
 
   return (
     <div
       onClick={handleSelectUser}
-      className="flex py-2 px-6 items-center gap-3 w-full hover:bg-gray-100 cursor-pointer"
+      className={`py-2 px-6 items-center gap-3 w-full hover:bg-gray-100 cursor-pointer`}
     >
       <div className="flex gap-3 items-center">
         <img

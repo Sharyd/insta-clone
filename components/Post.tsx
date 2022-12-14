@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { BsThreeDots } from "react-icons/bs";
-import { AiOutlineHeart, AiFillHeart, AiOutlineSmile } from "react-icons/ai";
-import { SlPaperPlane } from "react-icons/sl";
-import { FaRegComment } from "react-icons/fa";
-import { FaBookmark, FaRegBookmark } from "react-icons/fa";
-import { HiOutlineTrash } from "react-icons/hi";
-import { motion } from "framer-motion";
-import useSlider from "../hooks/use-slider";
-import BtnSlider from "./Slider/SliderBtn";
-import { AnimatePresence } from "framer-motion";
-import Moment from "react-moment";
+import React, { useEffect, useState, useCallback } from 'react';
+import { BsThreeDots } from 'react-icons/bs';
+import { AiOutlineHeart, AiFillHeart, AiOutlineSmile } from 'react-icons/ai';
+import { SlPaperPlane } from 'react-icons/sl';
+import { FaRegComment } from 'react-icons/fa';
+import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
+import { HiOutlineTrash } from 'react-icons/hi';
+import { motion } from 'framer-motion';
+import useSlider from '../hooks/use-slider';
+import BtnSlider from './Slider/SliderBtn';
+import { AnimatePresence } from 'framer-motion';
+import Moment from 'react-moment';
 import {
   addDoc,
   collection,
@@ -25,19 +25,19 @@ import {
   setDoc,
   updateDoc,
   where,
-} from "firebase/firestore";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "../firebase";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { modalState, modalTypeState } from "../atoms/modalAtom";
-import { popupState } from "../atoms/popupAtom";
-import { getPostState, getPostIdState } from "../atoms/postAtom";
-import EmojiPicker from "emoji-picker-react";
-import { EmojiStyle } from "emoji-picker-react";
-import useEmoji from "../hooks/use-emoji";
+} from 'firebase/firestore';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth, db } from '../firebase';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { modalState, modalTypeState } from '../atoms/modalAtom';
+import { popupState } from '../atoms/popupAtom';
+import { getPostState, getPostIdState } from '../atoms/postAtom';
+import EmojiPicker from 'emoji-picker-react';
+import { EmojiStyle } from 'emoji-picker-react';
+import useEmoji from '../hooks/use-emoji';
 
-import Comments from "./Comments";
-import Popup from "./ui/Popup";
+import Comments from './Comments';
+import Popup from './ui/Popup';
 
 interface Props {
   post: DocumentData;
@@ -85,20 +85,20 @@ const Post = ({ post, id, modalPost }: Props) => {
   };
 
   useEffect(
-    () => setLiked(likes.findIndex((like) => like?.id === user?.uid) !== -1),
+    () => setLiked(likes.findIndex(like => like?.id === user?.uid) !== -1),
     [likes]
   );
   useEffect(
     () =>
       setBookmarked(
-        bookmarks.findIndex((bookmark) => bookmark?.id === id) !== -1
+        bookmarks.findIndex(bookmark => bookmark?.id === id) !== -1
       ),
     [bookmarks]
   );
 
   useEffect(
     () =>
-      onSnapshot(query(collection(db, "posts", id, "likes")), (snapshot) => {
+      onSnapshot(query(collection(db, 'posts', id, 'likes')), snapshot => {
         setLikes(snapshot.docs);
       }),
     [db]
@@ -106,8 +106,8 @@ const Post = ({ post, id, modalPost }: Props) => {
   useEffect(
     () =>
       onSnapshot(
-        query(collection(db, "posts"), where("bookmarked", "==", user?.uid)),
-        (snapshot) => {
+        query(collection(db, 'posts'), where('bookmarked', '==', user?.uid)),
+        snapshot => {
           setBookmarks(snapshot.docs);
         }
       ),
@@ -116,9 +116,9 @@ const Post = ({ post, id, modalPost }: Props) => {
 
   const sendLike = async () => {
     if (liked) {
-      await deleteDoc(doc(db, "posts", id, "likes", user?.uid ?? ""));
+      await deleteDoc(doc(db, 'posts', id, 'likes', user?.uid ?? ''));
     } else {
-      await setDoc(doc(db, "posts", id, "likes", user?.uid ?? ""), {
+      await setDoc(doc(db, 'posts', id, 'likes', user?.uid ?? ''), {
         username: user?.displayName,
         userImg: user?.photoURL,
       });
@@ -127,7 +127,7 @@ const Post = ({ post, id, modalPost }: Props) => {
   const sendComment = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    await addDoc(collection(db, "posts", id, "comments"), {
+    await addDoc(collection(db, 'posts', id, 'comments'), {
       comment: comment,
       userId: user?.uid,
       username: user?.displayName,
@@ -141,11 +141,11 @@ const Post = ({ post, id, modalPost }: Props) => {
 
   const bookmarkedPosts = async () => {
     if (!bookmarked) {
-      await updateDoc(doc(db, "posts", id), {
+      await updateDoc(doc(db, 'posts', id), {
         bookmarked: user?.uid,
       });
     } else {
-      await updateDoc(doc(db, "posts", id), {
+      await updateDoc(doc(db, 'posts', id), {
         bookmarked: deleteField(),
       });
     }
@@ -155,22 +155,22 @@ const Post = ({ post, id, modalPost }: Props) => {
     () =>
       onSnapshot(
         query(
-          collection(db, "posts", id, "comments"),
-          orderBy("timestamp", "desc")
+          collection(db, 'posts', id, 'comments'),
+          orderBy('timestamp', 'desc')
         ),
-        (snapshot) => setComments(snapshot.docs)
+        snapshot => setComments(snapshot.docs)
       ),
     [db, id]
   );
 
   const deletePost = () => {
-    deleteDoc(doc(db, "posts", id));
+    deleteDoc(doc(db, 'posts', id));
   };
 
   return (
     <div
       className={
-        "flex flex-col mt-4 border-[1px] rounded-md bg-white overflow-hidden"
+        'flex flex-col mt-4 border-[1px] rounded-md bg-white overflow-hidden'
       }
     >
       <div className="flex items-center justify-between">
@@ -186,7 +186,7 @@ const Post = ({ post, id, modalPost }: Props) => {
           <img
             onClick={() => {
               setModalOpen(true);
-              setModalType("modalPost");
+              setModalType('modalPost');
               setPostState(post);
               setPostId(id);
             }}
@@ -199,10 +199,10 @@ const Post = ({ post, id, modalPost }: Props) => {
           />
         ))}
         {slideIndex !== image?.length - 1 && (
-          <BtnSlider moveSlide={nextSlide} direction={"next"} />
+          <BtnSlider moveSlide={nextSlide} direction={'next'} />
         )}
         {slideIndex !== 0 && (
-          <BtnSlider moveSlide={prevSlide} direction={"prev"} />
+          <BtnSlider moveSlide={prevSlide} direction={'prev'} />
         )}
       </div>
 
@@ -218,7 +218,7 @@ const Post = ({ post, id, modalPost }: Props) => {
           <FaRegComment
             onClick={() => {
               setModalOpen(true);
-              setModalType("modalPost");
+              setModalType('modalPost');
               setPostState(post);
               setPostId(id);
             }}
@@ -234,7 +234,7 @@ const Post = ({ post, id, modalPost }: Props) => {
                   key={index}
                   onClick={() => moveDot(index)}
                   className={`w-1.5 h-1.5 mt-auto rounded-full bg-gray-400 cursor-pointer ${
-                    slideIndex === index && "bg-blue-600"
+                    slideIndex === index && 'bg-blue-600'
                   }`}
                 ></div>
               );
@@ -262,8 +262,8 @@ const Post = ({ post, id, modalPost }: Props) => {
       </div>
       <div className="flex flex-col gap-2 p-4 pb-0 text-sm">
         <p className="font-[500] text-[0.8rem]">
-          {likes.length === 0 ? "No" : likes.length}{" "}
-          {likes.length === 1 ? "like" : "likes"}
+          {likes.length === 0 ? 'No' : likes.length}{' '}
+          {likes.length === 1 ? 'like' : 'likes'}
         </p>
         <p>
           <span className="font-[500] text-[0.8rem]">{username}</span> {text}
@@ -274,30 +274,30 @@ const Post = ({ post, id, modalPost }: Props) => {
             className="text-gray-400 cursor-pointer"
             onClick={() => {
               setModalOpen(true);
-              setModalType("modalPost");
+              setModalType('modalPost');
               setPostState(post);
               setPostId(id);
 
-              modalOpen && setShowComments((prev) => !prev);
+              modalOpen && setShowComments(prev => !prev);
             }}
           >
-            {showComments ? "Hide" : "Show"}{" "}
+            {showComments ? 'Hide' : 'Show'}{' '}
             <span>
-              {comments.length >= 2 && "all"} {comments?.length}
-            </span>{" "}
+              {comments.length >= 2 && 'all'} {comments?.length}
+            </span>{' '}
             comments
           </p>
         )}
       </div>
       {showComments && (
         <motion.div
-          initial={{ y: "100%" }}
-          animate={{ y: "0%" }}
+          initial={{ y: '100%' }}
+          animate={{ y: '0%' }}
           className={`overflow-y-scroll scrollbar-hide ${
-            comments.length >= 2 && "h-[8.5rem] md:h-36"
+            comments.length >= 2 && 'h-[8.5rem] md:h-36'
           }`}
         >
-          {comments.map((comment) => (
+          {comments.map(comment => (
             <Comments
               key={comment.id}
               id={comment.id}
@@ -313,17 +313,17 @@ const Post = ({ post, id, modalPost }: Props) => {
         <div className="relative flex items-center justify-between px-2 h-full w-full border-t">
           <div className="flex gap-2 items-center justify-center">
             <AiOutlineSmile
-              onClick={() => setShowEmojis((prev) => !prev)}
+              onClick={() => setShowEmojis(prev => !prev)}
               className="w-6 h-6 cursor-pointer"
             />
 
             <textarea
               placeholder="Add a comment..."
               className={`${
-                modalOpen && "md:w-[30rem]"
+                modalOpen && 'md:w-[30rem]'
               } h-max w-72 outline-none text-sm resize-none mt-6 scrollbar-hide`}
               value={comment}
-              onChange={(e) => setComment(e.target.value)}
+              onChange={e => setComment(e.target.value)}
             />
 
             {showEmojis && (

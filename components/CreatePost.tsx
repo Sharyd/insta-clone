@@ -40,14 +40,16 @@ import EmojiPicker from "emoji-picker-react";
 import { EmojiStyle } from "emoji-picker-react";
 const CreatePost = () => {
   const [selectedFilesURL, setSelectedFilesURL] = useState<any[]>([]);
-  const [selectedFile, setSelectedFile] = useState<string | null>(null);
+  const [_, setSelectedFile] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [popupOpen, setPopupOpen] = useRecoilState(popupState);
   const [lengthItems] = useState(selectedFilesURL.length);
   const [selectedImgLength, setSelectedImgLength] = useRecoilState(
     getSelectedImgLengthState
   );
+
   const [next, setNext] = useState(false);
+  const [error, setError] = useState(false);
   const refFileToElement = useRef<HTMLInputElement>(null);
   const [user] = useAuthState(auth);
 
@@ -68,8 +70,17 @@ const CreatePost = () => {
   };
 
   const addImageToPost = (e: { target: { files: any } }) => {
-    const files = e.target.files[0] as Blob | MediaSource;
-    if (files) {
+    const files = e.target.files[0] as Blob;
+    const type = files.type as string;
+
+    if (
+      type === "image/png" ||
+      type === "image/jpg" ||
+      type === "image/jpeg" ||
+      type === "image/gif" ||
+      type === "image/webp" ||
+      type === "image/svg"
+    ) {
       setSelectedFile(URL.createObjectURL(files));
       setSelectedFilesURL((prev: string[]) => [
         ...prev,
@@ -79,6 +90,8 @@ const CreatePost = () => {
           images: e.target.files[0],
         },
       ]);
+    } else {
+      setError(true);
     }
   };
 
@@ -114,6 +127,7 @@ const CreatePost = () => {
       const promises: unknown[] = [];
 
       selectedFilesURL?.map((file: { images: File }) => {
+        console.log(file);
         const storageRef = ref(
           storage,
           `posts/${docRef?.id}/${file.images.name}`

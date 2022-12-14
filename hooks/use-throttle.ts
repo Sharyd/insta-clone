@@ -20,3 +20,4 @@ function useThrottle<T>(value: T, interval = 500): T {
 
   return throttledValue;
 }
+export default useThrottle;

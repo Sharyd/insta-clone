@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from 'react';
 
-import { useAuthState } from "react-firebase-hooks/auth";
-import { IoSettingsOutline } from "react-icons/io5";
-import { AiOutlineCamera } from "react-icons/ai";
-import { auth, db } from "../../firebase";
-import Layout from "../../components/Layout";
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { IoSettingsOutline } from 'react-icons/io5';
+import { AiOutlineCamera } from 'react-icons/ai';
+import { auth, db } from '../../firebase';
+import Layout from '../../components/Layout';
 
-import Link from "next/link";
+import Link from 'next/link';
 import {
   collection,
   DocumentData,
@@ -14,10 +14,10 @@ import {
   query,
   QueryDocumentSnapshot,
   where,
-} from "firebase/firestore";
-import PostsQuery from "../../components/PostsQuery";
-import { useRouter } from "next/router";
-import { RotatingLines } from "react-loader-spinner";
+} from 'firebase/firestore';
+import PostsQuery from '../../components/PostsQuery';
+import { useRouter } from 'next/router';
+import { RotatingLines } from 'react-loader-spinner';
 
 interface dataQuery {
   displayName: string;
@@ -49,15 +49,15 @@ const ProfilePage = () => {
 
     if (email) {
       unsubscribe = onSnapshot(
-        query(collection(db, "posts"), where("email", "==", email)),
-        (snapshot) => {
+        query(collection(db, 'posts'), where('email', '==', email)),
+        snapshot => {
           setCreatedPosts(snapshot?.docs);
         }
       );
     } else {
       unsubscribe = onSnapshot(
-        query(collection(db, "posts"), where("email", "==", user?.email)),
-        (snapshot) => {
+        query(collection(db, 'posts'), where('email', '==', user?.email)),
+        snapshot => {
           setCreatedPosts(snapshot?.docs);
         }
       );
@@ -67,8 +67,8 @@ const ProfilePage = () => {
   };
   const getSavedData = () => {
     const unsubscribe = onSnapshot(
-      query(collection(db, "posts"), where("bookmarked", "==", user?.uid)),
-      (snapshot) => {
+      query(collection(db, 'posts'), where('bookmarked', '==', user?.uid)),
+      snapshot => {
         setSavedPosts(snapshot?.docs);
       }
     );
@@ -101,7 +101,7 @@ const ProfilePage = () => {
               <div className="flex w-full border-b mb-4 items-center justify-center">
                 <div className="flex w-full items-center gap-10 md:gap-20 xl:ml-10 flex-col md:flex-row mb-10">
                   <img
-                    src={user?.uid === slug ? user?.photoURL ?? "" : photoURL}
+                    src={user?.uid === slug ? user?.photoURL ?? '' : photoURL}
                     alt="user profile"
                     className="w-28 h-28 md:w-40 md:h-40 rounded-full object-cover"
                   />
@@ -113,13 +113,16 @@ const ProfilePage = () => {
                       </h2>
                       {user?.uid === slug ? (
                         <div className="flex items-center gap-2 justify-center">
-                          <button className="font-semibold text-sm border px-3 py-1 rounded-sm">
+                          <Link
+                            href="/editProfile"
+                            className="font-semibold text-sm border px-3 py-1 rounded-sm"
+                          >
                             Edit profile
-                          </button>
+                          </Link>
                           <IoSettingsOutline className="w-6 h-6 cursor-pointer mr-4" />
                         </div>
                       ) : (
-                        ""
+                        ''
                       )}
                     </div>
                     <div className="flex justify-center md:justify-between items-center gap-6">
@@ -145,10 +148,10 @@ const ProfilePage = () => {
               <div className="flex flex-col items-center justify-center">
                 <div
                   className={`flex items-center justify-center ${
-                    user?.uid === slug ? "gap-12" : "gap-0"
+                    user?.uid === slug ? 'gap-12' : 'gap-0'
                   }`}
                 >
-                  <div className={`${!isSaved && "lineActivePostsOrSaved"}`}>
+                  <div className={`${!isSaved && 'lineActivePostsOrSaved'}`}>
                     <button
                       onClick={() => {
                         setIsSaved(false);
@@ -157,7 +160,7 @@ const ProfilePage = () => {
                       POSTS
                     </button>
                   </div>
-                  <div className={`${isSaved && "lineActivePostsOrSaved"}`}>
+                  <div className={`${isSaved && 'lineActivePostsOrSaved'}`}>
                     {user?.uid === slug && (
                       <button
                         onClick={() => {
@@ -181,7 +184,7 @@ const ProfilePage = () => {
                     {createdPosts?.length === 0 && user?.uid === slug ? (
                       <div
                         className={`${
-                          createdPosts?.length === 0 ? "flex" : "hidden"
+                          createdPosts?.length === 0 ? 'flex' : 'hidden'
                         } hidden gap-4 flex-col items-center justify-center`}
                       >
                         <AiOutlineCamera className="w-20 h-20 font-thin" />
@@ -198,12 +201,12 @@ const ProfilePage = () => {
                       <div
                         className={`mt-5 md:mt-10 grid grid-cols-3 max-h-full ${
                           createdPosts?.length === 0
-                            ? "max-w-full md:w-[618px] lg:w-[918px]"
-                            : "max-w-full"
+                            ? 'max-w-full md:w-[618px] lg:w-[918px]'
+                            : 'max-w-full'
                         } gap-2 md:gap-6`}
                       >
                         {user?.email !== null &&
-                          createdPosts?.map((post) => (
+                          createdPosts?.map(post => (
                             <PostsQuery
                               key={post.id}
                               post={post.data()}
@@ -217,12 +220,12 @@ const ProfilePage = () => {
                   <div
                     className={`mt-5 md:mt-10 grid grid-cols-3 max-h-full ${
                       savedPosts?.length === 0
-                        ? "max-w-full md:w-[618px] lg:w-[918px]"
-                        : "max-w-full"
+                        ? 'max-w-full md:w-[618px] lg:w-[918px]'
+                        : 'max-w-full'
                     } gap-2 md:gap-6`}
                   >
                     {user?.uid !== null &&
-                      savedPosts?.map((post) => (
+                      savedPosts?.map(post => (
                         <PostsQuery
                           key={post.id}
                           post={post.data()}

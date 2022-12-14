@@ -18,16 +18,19 @@ import Message from "../components/chat/Message";
 import EmojiPicker from "emoji-picker-react";
 import { EmojiStyle } from "emoji-picker-react";
 import useEmoji from "../hooks/use-emoji";
-import CombinedUsers from "../components/chat/CombinedUsers";
+import CombinedUsers from "../components/chat/ExistingUsers";
 import {
   arrayUnion,
   collection,
   doc,
   DocumentData,
+  getDocs,
   onSnapshot,
   query,
   serverTimestamp,
+  Timestamp,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { ChatContext } from "../store/ChatContext";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
@@ -35,11 +38,14 @@ import { v4 as uuid } from "uuid";
 
 const Messages = () => {
   const [userr, loading] = useAuthState(auth);
+  const [error, setError] = useState<unknown>(false);
   const [username, setUsername] = useState("");
   const [chats, setChats] = useState<DocumentData | undefined>([]);
-  const [users, setUsers] = useState<DocumentData[]>([]);
+  const [user, setUser] = useState<DocumentData | null>(null);
   const refFileToElement = useRef<HTMLInputElement>(null);
   const { data } = useContext(ChatContext);
+  const [hideFooter, setHideFooter] = useState(true);
+  const enterRef = useRef();
 
   const [img, setImg] = useState<File | null>(null);
   const [messages, setMessages] = useState<any>([]);
@@ -54,64 +60,86 @@ const Messages = () => {
     setShowEmojis,
   } = useEmoji();
 
+  const handleSearch = async () => {
+    const q = query(
+      collection(db, "users"),
+      where("displayName", "==", username)
+    );
+    try {
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setUser(doc.data());
+      });
+    } catch (err) {
+      setError(true);
+    }
+  };
+  console.log(error);
+  const handleKey = (e: { code: string }) => {
+    e.code === "Enter" && handleSearch();
+  };
+
   const handleSend = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (img) {
-      const storageRef = ref(storage, uuid());
+    try {
+      if (img) {
+        const storageRef = ref(storage, uuid());
 
-      await uploadBytesResumable(storageRef, img).then(() => {
-        getDownloadURL(storageRef).then(async (downloadURL) => {
-          await updateDoc(doc(db, "chats", data.chatId), {
-            messages: arrayUnion({
-              id: uuid(),
-              text: message,
-              senderId: currentUser?.uid,
-              date: Date.now(),
-              img: downloadURL,
-            }),
+        await uploadBytesResumable(storageRef, img).then(() => {
+          getDownloadURL(storageRef).then(async (downloadURL) => {
+            await updateDoc(doc(db, "chats", data.chatId), {
+              messages: arrayUnion({
+                id: uuid(),
+                text: message,
+                senderId: currentUser.uid,
+                date: Timestamp.now(),
+                img: downloadURL,
+              }),
+            });
           });
         });
-      });
-    } else {
-      await updateDoc(doc(db, "chats", data.chatId), {
-        messages: arrayUnion({
-          id: uuid(),
-          text: message,
-          senderId: currentUser?.uid,
-          date: Date.now(),
-        }),
-      });
-      setMessage("");
-      setImg(null);
+      } else {
+        await updateDoc(doc(db, "chats", data.chatId), {
+          messages: arrayUnion({
+            id: uuid(),
+            text: message,
+            senderId: currentUser.uid,
+            date: Timestamp.now(),
+          }),
+        });
+      }
+    } catch (err) {
+      setError(err);
     }
 
-    await updateDoc(doc(db, "userChats", currentUser?.uid), {
+    await updateDoc(doc(db, "userChat", currentUser?.uid), {
       [data.chatId + ".lastMessage"]: {
         message,
       },
       [data.chatId + ".date"]: serverTimestamp(),
     });
 
-    await updateDoc(doc(db, "userChats", data?.user?.uid), {
+    await updateDoc(doc(db, "userChat", data?.user?.uid), {
       [data.chatId + ".lastMessage"]: {
         message,
       },
       [data.chatId + ".date"]: serverTimestamp(),
     });
 
-    setMessage("");
+    resetEmojiAndText();
     setImg(null);
+    setError(null);
   };
 
-  useEffect(
-    () =>
-      onSnapshot(query(collection(db, "users")), (snapshot) =>
-        setUsers(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-      ),
-    [db]
-  );
-
+  // useEffect(
+  //   () =>
+  //     onSnapshot(query(collection(db, "users")), (snapshot) =>
+  //       setUsers(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+  //     ),
+  //   [db]
+  // );
+  console.log(data);
   useEffect(() => {
     const unsub = onSnapshot(doc(db, "chats", data.chatId), (doc) => {
       doc.exists() && setMessages(doc.data().messages);
@@ -120,15 +148,18 @@ const Messages = () => {
     return () => unsub();
   }, [data?.chatId]);
 
-  const filteredUsers = useMemo(() => {
-    return users.filter((userDoc: DocumentData) => {
-      return userDoc.displayName.toLowerCase().includes(username.toLowerCase());
-    });
-  }, [users, username]);
+  // const filteredUsers = useMemo(() => {
+  //   return users.filter((userDoc: DocumentData) => {
+  //     if (currentUser?.uid !== userDoc?.uid)
+  //       return userDoc.displayName
+  //         .toLowerCase()
+  //         .includes(username.toLowerCase());
+  //   });
+  // }, [users, username]);
 
   return (
-    <Layout>
-      <section className="m-auto flex md:mt-24 items-center md:items-start text-[0.85rem] h-[700px] md:h-[800px] ">
+    <Layout hideFooter={hideFooter}>
+      <section className="m-auto flex md:mt-16 items-center md:items-start text-[0.85rem] h-[700px] md:h-[800px] ">
         <div className="hidden md:flex relative bg-white flex-col h-full border">
           <div className="flex border-b  flex-col py-3 px-8 w-[250px] lg:w-[300px]">
             <p className="font-[500] p-2 px-4">{currentUser?.displayName}</p>
@@ -140,18 +171,23 @@ const Messages = () => {
                 className="focus:outline-none group-ml-0 bg-gray-100 ml-6  w-full p-4 h-10 rounded-lg placeholder:text-sm placeholder:font-thin"
                 type="text"
                 placeholder="Search users"
+                onKeyUp={handleKey}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
             </div>
           </div>
-          <div className="overflow-y-scroll scrollbar-hide h-[325px]">
-            <h2 className="font-[500] text-md mb-4 pt-2 px-4">
-              {filteredUsers.length === 1 ? "User" : "Users"}
-            </h2>
-            {filteredUsers.map((user) => (
-              <ChatUsers key={user.id} user={user} setUsername={setUsername} />
-            ))}
+          <div className="h-[100px]">
+            <h2 className="font-[500] text-md mb-4 pt-2 px-4"></h2>
+
+            {user && (
+              <ChatUsers
+                user={user}
+                setUsername={setUsername}
+                username={username}
+                setUser={setUser}
+              />
+            )}
           </div>
           <div className="border-t overflow-y-scroll scrollbar-hide">
             <h2 className="font-[500] text-md mb-4 pt-2 px-4">
@@ -164,18 +200,23 @@ const Messages = () => {
         <div className="mt-4 w-[400px] md:w-[420px] lg:w-[540px] h-full md:mt-0 bg-white border border-l-0 ">
           <div className="p-3 md:p-[38.5px] px-4 border-b flex items-center justify-between  ">
             <div className="flex items-center gap-2">
-              <img
-                src={
-                  data?.user === null
-                    ? "https://graph.facebook.com/9002313636460828/picture"
-                    : data?.user?.photoURL
-                }
-                alt="user-profile"
-                className="w-8 h-8 rounded-full object-cover"
-              />
+              {data?.user && (
+                <img
+                  src={
+                    data?.user?.photoURL === undefined
+                      ? "https://graph.facebook.com/9002313636460828/picture" ??
+                        ""
+                      : data?.user?.photoURL ?? ""
+                  }
+                  alt="user-profile"
+                  className="w-8 h-8 rounded-full object-cover"
+                />
+              )}
               <div>
                 <p className="font-[500]">
-                  {data?.user !== null ? data?.user?.displayName : "User"}
+                  {data?.user !== undefined
+                    ? data?.user?.displayName
+                    : "User not selected"}
                 </p>
               </div>
             </div>
@@ -230,7 +271,7 @@ const Messages = () => {
                 </div>
                 <button
                   type="submit"
-                  disabled={!message.trim()}
+                  disabled={!message.trim() && !img}
                   className="disabled:text-[#bae6fd] textMainColor text-sm mr-2"
                 >
                   Send

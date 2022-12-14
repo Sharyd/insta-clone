@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState, useRef } from "react";
+import { Dispatch, SetStateAction, useState, useRef, useContext } from "react";
 import { AiFillFacebook } from "react-icons/ai";
 import { useRouter } from "next/router";
 import { TiDeleteOutline } from "react-icons/ti";
@@ -9,6 +9,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 import { auth, db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
+import { ChatContext } from "../store/ChatContext";
 
 interface Props {
   setLogin: Dispatch<SetStateAction<boolean>>;
@@ -19,6 +20,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
   const router = useRouter();
   const [error, setErr] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { dispatch } = useContext(ChatContext);
 
   const {
     value: enteredEmail,
@@ -87,15 +89,16 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
         //Update profile
         await updateProfile(res.user, {
           displayName: displayName,
-          // userName: userName
+          photoURL: "https://graph.facebook.com/9002313636460828/picture",
         });
 
         await setDoc(doc(db, "users", res.user.uid), {
           uid: res.user.uid,
           displayName,
           email,
+          photoURL: "https://graph.facebook.com/9002313636460828/picture",
         });
-        await setDoc(doc(db, "userChats", res.user.uid), {});
+        await setDoc(doc(db, "userChat", res.user.uid), {});
 
         router.replace("/home");
       } catch (err) {
@@ -112,6 +115,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
     resetPasswordInput();
     resetFullNameInput();
     resetUsernameInput();
+    dispatch({ type: "CHANGE_USER", payload: {} });
   };
 
   // const activeKeystroke =
