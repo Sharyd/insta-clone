@@ -70,7 +70,7 @@ const EditProfile = () => {
               });
             }
           );
-        } catch (err: any) {
+        } catch (err) {
           setError(
             (err as { message?: string })?.message ?? 'Something went wrong'
           );

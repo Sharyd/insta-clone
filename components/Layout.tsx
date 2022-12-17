@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import Nav from "../components/Nav";
-import BottomNav from "../components/BottomNav";
-import Sidebar from "./Sidebar";
-import Footer from "./Footer";
-import { useRecoilState } from "recoil";
-import { modalState, modalTypeState } from "../atoms/modalAtom";
-import { AnimatePresence } from "framer-motion";
-import Modal from "./ui/Modal";
-import SidebarSearch from "./SidebarWindow";
+import React, { useState } from 'react';
+import Nav from '../components/Nav';
+import BottomNav from '../components/BottomNav';
+import Sidebar from './Sidebar';
+import Footer from './Footer';
+import { useRecoilState } from 'recoil';
+import { modalState, modalTypeState } from '../atoms/modalAtom';
+import { AnimatePresence } from 'framer-motion';
+import Modal from './ui/Modal';
+
 interface Props {
   children: JSX.Element[] | JSX.Element;
   hideFooter?: boolean;
@@ -19,10 +19,11 @@ const Layout = ({ children, hideFooter }: Props) => {
 
   const [activeSearch, setActiveSearch] = useState(false);
   const [activeNotifications, setActiveNotifications] = useState(false);
+
   return (
     <>
       <header className="md:hidden">
-        <Nav />
+        <Nav setActiveSearch={setActiveSearch} activeSearch={activeSearch} />
       </header>
 
       <div>

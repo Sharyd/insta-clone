@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import { IoMdHome } from "react-icons/io";
-import { MdOutlineExplore } from "react-icons/md";
-import { FiPlusSquare } from "react-icons/fi";
-import { SlPaperPlane } from "react-icons/sl";
-import { useAuthState } from "react-firebase-hooks/auth";
-import Link from "next/link";
-import { auth } from "../firebase";
-import { SetterOrUpdater } from "recoil";
+import { IoMdHome } from 'react-icons/io';
+import { MdOutlineExplore } from 'react-icons/md';
+import { FiPlusSquare } from 'react-icons/fi';
+import { SlPaperPlane } from 'react-icons/sl';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import Link from 'next/link';
+import { auth } from '../firebase';
+import { SetterOrUpdater } from 'recoil';
 
 interface Props {
   type: string;
@@ -28,16 +28,16 @@ const BottomNav = ({ type, setModalOpen, setModalType }: Props) => {
       <FiPlusSquare
         className="w-7 h-7 cursor-pointer"
         onClick={() => {
-          setModalType("createPost");
+          setModalType('createPost');
           setModalOpen(true);
         }}
       />
       <SlPaperPlane className="w-7 h-7 cursor-pointer" />
-      <Link href={`profile/${user?.uid}`}>
+      <Link href={`/${user?.uid}`}>
         <img
           src={
             user?.photoURL === null
-              ? "https://graph.facebook.com/9002313636460828/picture"
+              ? 'https://graph.facebook.com/9002313636460828/picture'
               : user?.photoURL
           }
           alt="user-profile"

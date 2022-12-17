@@ -1,55 +1,30 @@
-import React, { useEffect, useMemo } from "react";
-import { HiOutlineSearch } from "react-icons/hi";
-import SearchedUsers from "./SearchedUsers";
-import { motion } from "framer-motion";
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import { useRecoilState } from "recoil";
-import { searchedUsers, searcUsers } from "../atoms/searchAtom";
-import {
-  collection,
-  DocumentData,
-  getDocs,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
-import { auth, db } from "../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import React from 'react';
+import { HiOutlineSearch } from 'react-icons/hi';
+import SearchedUsers from './SearchedUsers';
+import { motion } from 'framer-motion';
+import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
+import { auth, db } from '../firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import useSearchUsers from '../hooks/use-searchUsers';
+import { DocumentData } from 'firebase/firestore';
 
 interface Props {
   type: string;
 }
 
 const SidebarSearch = ({ type }: Props) => {
-  const [username, setUsername] = useRecoilState(searcUsers);
-  const [users, setUsers] = useRecoilState<any>(searchedUsers);
   const [user, loading] = useAuthState(auth);
-  console.log(users);
-
-  useEffect(
-    () =>
-      onSnapshot(query(collection(db, "users")), (snapshot) =>
-        setUsers(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-      ),
-    [db]
-  );
-
-  const filteredUsers = useMemo(() => {
-    return users.filter((userr: { displayName: string; uid: string }) => {
-      if (userr.uid !== user?.uid)
-        return userr.displayName.toLowerCase().includes(username.toLowerCase());
-    });
-  }, [users, username]);
+  const { username, setUsername, filteredUsers } = useSearchUsers();
 
   return (
     <motion.div
-      initial={{ x: "-100%", opacity: 0.5 }}
-      animate={{ x: "85px", opacity: 1 }}
+      initial={{ x: '-100%', opacity: 0.5 }}
+      animate={{ x: '85px', opacity: 1 }}
       transition={{ duration: 0.4 }}
       className="w-[350px] left-[0px] top-0 h-screen absolute bg-white rounded-r-xl -z-20"
-      exit={{ x: "-100%", opacity: 0.5 }}
+      exit={{ x: '-100%', opacity: 0.5 }}
     >
-      {type === "search" ? (
+      {type === 'search' ? (
         <>
           <div className="border-b p-4">
             <h2 className="font-[500] text-xl mb-8">Search</h2>
@@ -61,7 +36,7 @@ const SidebarSearch = ({ type }: Props) => {
                 className="focus:outline-none group-ml-0 bg-gray-100 ml-6  w-full p-4 h-10 rounded-lg placeholder:text-sm placeholder:font-thin"
                 type="text"
                 placeholder="Search"
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={e => setUsername(e.target.value)}
                 value={username}
               />
             </div>

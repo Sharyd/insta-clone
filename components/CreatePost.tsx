@@ -5,19 +5,19 @@ import React, {
   useEffect,
   LegacyRef,
   SetStateAction,
-} from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
-import { BiArrowBack } from "react-icons/bi";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { IoLocationOutline } from "react-icons/io5";
-import { MdKeyboardArrowDown } from "react-icons/md";
-import { AiOutlinePlusCircle, AiOutlineSmile } from "react-icons/ai";
-import { AiOutlineClose } from "react-icons/ai";
-import BtnSlider from "./Slider/SliderBtn";
-import { auth } from "../firebase";
+} from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
+import { BiArrowBack } from 'react-icons/bi';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { IoLocationOutline } from 'react-icons/io5';
+import { MdKeyboardArrowDown } from 'react-icons/md';
+import { AiOutlinePlusCircle, AiOutlineSmile } from 'react-icons/ai';
+import { AiOutlineClose } from 'react-icons/ai';
+import BtnSlider from './Slider/SliderBtn';
+import { auth } from '../firebase';
 
-import useSlider from "../hooks/use-slider";
+import useSlider from '../hooks/use-slider';
 import {
   addDoc,
   collection,
@@ -25,19 +25,19 @@ import {
   serverTimestamp,
   setDoc,
   updateDoc,
-} from "firebase/firestore";
-import { storage, db } from "../firebase";
-import { v4 as uuidv4 } from "uuid";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import Popup from "./ui/Popup";
+} from 'firebase/firestore';
+import { storage, db } from '../firebase';
+import { v4 as uuidv4 } from 'uuid';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import Popup from './ui/Popup';
 
-import { popupState } from "../atoms/popupAtom";
-import { getSelectedImgLengthState } from "../atoms/postAtom";
-import { useRecoilState } from "recoil";
-import { RotatingLines } from "react-loader-spinner";
-import useEmoji from "../hooks/use-emoji";
-import EmojiPicker from "emoji-picker-react";
-import { EmojiStyle } from "emoji-picker-react";
+import { popupState } from '../atoms/popupAtom';
+import { getSelectedImgLengthState } from '../atoms/postAtom';
+import { useRecoilState } from 'recoil';
+import { RotatingLines } from 'react-loader-spinner';
+import useEmoji from '../hooks/use-emoji';
+import EmojiPicker from 'emoji-picker-react';
+import { EmojiStyle } from 'emoji-picker-react';
 const CreatePost = () => {
   const [selectedFilesURL, setSelectedFilesURL] = useState<any[]>([]);
   const [_, setSelectedFile] = useState<string | null>(null);
@@ -74,12 +74,12 @@ const CreatePost = () => {
     const type = files.type as string;
 
     if (
-      type === "image/png" ||
-      type === "image/jpg" ||
-      type === "image/jpeg" ||
-      type === "image/gif" ||
-      type === "image/webp" ||
-      type === "image/svg"
+      type === 'image/png' ||
+      type === 'image/jpg' ||
+      type === 'image/jpeg' ||
+      type === 'image/gif' ||
+      type === 'image/webp' ||
+      type === 'image/svg'
     ) {
       setSelectedFile(URL.createObjectURL(files));
       setSelectedFilesURL((prev: string[]) => [
@@ -111,12 +111,12 @@ const CreatePost = () => {
     if (loading) return;
     setLoading(true);
 
-    const docRef = await addDoc(collection(db, "posts"), {
+    const docRef = await addDoc(collection(db, 'posts'), {
       userid: user?.uid,
       username: user?.displayName,
       userImg:
         user?.photoURL === null
-          ? "https://graph.facebook.com/9002313636460828/picture"
+          ? 'https://graph.facebook.com/9002313636460828/picture'
           : user?.photoURL,
       text: text,
       timestamp: serverTimestamp(),
@@ -133,7 +133,7 @@ const CreatePost = () => {
           `posts/${docRef?.id}/${file.images.name}`
         );
         return promises.push(
-          uploadBytes(storageRef, file.images).then((uploadResult) => {
+          uploadBytes(storageRef, file.images).then(uploadResult => {
             return getDownloadURL(uploadResult.ref);
           })
         );
@@ -147,11 +147,11 @@ const CreatePost = () => {
         await setDoc(
           docRef,
           {
-            image: photos.map((url) => url),
+            image: photos.map(url => url),
           },
           { merge: true }
-        ).then((r) => {
-          console.log("done");
+        ).then(r => {
+          console.log('done');
         });
       } catch (err) {
         alert(err);
@@ -165,14 +165,13 @@ const CreatePost = () => {
     setSelectedFilesURL([]);
   };
 
-  // xl:w-[825px] xl:h-[875px] lg:w-[625px] lg:h-[675px] md:w-[425px] md:h-[475px] w-[350px] h-[375px]
   return (
     <>
       <div
         className={`${
-          next ? "xl:w-[1000px] lg:w-[925px] md:w-[760px] w-[350px] " : ""
-        }  h-[40rem] ${
-          selectedFilesURL.length === 0 && "w-[42.5rem]"
+          next ? 'xl:w-[1000px] lg:w-[925px] md:w-[760px] w-[350px] ' : ''
+        } h-[30rem] md:h-[40rem] ${
+          selectedFilesURL.length === 0 && 'w-[42.5rem]'
         }  w-full bg-white rounded-xl text-gray-800`}
       >
         {selectedFilesURL.length === 0 && (
@@ -247,7 +246,7 @@ const CreatePost = () => {
               )}
             </div>
             {!loading ? (
-              <div className="flex border-t flex-col md:flex-row">
+              <div className="flex border-t flex-col md:flex-row overflow-hidden">
                 <div className="relative">
                   <div className="bg-black relative h-[20.5rem] w-[21.9rem] md:h-[38rem] md:w-[32.5rem] lg:h-[40.5rem] lg:w-[42rem]  overflow-hidden">
                     {selectedFilesURL?.map(
@@ -260,9 +259,9 @@ const CreatePost = () => {
                                 className="absolute h-[20.5rem] w-[21.9rem] md:h-[38rem] md:w-[32.5rem] lg:h-[40.5rem] lg:w-[45rem] object-cover "
                                 style={{
                                   backgroundImage: `url(${data.files})`,
-                                  backgroundRepeat: "no-repeat",
-                                  backgroundSize: "contain",
-                                  backgroundPosition: "center center",
+                                  backgroundRepeat: 'no-repeat',
+                                  backgroundSize: 'contain',
+                                  backgroundPosition: 'center center',
                                 }}
                               >
                                 <div className="absolute right-0 m-2 lg:mr-16 lg:m-4 flex items-center justify-center bg-black/60 h-7 w-7 rounded-full cursor-pointer hover:opacity-80 transition-all">
@@ -284,10 +283,10 @@ const CreatePost = () => {
                     )}
 
                     {slideIndex !== selectedFilesURL?.length - 1 && (
-                      <BtnSlider moveSlide={nextSlide} direction={"next"} />
+                      <BtnSlider moveSlide={nextSlide} direction={'next'} />
                     )}
                     {slideIndex !== 0 && (
-                      <BtnSlider moveSlide={prevSlide} direction={"prev"} />
+                      <BtnSlider moveSlide={prevSlide} direction={'prev'} />
                     )}
                     <div className="flex gap-2">
                       {selectedFilesURL.length > 1 &&
@@ -296,7 +295,7 @@ const CreatePost = () => {
                             key={index}
                             onClick={() => moveDot(index)}
                             className={`w-2 h-2 flex relative rounded-full -bottom-[38rem] left-1/2 bg-gray-100 cursor-pointer z-50 ${
-                              slideIndex === index && "bg-blue-500"
+                              slideIndex === index && 'bg-blue-500'
                             }`}
                           ></div>
                         ))}
@@ -329,7 +328,7 @@ const CreatePost = () => {
                   >
                     <div className="flex items-center gap-2 ml-4 mt-4">
                       <img
-                        src={user?.photoURL ?? ""}
+                        src={user?.photoURL ?? ''}
                         alt="profile-img"
                         className="w-7 h-7 rounded-full overflow-hidden "
                       />
@@ -338,12 +337,12 @@ const CreatePost = () => {
                     <div className="border-b p-2 ">
                       <textarea
                         value={text}
-                        onChange={(e) => setText(e.target.value)}
+                        onChange={e => setText(e.target.value)}
                         placeholder="Write a caption..."
                         className="scrollbar-hide tracking wide h-16 md:h-40 w-full p-4 border-none outline-none placeholder:text-sm md:placeholder:text-sm"
                       ></textarea>
                       <AiOutlineSmile
-                        onClick={() => setShowEmojis((prev) => !prev)}
+                        onClick={() => setShowEmojis(prev => !prev)}
                         className="w-6 h-6 ml-2 cursor-pointer fill-gray-400"
                       />
                       {showEmojis && (

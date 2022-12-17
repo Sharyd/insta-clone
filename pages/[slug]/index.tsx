@@ -186,8 +186,10 @@ const ProfilePage = () => {
                     {createdPosts?.length === 0 && user?.uid === slug ? (
                       <div
                         className={`${
-                          createdPosts?.length === 0 ? 'flex' : 'hidden'
-                        } hidden gap-4 flex-col items-center justify-center`}
+                          createdPosts?.length === 0
+                            ? 'flex max-w-full md:w-[618px] lg:w-[918px]'
+                            : 'hidden'
+                        }  gap-4 flex-col items-center justify-center mt-10`}
                       >
                         <AiOutlineCamera className="w-20 h-20 font-thin" />
                         <h2 className="text-xl font-thin">Share Photos</h2>

@@ -1,8 +1,6 @@
-import { DocumentData } from "firebase/firestore";
-import Link from "next/link";
-import React from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase";
+import { DocumentData } from 'firebase/firestore';
+import Link from 'next/link';
+import React from 'react';
 
 interface Props {
   users: DocumentData;
@@ -25,7 +23,7 @@ const SearchedUsers = ({ users }: Props) => {
     >
       <div className="p-2 flex items-center gap-2 w-full  hover:bg-gray-100 cursor-pointer">
         <img
-          src={users?.photoURL ?? ""}
+          src={users?.photoURL ?? ''}
           alt=""
           className="w-11 h-11 ml-2 object-cover rounded-full"
         />
