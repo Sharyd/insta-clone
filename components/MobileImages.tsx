@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
-import React from "react";
-import dataImg from "../lib/dataImg";
+import { useState, useEffect } from 'react';
+import React from 'react';
+import dataImg from '../lib/dataImg';
 const MobileImages = () => {
   const [img, setImg] = useState(1);
 
   const nextImg = () => {
     if (img !== dataImg.length) {
-      setImg((prevImg) => prevImg + 1);
+      setImg(prevImg => prevImg + 1);
     } else if (img === dataImg.length) {
       setImg(1);
     }
@@ -31,7 +31,7 @@ const MobileImages = () => {
             src={`screenshot${i + 1}.png`}
             alt="Image in the phone"
             className={`absolute top-7 right-[3.75rem] ${
-              img === i + 1 ? "animate-imgAnimate" : "invisible"
+              img === i + 1 ? 'animate-imgAnimate' : 'invisible'
             }`}
           />
         ))}

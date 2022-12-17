@@ -5,14 +5,15 @@ import {
   orderBy,
   query,
   QueryDocumentSnapshot,
-} from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { db } from "../firebase";
-import { AiFillHeart } from "react-icons/ai";
-import { FaComment } from "react-icons/fa";
-import { useRecoilState } from "recoil";
-import { modalState, modalTypeState } from "../atoms/modalAtom";
-import { getPostIdState, getPostState } from "../atoms/postAtom";
+} from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { db } from '../firebase';
+import { AiFillHeart } from 'react-icons/ai';
+import { FaComment } from 'react-icons/fa';
+import { useRecoilState } from 'recoil';
+import { modalState, modalTypeState } from '../atoms/modalAtom';
+import { getPostIdState, getPostState } from '../atoms/postAtom';
+import Image from 'next/image';
 interface Props {
   post: DocumentData;
   id: string;
@@ -30,33 +31,43 @@ const PostsQuery = ({ id, post }: Props) => {
   const [likes, setLikes] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
   useEffect(
     () =>
-      onSnapshot(query(collection(db, "posts", id, "comments")), (snapshot) =>
+      onSnapshot(query(collection(db, 'posts', id, 'comments')), snapshot =>
         setComments(snapshot.docs)
       ),
     [db]
   );
   useEffect(
     () =>
-      onSnapshot(query(collection(db, "posts", id, "likes")), (snapshot) => {
+      onSnapshot(query(collection(db, 'posts', id, 'likes')), snapshot => {
         setLikes(snapshot.docs);
       }),
     [db]
   );
 
-  // console.log(post.image[0]);
   return (
     <div className="max-w-full">
       <div className="relative flex items-center justify-center group cursor-pointer ">
-        <img
-          className="h-[125px] md:h-[200px] lg:h-[275px] w-full object-cover "
-          src={post?.image}
-          alt={post?.text}
-        />
+        {post?.image ? (
+          <Image
+            src={post?.image[0]}
+            className="h-[125px] md:h-[200px] lg:h-[275px] w-full object-cover "
+            alt={post?.text}
+            width={300}
+            height={200}
+          />
+        ) : (
+          <Image
+            alt="placeholder "
+            src={'/placeholder.png'}
+            width="300"
+            height="500"
+          />
+        )}
 
         <div
           onClick={() => {
             setModalOpen(true);
-            setModalType("modalPost");
+            setModalType('modalPost');
             setPostState(post);
             setPostId(id);
           }}

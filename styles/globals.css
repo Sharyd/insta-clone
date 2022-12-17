@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Lobster&family=Oleo+Script&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
-@import url("http://fonts.cdnfonts.com/css/billabong");
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Oleo+Script&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import url('http://fonts.cdnfonts.com/css/billabong');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -20,6 +20,9 @@
 
   .lineActivePostsOrSaved {
     @apply relative before:absolute before:right-0 before:w-full before:bg-gray-800 before:h-[0.05rem] before:bottom-9;
+  }
+  .activeEditProfileOrChangePassword {
+    @apply relative before:absolute before:left-0 before:h-full before:bg-gray-800 before:w-[0.05rem] before:bottom-0;
   }
 
   .iconHover {

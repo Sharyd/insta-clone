@@ -1,20 +1,21 @@
-import type { NextPage } from "next";
-import { useState, useEffect, useContext } from "react";
-import Login from "../components/Login";
-import MobileImages from "../components/MobileImages";
-import Register from "../components/Register";
-import Footer from "../components/Footer";
-import { auth, db } from "../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import type { NextPage } from 'next';
+import { useState, useEffect, useContext } from 'react';
+import Login from '../components/Login';
+import MobileImages from '../components/MobileImages';
+import Register from '../components/Register';
+import Footer from '../components/Footer';
+import { auth, db } from '../firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import {
   signInWithPopup,
   FacebookAuthProvider,
   updateProfile,
-} from "firebase/auth";
-import { useRouter } from "next/router";
-import { RotatingLines } from "react-loader-spinner";
-import { doc, setDoc } from "firebase/firestore";
-import { ChatContext } from "../store/ChatContext";
+} from 'firebase/auth';
+import { useRouter } from 'next/router';
+import { RotatingLines } from 'react-loader-spinner';
+import { doc, setDoc } from 'firebase/firestore';
+import { ChatContext } from '../store/ChatContext';
+import LoadingSpinner from '../components/LoadingSpinner';
 const Home: NextPage = () => {
   const [login, setLogin] = useState(true);
   const [user, loading] = useAuthState(auth);
@@ -29,29 +30,29 @@ const Home: NextPage = () => {
       const credantial = FacebookAuthProvider.credentialFromResult(res);
 
       const token = credantial?.accessToken;
-      let photoUrl = res.user.photoURL + "?height=500&access_token=" + token;
+      let photoUrl = res.user.photoURL + '?height=500&access_token=' + token;
       await updateProfile(res.user, { photoURL: photoUrl });
 
-      await setDoc(doc(db, "users", res.user.uid), {
+      await setDoc(doc(db, 'users', res.user.uid), {
         uid: res.user.uid,
         displayName: res.user.displayName,
         email: res.user.email,
         photoURL: res.user.photoURL,
       });
-      await setDoc(doc(db, "userChat", res.user.uid), {});
+      await setDoc(doc(db, 'userChat', res.user.uid), {});
 
-      router.push("/home");
+      router.push('/home');
     } catch (error) {
       console.log(error);
     }
-    dispatch({ type: "CHANGE_USER", payload: {} });
+    dispatch({ type: 'CHANGE_USER', payload: {} });
   };
 
   useEffect(() => {
     if (user) {
-      router.push("/home");
+      router.push('/home');
     } else {
-      console.log("login");
+      console.log('login');
     }
   }, [user]);
 
@@ -79,15 +80,7 @@ const Home: NextPage = () => {
           <Footer />
         </section>
       ) : (
-        <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
-          <RotatingLines
-            strokeColor="grey"
-            strokeWidth="5"
-            animationDuration="0.75"
-            width="48"
-            visible={true}
-          />
-        </div>
+        <LoadingSpinner />
       )}
     </>
   );

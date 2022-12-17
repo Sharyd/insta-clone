@@ -97,7 +97,7 @@ const ProfilePage = () => {
       ) : (
         <div className="flex flex-col text-sm items-center justify-center w-full  pt-20 md:pt-0">
           <section className="p-4 tracking-wider text-gray-800 flex flex-col items-center md:max-w-[950px] m-auto">
-            <div className="w-full md:mb-[42rem] flex flex-col">
+            <div className="w-full md:mb-[43rem] flex flex-col">
               <div className="flex w-full border-b mb-4 items-center justify-center">
                 <div className="flex w-full items-center gap-10 md:gap-20 xl:ml-10 flex-col md:flex-row mb-10">
                   <img
@@ -173,11 +173,13 @@ const ProfilePage = () => {
                     )}
                   </div>
                 </div>
-                {createdPosts?.length !== 0 && user?.uid === slug && (
-                  <button className="text-sm textMainColor font-semibold ml-auto">
-                    Share your photo
-                  </button>
-                )}
+                {createdPosts?.length !== 0 &&
+                  user?.uid === slug &&
+                  !isSaved && (
+                    <button className="text-sm textMainColor font-semibold ml-auto">
+                      Share your photo
+                    </button>
+                  )}
 
                 {!isSaved ? (
                   <div className="mt-5 md:mt-10 text-center">

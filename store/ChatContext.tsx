@@ -1,14 +1,14 @@
-import { DocumentData } from "firebase/firestore";
-import { createContext, useContext, useReducer } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase";
+import { DocumentData } from 'firebase/firestore';
+import { createContext, useContext, useReducer } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../firebase';
 
 interface Props {
   children?: React.ReactNode;
 }
 
 export const ChatContext = createContext<any>({
-  chatId: "null",
+  chatId: 'null',
   user: {},
 });
 
@@ -16,7 +16,7 @@ export const ChatContextProvider = ({ children }: Props) => {
   const [user] = useAuthState(auth);
   const currentUser: any = user;
   const INITIAL_STATE = {
-    chatId: "null",
+    chatId: 'null',
     user: {},
   };
 
@@ -25,7 +25,7 @@ export const ChatContextProvider = ({ children }: Props) => {
     action: { type: string; payload: { uid: string | number } }
   ) => {
     switch (action.type) {
-      case "CHANGE_USER":
+      case 'CHANGE_USER':
         return {
           user: action.payload,
           chatId:

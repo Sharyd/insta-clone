@@ -38,6 +38,7 @@ import useEmoji from '../hooks/use-emoji';
 
 import Comments from './Comments';
 import Popup from './ui/Popup';
+import Image from 'next/image';
 
 interface Props {
   post: DocumentData;
@@ -183,15 +184,18 @@ const Post = ({ post, id, modalPost }: Props) => {
 
       <div className="relative flex w-full cursor-pointer">
         {image?.map((data: string, index: number) => (
-          <img
+          <Image
             onClick={() => {
               setModalOpen(true);
               setModalType('modalPost');
               setPostState(post);
               setPostId(id);
             }}
+            width={500}
+            height={500}
             key={index}
             src={data}
+            priority
             alt=""
             className={`min-w-full transition max-h-[375px] lg:max-h-[445px] ease-in-out duration-500 object-contain bg-black  
            `}
