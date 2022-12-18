@@ -1,5 +1,6 @@
 import { updatePassword, User } from 'firebase/auth';
 import React, { FormEvent, useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 interface Props {
   user: null | undefined | User;
@@ -8,6 +9,7 @@ interface Props {
 const ChangePassword = ({ user }: Props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [oldPassword, setOldPassword] = useState('');
@@ -17,13 +19,14 @@ const ChangePassword = ({ user }: Props) => {
     setLoading(true);
 
     if (password !== confirmPassword) {
+      setLoading(false);
       return setError('Passwords are not the same"');
     }
 
     try {
       if (password && confirmPassword) {
         await updatePassword(user as User, confirmPassword).then(() =>
-          console.log('updated')
+          setSuccess('Successfully updated')
         );
       }
     } catch (err) {
@@ -31,6 +34,7 @@ const ChangePassword = ({ user }: Props) => {
         (err as { message?: string })?.message ?? 'Something went wrong'
       );
     }
+
     setLoading(false);
     setOldPassword('');
     setConfirmPassword('');
@@ -96,6 +100,7 @@ const ChangePassword = ({ user }: Props) => {
           </button>
         </div>
         {error && <p>{error}</p>}
+        {success && <p>{success}</p>}
       </div>
     </form>
   );

@@ -2,7 +2,7 @@ import React, { FormEvent, useRef, useState } from 'react';
 import Layout from '../components/Layout';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, storage } from '../firebase';
-
+import { toast } from 'react-hot-toast';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -23,6 +23,7 @@ const EditProfile = () => {
   const [user] = useAuthState(auth);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [fullName, setFullName] = useState(user?.displayName);
   const [email, setEmail] = useState(user?.email);
   const [activeBtn, setActiveBtn] = useState(ActiveBtn.EDITPROFILE);
@@ -56,10 +57,10 @@ const EditProfile = () => {
     if (loading) return;
     setLoading(true);
 
-    const storageRef = ref(storage, `/profileImg${selectedFileURL.image}`);
+    const storageRef = ref(storage, `/profileImg${selectedFileURL?.image}`);
 
     if (user) {
-      if (selectedFileURL.image) {
+      if (selectedFileURL?.image) {
         try {
           await uploadBytesResumable(storageRef, selectedFileURL.image).then(
             () => {
@@ -74,30 +75,26 @@ const EditProfile = () => {
           setError(
             (err as { message?: string })?.message ?? 'Something went wrong'
           );
+          setLoading(false);
         }
       }
-      if (fullName) {
+      if (fullName && email) {
         try {
           await updateProfile(user, {
             displayName: fullName,
           });
-        } catch (err) {
-          setError(
-            (err as { message?: string })?.message ?? 'Something went wrong'
-          );
-        }
-      }
-      if (email) {
-        try {
           await updateEmail(user, email);
         } catch (err) {
           setError(
             (err as { message?: string })?.message ?? 'Something went wrong'
           );
+          setLoading(false);
         }
       }
+      setSuccess('Successfully updated!');
     }
 
+    setError('');
     setFullName('');
     setSelectedFileURL(null);
     setEmail('');
@@ -191,10 +188,11 @@ const EditProfile = () => {
                 </div>
                 <div className="mainColor  m-6 text-white bg-blue font-medium text-[0.8rem] py-1.5 px-4 rounded-md ">
                   <button type="submit">
-                    {loading ? 'Sending...' : 'Submit'}
+                    {loading ? 'Updating...' : 'Submit'}
                   </button>
                 </div>
                 {error && <p>{error}</p>}
+                {success && <p>{success}</p>}
               </div>
             </form>
           </div>

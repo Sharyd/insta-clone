@@ -39,6 +39,7 @@ import useEmoji from '../hooks/use-emoji';
 import Comments from './Comments';
 import Popup from './ui/Popup';
 import Image from 'next/image';
+import { toast } from 'react-hot-toast';
 
 interface Props {
   post: DocumentData;

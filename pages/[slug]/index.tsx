@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { IoSettingsOutline } from 'react-icons/io5';

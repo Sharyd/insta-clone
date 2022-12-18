@@ -38,6 +38,7 @@ import { RotatingLines } from 'react-loader-spinner';
 import useEmoji from '../hooks/use-emoji';
 import EmojiPicker from 'emoji-picker-react';
 import { EmojiStyle } from 'emoji-picker-react';
+import { toast } from 'react-hot-toast';
 const CreatePost = () => {
   const [selectedFilesURL, setSelectedFilesURL] = useState<any[]>([]);
   const [_, setSelectedFile] = useState<string | null>(null);
@@ -93,6 +94,10 @@ const CreatePost = () => {
     } else {
       setError(true);
     }
+    toast.success(`Profile succesfully updated!`, {
+      position: 'bottom-center',
+      duration: 1750,
+    });
   };
 
   useEffect(() => {
@@ -386,14 +391,12 @@ const CreatePost = () => {
         )}
 
         {popupOpen && (
-          <>
-            <Popup
-              mainText="Discard post?"
-              text="If you leave, your edits won't be saved"
-              buttonTextNo="Cancel"
-              buttonTextYes="Discard"
-            />
-          </>
+          <Popup
+            mainText="Discard post?"
+            text="If you leave, your edits won't be saved"
+            buttonTextNo="Cancel"
+            buttonTextYes="Discard"
+          />
         )}
       </div>
     </>

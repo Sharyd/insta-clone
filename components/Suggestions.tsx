@@ -1,8 +1,8 @@
-import React from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase";
-import { useRouter } from "next/router";
-import Link from "next/link";
+import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../firebase';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 const Suggestions = () => {
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
@@ -13,13 +13,13 @@ const Suggestions = () => {
       <div className="flex flex-col">
         <div className="flex items-center">
           <Link
-            href={`/${user?.email}/`}
+            href={`/${user?.uid}/`}
             className="flex items-center cursor-pointer"
           >
             <img
               src={
                 user?.photoURL === null
-                  ? "https://graph.facebook.com/9002313636460828/picture"
+                  ? 'https://graph.facebook.com/9002313636460828/picture'
                   : user?.photoURL
               }
               alt="user-profile"
@@ -33,7 +33,7 @@ const Suggestions = () => {
           <button
             onClick={() => {
               auth.signOut();
-              router.push("/");
+              router.push('/');
             }}
             className="ml-auto text-[0.7rem] font-[500] textMainColor"
           >
@@ -44,7 +44,7 @@ const Suggestions = () => {
           <h3 className="text-gray-500 font-[500] text-[0.8rem] tracking-wide">
             Suggestions For You
           </h3>
-          <button className="text-black">See All</button>
+          <button className="text-gray-800">See All</button>
         </div>
         <div className="flex items-center justify-between">
           <div className="p-2 flex gap-3">
