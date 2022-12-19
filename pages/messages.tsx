@@ -137,14 +137,6 @@ const Messages = () => {
     setError(null);
   };
 
-  // useEffect(
-  //   () =>
-  //     onSnapshot(query(collection(db, "users")), (snapshot) =>
-  //       setUsers(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-  //     ),
-  //   [db]
-  // );
-  console.log(data);
   useEffect(() => {
     const unsub = onSnapshot(doc(db, 'chats', data.chatId), doc => {
       doc.exists() && setMessages(doc.data().messages);
@@ -152,15 +144,6 @@ const Messages = () => {
 
     return () => unsub();
   }, [data?.chatId]);
-
-  // const filteredUsers = useMemo(() => {
-  //   return users.filter((userDoc: DocumentData) => {
-  //     if (currentUser?.uid !== userDoc?.uid)
-  //       return userDoc.displayName
-  //         .toLowerCase()
-  //         .includes(username.toLowerCase());
-  //   });
-  // }, [users, username]);
 
   return (
     <Layout hideFooter={hideFooter}>
