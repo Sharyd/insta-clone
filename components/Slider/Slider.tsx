@@ -72,16 +72,17 @@ const data = [
 const Slider = () => {
   const calcNumberOfSliding = Math.floor((data.length * 63) / 250);
   const calcSpace = data.length * 40;
-
-  console.log(calcNumberOfSliding);
-
   const { prevSlide, nextSlide, slideIndex } = useSlider(calcNumberOfSliding);
+  const lastItemCalc = (255 * slideIndex + 50).toString();
+  const calcfinal: any = slideIndex === calcNumberOfSliding ? '205' : '255';
 
   return (
     <div className="relative flex gap-4 px-10 py-4 border-[1px] mt-4 items-center justify-center rounded-md bg-white overflow-hidden">
       <div
         className="flex gap-3 items-center justify-center transition ease-in-out duration-500 mr-[28rem] "
-        style={{ transform: `translateX(${-255 * slideIndex}px)` }}
+        style={{
+          transform: `translateX(${-calcfinal * slideIndex}px)`,
+        }}
       >
         {data.map((img, index) => (
           <div
