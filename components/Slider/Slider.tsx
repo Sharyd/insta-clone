@@ -71,7 +71,7 @@ const data = [
 ];
 const Slider = () => {
   const calcNumberOfSliding = Math.floor((data.length * 62) / 250);
-  const calcSpace = data.length * 40;
+  const calcSpace = data.length * 39;
 
   console.log(calcNumberOfSliding);
 
