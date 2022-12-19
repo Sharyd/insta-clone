@@ -49,7 +49,7 @@ const PostsQuery = ({ id, post }: Props) => {
         {post?.image ? (
           <Image
             src={post?.image[0]}
-            className="h-[125px] md:h-[200px] lg:h-[275px] w-full object-cover "
+            className="h-[125px] md:h-[200px] lg:h-[275px] object-cover "
             alt={post?.text}
             width={300}
             height={200}
