@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 html {
-  font-size: 105%;
+  font-size: 104%;
 }
 
 @layer base {
