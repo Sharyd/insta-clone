@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  font-size: 105%;
+}
+
 @layer base {
   body {
     @apply font-body text-black/80 bg-gray-100 tracking-[0.015em];

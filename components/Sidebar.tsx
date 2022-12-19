@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { HiOutlineSearch } from 'react-icons/hi';
-import { IoMdHome } from 'react-icons/io';
+import { AiOutlineHome, AiFillHome } from 'react-icons/ai';
 import { MdOutlineExplore } from 'react-icons/md';
 import { FiPlusSquare } from 'react-icons/fi';
 import { SlPaperPlane } from 'react-icons/sl';
@@ -91,7 +91,7 @@ const Sidebar = ({
           <Link href="/home">
             <SidebarLink
               text="Home"
-              Icon={IoMdHome}
+              Icon={AiOutlineHome}
               active={router.pathname == '/home'}
               activeSearch={activeSearch}
               activeNotifications={activeNotifications}
@@ -156,8 +156,7 @@ const Sidebar = ({
                 modalOpen
                   ? router.pathname == '/home' ||
                     router.pathname == '/explore' ||
-                    router.asPath == `/${user?.email}` ||
-                    router.asPath == `/${user?.email}/?saved`
+                    router.asPath == `/${user?.uid}`
                   : undefined
               }
               activeSearch={activeSearch}
@@ -177,10 +176,7 @@ const Sidebar = ({
                   ? 'https://graph.facebook.com/9002313636460828/picture'
                   : user?.photoURL
               }
-              active={
-                router.asPath == `/${user?.email}` ||
-                router.asPath == `/${user?.email}/?saved`
-              }
+              active={router.asPath == `/${user?.uid}`}
               activeSearch={activeSearch}
               activeNotifications={activeNotifications}
             />
@@ -218,10 +214,12 @@ const Sidebar = ({
                     <button className="text-gray-800">Settings</button>
                     <IoSettingsOutline className="w-6 h-6" />
                   </div>
-                  <div className="flex w-full items-center justify-between border-b-[1px] p-2 hover:bg-gray-100">
-                    <button>Saved</button>
-                    <BiBookmark className="w-6 h-6" />
-                  </div>
+                  <Link href={`/${user?.uid}`}>
+                    <div className="flex w-full items-center justify-between border-b-[1px] p-2 hover:bg-gray-100">
+                      <button>Saved</button>
+                      <BiBookmark className="w-6 h-6" />
+                    </div>
+                  </Link>
                   <div className="flex w-full items-center justify-between border-b-[1px] p-2 hover:bg-gray-100">
                     <button>Report a problem</button>
                     <VscReport className="w-6 h-6" />

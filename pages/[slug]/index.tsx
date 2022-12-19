@@ -225,7 +225,7 @@ const ProfilePage = () => {
                     className={`mt-5 md:mt-10 grid grid-cols-3 max-h-full ${
                       savedPosts?.length === 0
                         ? 'max-w-full md:w-[618px] lg:w-[918px]'
-                        : 'max-w-full'
+                        : 'max-w-full md:w-[618px] lg:w-[918px]'
                     } gap-2 md:gap-6`}
                   >
                     {user?.uid !== null &&
