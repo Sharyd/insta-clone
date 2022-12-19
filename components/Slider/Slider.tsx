@@ -1,77 +1,77 @@
-import React, { useState } from "react";
-import useSlider from "../../hooks/use-slider";
-import { v4 as uuidv4 } from "uuid";
-import BtnSlider from "./SliderBtn";
+import React, { useState } from 'react';
+import useSlider from '../../hooks/use-slider';
+import { v4 as uuidv4 } from 'uuid';
+import BtnSlider from './SliderBtn';
 
 const data = [
   {
-    userImg: "user-1.jpeg",
+    userImg: 'user-1.jpeg',
     userId: uuidv4(),
   },
   {
-    userImg: "user-2.jpeg",
+    userImg: 'user-2.jpeg',
     userId: uuidv4(),
   },
   {
-    userImg: "user-3.jpeg",
+    userImg: 'user-3.jpeg',
     userId: uuidv4(),
   },
   {
-    userImg: "user-5.jpg",
+    userImg: 'user-5.jpg',
     userId: uuidv4(),
   },
   {
-    userImg: "user-5.jpg",
+    userImg: 'user-5.jpg',
     userId: uuidv4(),
   },
   {
-    userImg: "user-2.jpeg",
+    userImg: 'user-2.jpeg',
     userId: uuidv4(),
   },
   {
-    userImg: "user-1.jpeg",
+    userImg: 'user-1.jpeg',
     userId: uuidv4(),
   },
   {
-    userImg: "user-1.jpeg",
+    userImg: 'user-1.jpeg',
     userId: uuidv4(),
   },
   {
-    userImg: "user-1.jpeg",
+    userImg: 'user-1.jpeg',
     userId: uuidv4(),
   },
   {
-    userImg: "user-5.jpg",
+    userImg: 'user-5.jpg',
     userId: uuidv4(),
   },
   {
-    userImg: "user-2.jpeg",
+    userImg: 'user-2.jpeg',
     userId: uuidv4(),
   },
   {
-    userImg: "user-2.jpeg",
+    userImg: 'user-2.jpeg',
     userId: uuidv4(),
   },
   {
-    userImg: "user-2.jpeg",
+    userImg: 'user-2.jpeg',
     userId: uuidv4(),
   },
   {
-    userImg: "user-2.jpeg",
+    userImg: 'user-2.jpeg',
     userId: uuidv4(),
   },
   {
-    userImg: "user-2.jpeg",
+    userImg: 'user-2.jpeg',
     userId: uuidv4(),
   },
   {
-    userImg: "user-2.jpeg",
+    userImg: 'user-2.jpeg',
     userId: uuidv4(),
   },
 ];
 const Slider = () => {
   const calcNumberOfSliding = Math.floor((data.length * 62) / 250);
-  const calcSpace = data.length * 38;
+  const calcSpace = data.length * 40;
 
   console.log(calcNumberOfSliding);
 
@@ -100,10 +100,10 @@ const Slider = () => {
       </div>
 
       {slideIndex !== calcNumberOfSliding && (
-        <BtnSlider moveSlide={nextSlide} direction={"next"} />
+        <BtnSlider moveSlide={nextSlide} direction={'next'} />
       )}
       {slideIndex !== 0 && (
-        <BtnSlider moveSlide={prevSlide} direction={"prev"} />
+        <BtnSlider moveSlide={prevSlide} direction={'prev'} />
       )}
     </div>
   );
