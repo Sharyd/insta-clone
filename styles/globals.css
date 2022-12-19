@@ -1,11 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Oleo+Script&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
-@import url('http://fonts.cdnfonts.com/css/billabong');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 html {
   font-size: 100%;
+}
+@font-face {
+  font-family: 'Billabong';
+  src: URL('../public/Billabong.ttf') format('truetype');
 }
 
 @layer base {
