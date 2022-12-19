@@ -70,8 +70,8 @@ const data = [
   },
 ];
 const Slider = () => {
-  const calcNumberOfSliding = Math.floor((data.length * 62) / 250);
-  const calcSpace = data.length * 39;
+  const calcNumberOfSliding = Math.floor((data.length * 63) / 250);
+  const calcSpace = data.length * 40;
 
   console.log(calcNumberOfSliding);
 
