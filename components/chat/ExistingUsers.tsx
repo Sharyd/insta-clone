@@ -1,15 +1,9 @@
-import { doc, DocumentData, onSnapshot } from "firebase/firestore";
-import { useAuthState } from "react-firebase-hooks/auth";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useState,
-  useEffect,
-  useContext,
-} from "react";
-import { auth, db } from "../../firebase";
-import { ChatContext } from "../../store/ChatContext";
-import { upperFirstLetter } from "../../lib/upperFirstLetter";
+import { doc, onSnapshot } from 'firebase/firestore';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import React, { useState, useEffect, useContext } from 'react';
+import { auth, db } from '../../firebase';
+import { ChatContext } from '../../store/ChatContext';
+
 const CombinedUsers = () => {
   const [loggedUser] = useAuthState(auth);
   const [chats, setChats] = useState<any>([]);
@@ -18,7 +12,7 @@ const CombinedUsers = () => {
 
   useEffect(() => {
     const getChats = () => {
-      const unsub = onSnapshot(doc(db, "userChat", currentUser?.uid), (doc) => {
+      const unsub = onSnapshot(doc(db, 'userChat', currentUser?.uid), doc => {
         setChats(doc.data());
       });
 
@@ -30,7 +24,7 @@ const CombinedUsers = () => {
   }, [currentUser?.uid]);
 
   const handleSelect = (user: Object) => {
-    dispatch({ type: "CHANGE_USER", payload: user });
+    dispatch({ type: 'CHANGE_USER', payload: user });
   };
 
   return (
@@ -49,7 +43,7 @@ const CombinedUsers = () => {
                   <img
                     src={
                       chat[1]?.userInfo?.photoURL ??
-                      "https://graph.facebook.com/9002313636460828/picture"
+                      'https://graph.facebook.com/9002313636460828/picture'
                     }
                     alt="user profile"
                     className="w-10 h-10 rounded-full object-cover"

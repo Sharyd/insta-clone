@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { AiOutlineHeart } from "react-icons/ai";
-import { HiOutlineSearch } from "react-icons/hi";
-import { IoMdHome } from "react-icons/io";
-import { MdOutlineExplore } from "react-icons/md";
-import { FiPlusSquare } from "react-icons/fi";
-import { SlPaperPlane } from "react-icons/sl";
-import { AiOutlineInstagram } from "react-icons/ai";
-import { AiOutlineMenu } from "react-icons/ai";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { IoSettingsOutline } from "react-icons/io5";
-import { VscReport } from "react-icons/vsc";
-import { BiBookmark } from "react-icons/bi";
-import SidebarLink from "./SidebarLink";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { auth } from "../firebase";
-import { modalState, modalTypeState } from "../atoms/modalAtom";
-import CreatePost from "./CreatePost";
-import { SetterOrUpdater, useRecoilState } from "recoil";
-import SidebarSearch from "./SidebarWindow";
-import { AnimatePresence, motion } from "framer-motion";
+import React, { useState } from 'react';
+import { AiOutlineHeart } from 'react-icons/ai';
+import { HiOutlineSearch } from 'react-icons/hi';
+import { IoMdHome } from 'react-icons/io';
+import { MdOutlineExplore } from 'react-icons/md';
+import { FiPlusSquare } from 'react-icons/fi';
+import { SlPaperPlane } from 'react-icons/sl';
+import { AiOutlineInstagram } from 'react-icons/ai';
+import { AiOutlineMenu } from 'react-icons/ai';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { IoSettingsOutline } from 'react-icons/io5';
+import { VscReport } from 'react-icons/vsc';
+import { BiBookmark } from 'react-icons/bi';
+import SidebarLink from './SidebarLink';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { auth } from '../firebase';
+import { modalState, modalTypeState } from '../atoms/modalAtom';
+import CreatePost from './CreatePost';
+import { SetterOrUpdater, useRecoilState } from 'recoil';
+import SidebarSearch from './SidebarWindow';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface Props {
   activeSearch: boolean;
@@ -28,8 +28,8 @@ interface Props {
   setActiveNotifications: SetterOrUpdater<boolean>;
 }
 enum typeWindow {
-  NOTIFICATIONS = "Notifications",
-  SEARCH = "search",
+  NOTIFICATIONS = 'Notifications',
+  SEARCH = 'search',
 }
 
 const Sidebar = ({
@@ -61,13 +61,13 @@ const Sidebar = ({
       <div
         className={`fixed top-0 left-0 hidden h-full flex-col 
         p-4 md:flex ${
-          activeSearch || activeNotifications ? "xl:w-[85px]" : "xl:w-[250px]"
+          activeSearch || activeNotifications ? 'xl:w-[85px]' : 'xl:w-[250px]'
         }  w-[85px] xl:items-start bg-white border-r-[2px]`}
       >
         <div
           className={`mt-5 mb-2.5 space-y-2.5 flex flex-col 
        ${
-         activeSearch || activeNotifications ? "xl:w-14" : "xl:w-56"
+         activeSearch || activeNotifications ? 'xl:w-14' : 'xl:w-56'
        }  h-full flex-1`}
         >
           <Link href="/home" className="h-20">
@@ -75,13 +75,13 @@ const Sidebar = ({
               <AiOutlineInstagram
                 className={`w-7 h-8 ${
                   activeSearch || activeNotifications
-                    ? "xl:inline"
-                    : "xl:hidden"
+                    ? 'xl:inline'
+                    : 'xl:hidden'
                 }`}
               />
               <h2
                 className={`hidden font-insta text-start text-[1.8rem] ${
-                  activeSearch || activeNotifications ? "xl:hidden" : "xl:block"
+                  activeSearch || activeNotifications ? 'xl:hidden' : 'xl:block'
                 }`}
               >
                 Instagram
@@ -92,17 +92,17 @@ const Sidebar = ({
             <SidebarLink
               text="Home"
               Icon={IoMdHome}
-              active={router.pathname == "/home"}
+              active={router.pathname == '/home'}
               activeSearch={activeSearch}
               activeNotifications={activeNotifications}
             />
           </Link>
           <div
             onClick={() => {
-              setActiveSearch((prev) => !prev);
+              setActiveSearch(prev => !prev);
               setActiveNotifications(false);
             }}
-            className={`${activeSearch && "border rounded-full"}`}
+            className={`${activeSearch && 'border rounded-full'}`}
           >
             <SidebarLink
               text="Search"
@@ -115,7 +115,7 @@ const Sidebar = ({
             <SidebarLink
               text="Explore"
               Icon={MdOutlineExplore}
-              active={router.pathname == "/explore"}
+              active={router.pathname == '/explore'}
               activeSearch={activeSearch}
               activeNotifications={activeNotifications}
             />
@@ -132,7 +132,7 @@ const Sidebar = ({
 
           <div
             onClick={() => {
-              setActiveNotifications((prev) => !prev);
+              setActiveNotifications(prev => !prev);
               setActiveSearch(false);
             }}
           >
@@ -146,7 +146,7 @@ const Sidebar = ({
           <div
             onClick={() => {
               setModalOpen(true);
-              setModalType("CreatePost");
+              setModalType('CreatePost');
             }}
           >
             <SidebarLink
@@ -154,8 +154,8 @@ const Sidebar = ({
               Icon={FiPlusSquare}
               active={
                 modalOpen
-                  ? router.pathname == "/home" ||
-                    router.pathname == "/explore" ||
+                  ? router.pathname == '/home' ||
+                    router.pathname == '/explore' ||
                     router.asPath == `/${user?.email}` ||
                     router.asPath == `/${user?.email}/?saved`
                   : undefined
@@ -174,7 +174,7 @@ const Sidebar = ({
               text="Profile"
               img={
                 user?.photoURL === null
-                  ? "https://graph.facebook.com/9002313636460828/picture"
+                  ? 'https://graph.facebook.com/9002313636460828/picture'
                   : user?.photoURL
               }
               active={
@@ -187,7 +187,7 @@ const Sidebar = ({
           </Link>
 
           <div className="absolute bottom-5 xl:w-56">
-            <div onClick={() => setMore((prev) => !prev)}>
+            <div onClick={() => setMore(prev => !prev)}>
               <SidebarLink
                 text="More"
                 Icon={AiOutlineMenu}
@@ -199,19 +199,19 @@ const Sidebar = ({
               {more && (
                 <motion.div
                   initial={{
-                    y: "100%",
+                    y: '100%',
                     opacity: 0,
-                    width: "5rem",
-                    zIndex: "-10",
+                    width: '5rem',
+                    zIndex: '-10',
                   }}
                   animate={{
-                    y: "0%",
+                    y: '0%',
                     opacity: 1,
-                    width: "15rem",
-                    zIndex: "0",
+                    width: '15rem',
+                    zIndex: '0',
                   }}
                   transition={{ duration: 0.2 }}
-                  exit={{ y: "100%", opacity: 0, width: "5rem", zIndex: "-10" }}
+                  exit={{ y: '100%', opacity: 0, width: '5rem', zIndex: '-10' }}
                   className="bg-white flex flex-col absolute bottom-16 left-0 shadow-lg rounded-md w-60 cursor-pointer  text-[0.9rem]"
                 >
                   <div className="flex w-full items-center justify-between border-b-[1px] p-2 hover:bg-gray-100 ">
@@ -232,7 +232,7 @@ const Sidebar = ({
                   <div
                     onClick={() => {
                       auth.signOut();
-                      router.push("/");
+                      router.push('/');
                     }}
                     className="flex w-full items-center justify-between p-2 hover:bg-gray-100"
                   >

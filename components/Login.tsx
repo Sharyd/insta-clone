@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react";
-import { Dispatch, SetStateAction } from "react";
-import { AiFillFacebook } from "react-icons/ai";
-import dataImg from "../lib/dataImg";
-import { TiDeleteOutline } from "react-icons/ti";
-import { AiOutlineCheckCircle } from "react-icons/ai";
-import useInput from "../hooks/use-input";
-import { includesFunction } from "../lib/emailValidationFunc";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useRouter } from "next/router";
-import { auth } from "../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
+import { AiFillFacebook } from 'react-icons/ai';
+import { TiDeleteOutline } from 'react-icons/ti';
+import { AiOutlineCheckCircle } from 'react-icons/ai';
+import useInput from '../hooks/use-input';
+import { includesFunction } from '../lib/emailValidationFunc';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useRouter } from 'next/router';
+import { auth } from '../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 interface Props {
   setLogin: Dispatch<SetStateAction<boolean>>;
@@ -28,8 +27,8 @@ const Login = ({ setLogin, FacebookProvider }: Props) => {
     valueBlurHandler: emailInputBlurHandler,
     reset: resetEmailInput,
   } = useInput(
-    (value) =>
-      value.trim() !== "" && includesFunction(value) && value.includes("@")
+    value =>
+      value.trim() !== '' && includesFunction(value) && value.includes('@')
   );
   const {
     value: enteredPassword,
@@ -38,7 +37,7 @@ const Login = ({ setLogin, FacebookProvider }: Props) => {
     valueChangeHandler: passwordChangeHandler,
     valueBlurHandler: passwordBlurHandler,
     reset: resetPasswordInput,
-  } = useInput((value) => value.trim() !== "" && value.length >= 6);
+  } = useInput(value => value.trim() !== '' && value.length >= 6);
 
   let formIsValid = false;
   if (enteredEmailIsValid && enteredPasswordIsValid) {
@@ -57,12 +56,12 @@ const Login = ({ setLogin, FacebookProvider }: Props) => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push("/");
+      router.push('/');
     } catch (err) {
       setError(true);
     }
 
-    router.replace("/home");
+    router.replace('/home');
 
     resetEmailInput();
     resetPasswordInput();
@@ -144,7 +143,7 @@ const Login = ({ setLogin, FacebookProvider }: Props) => {
               onClick={() => setLogin(false)}
               className=" text-[#0094f6] cursor-pointer"
             >
-              {" "}
+              {' '}
               Sign up
             </span>
           </p>

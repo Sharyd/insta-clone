@@ -1,6 +1,5 @@
 import { updatePassword, User } from 'firebase/auth';
 import React, { FormEvent, useState } from 'react';
-import { toast } from 'react-hot-toast';
 
 interface Props {
   user: null | undefined | User;

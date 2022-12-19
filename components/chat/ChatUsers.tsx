@@ -2,22 +2,13 @@ import {
   doc,
   DocumentData,
   getDoc,
-  onSnapshot,
   serverTimestamp,
   setDoc,
   updateDoc,
-} from "firebase/firestore";
-import { useAuthState } from "react-firebase-hooks/auth";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useState,
-  useEffect,
-  useContext,
-  useCallback,
-} from "react";
-import { auth, db } from "../../firebase";
-import { ChatContext } from "../../store/ChatContext";
+} from 'firebase/firestore';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import React, { Dispatch, SetStateAction } from 'react';
+import { auth, db } from '../../firebase';
 
 interface Props {
   user: DocumentData;
@@ -37,31 +28,31 @@ const ChatUsers = ({ user, setUsername, setUser }: Props) => {
         ? currentUser?.uid + user?.uid
         : user?.uid + currentUser?.uid;
     try {
-      const res = await getDoc(doc(db, "chats", combinedId));
+      const res = await getDoc(doc(db, 'chats', combinedId));
 
       if (!res.exists()) {
         // create a chat in chats collection
-        await setDoc(doc(db, "chats", combinedId), { messages: [] });
+        await setDoc(doc(db, 'chats', combinedId), { messages: [] });
         //create user chats
-        await updateDoc(doc(db, "userChat", currentUser.uid), {
-          [combinedId + ".userInfo"]: {
+        await updateDoc(doc(db, 'userChat', currentUser.uid), {
+          [combinedId + '.userInfo']: {
             uid: user?.uid,
             displayName: user?.displayName,
             photoURL: user?.photoURL ?? null,
           },
-          [combinedId + ".date"]: serverTimestamp(),
+          [combinedId + '.date']: serverTimestamp(),
         });
-        await updateDoc(doc(db, "userChat", user.uid), {
-          [combinedId + ".userInfo"]: {
+        await updateDoc(doc(db, 'userChat', user.uid), {
+          [combinedId + '.userInfo']: {
             uid: currentUser?.uid,
             displayName: currentUser?.displayName,
             photoURL: currentUser?.photoURL,
           },
-          [combinedId + ".date"]: serverTimestamp(),
+          [combinedId + '.date']: serverTimestamp(),
         });
       }
       setUser(null);
-      setUsername("");
+      setUsername('');
     } catch (err) {
       console.log(err);
     }

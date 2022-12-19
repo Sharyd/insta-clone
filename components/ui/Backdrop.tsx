@@ -1,8 +1,8 @@
-import { motion } from "framer-motion";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { modalState, modalTypeState } from "../../atoms/modalAtom";
-import { popupState } from "../../atoms/popupAtom";
-import { getSelectedImgLengthState } from "../../atoms/postAtom";
+import { motion } from 'framer-motion';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { modalState } from '../../atoms/modalAtom';
+import { popupState } from '../../atoms/popupAtom';
+import { getSelectedImgLengthState } from '../../atoms/postAtom';
 
 interface Props {
   children: JSX.Element[] | JSX.Element | boolean;
@@ -19,7 +19,7 @@ const Backdrop = ({ children }: Props) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      onClick={(e) => {
+      onClick={e => {
         e.stopPropagation();
         selectedFiles >= 1 ? setPopupOpen(true) : setModalOpen(false);
       }}

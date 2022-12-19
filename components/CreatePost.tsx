@@ -1,13 +1,5 @@
-import React, {
-  useState,
-  useRef,
-  MouseEventHandler,
-  useEffect,
-  LegacyRef,
-  SetStateAction,
-} from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import Image from 'next/image';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { BiArrowBack } from 'react-icons/bi';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { IoLocationOutline } from 'react-icons/io5';
@@ -21,10 +13,8 @@ import useSlider from '../hooks/use-slider';
 import {
   addDoc,
   collection,
-  doc,
   serverTimestamp,
   setDoc,
-  updateDoc,
 } from 'firebase/firestore';
 import { storage, db } from '../firebase';
 import { v4 as uuidv4 } from 'uuid';
@@ -38,7 +28,7 @@ import { RotatingLines } from 'react-loader-spinner';
 import useEmoji from '../hooks/use-emoji';
 import EmojiPicker from 'emoji-picker-react';
 import { EmojiStyle } from 'emoji-picker-react';
-import { toast } from 'react-hot-toast';
+
 const CreatePost = () => {
   const [selectedFilesURL, setSelectedFilesURL] = useState<any[]>([]);
   const [_, setSelectedFile] = useState<string | null>(null);
@@ -94,10 +84,6 @@ const CreatePost = () => {
     } else {
       setError(true);
     }
-    toast.success(`Profile succesfully updated!`, {
-      position: 'bottom-center',
-      duration: 1750,
-    });
   };
 
   useEffect(() => {

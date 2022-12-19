@@ -2,16 +2,8 @@ import React, { FormEvent, useRef, useState } from 'react';
 import Layout from '../components/Layout';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, storage } from '../firebase';
-import { toast } from 'react-hot-toast';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import { v4 as uuidv4 } from 'uuid';
-import {
-  updateEmail,
-  updateProfile,
-  updatePassword,
-  User,
-} from 'firebase/auth';
-import { FaTruckMonster } from 'react-icons/fa';
+import { updateEmail, updateProfile } from 'firebase/auth';
 import ChangePassword from '../components/ChangePassword';
 
 enum ActiveBtn {

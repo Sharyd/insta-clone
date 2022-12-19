@@ -8,7 +8,6 @@ import { HiOutlineTrash } from 'react-icons/hi';
 import { motion } from 'framer-motion';
 import useSlider from '../hooks/use-slider';
 import BtnSlider from './Slider/SliderBtn';
-import { AnimatePresence } from 'framer-motion';
 import Moment from 'react-moment';
 import {
   addDoc,
@@ -35,11 +34,9 @@ import { getPostState, getPostIdState } from '../atoms/postAtom';
 import EmojiPicker from 'emoji-picker-react';
 import { EmojiStyle } from 'emoji-picker-react';
 import useEmoji from '../hooks/use-emoji';
-
 import Comments from './Comments';
-import Popup from './ui/Popup';
+
 import Image from 'next/image';
-import { toast } from 'react-hot-toast';
 
 interface Props {
   post: DocumentData;
@@ -351,17 +348,6 @@ const Post = ({ post, id, modalPost }: Props) => {
           </button>
         </div>
       </form>
-
-      {/* {popupOpen && (
-        <>
-          <Popup
-            mainText="Remove post?"
-            text="Are you sure completely remove post?"
-            buttonTextYes="Yes"
-            buttonTextNo="No"
-          />
-        </>
-      )} */}
     </div>
   );
 };

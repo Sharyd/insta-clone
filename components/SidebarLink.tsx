@@ -1,5 +1,4 @@
-import { useRouter } from "next/router";
-import { Component } from "react";
+import { useRouter } from 'next/router';
 
 interface Props {
   text: string;
@@ -23,15 +22,15 @@ const SidebarLink = ({
   return (
     <div
       className={`flex group h-max items-center justify-center  gap-4 text-xl text-gray-800 xl:justify-start px-3 py-3 iconHover ${
-        active && "font-bold "
+        active && 'font-bold '
       }`}
     >
       {Icon ? (
         <Icon
           className={
             active
-              ? "h-7 w-7 text-gray-900 "
-              : "h-7 w-7 group-hover:scale-105 transition-all "
+              ? 'h-7 w-7 text-gray-900 '
+              : 'h-7 w-7 group-hover:scale-105 transition-all '
           }
         />
       ) : (
@@ -44,7 +43,7 @@ const SidebarLink = ({
       )}
       <span
         className={`${
-          (activeSearch || activeNotifications) && "xl:hidden"
+          (activeSearch || activeNotifications) && 'xl:hidden'
         } hidden xl:inline text-[1rem]`}
       >
         {text}

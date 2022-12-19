@@ -1,11 +1,11 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-import Backdrop from "./Backdrop";
-import { motion } from "framer-motion";
-import { animation } from "../../lib/animation";
-import { useRecoilState } from "recoil";
-import { popupState } from "../../atoms/popupAtom";
-import { modalState, modalTypeState } from "../../atoms/modalAtom";
-import { getSelectedImgLengthState } from "../../atoms/postAtom";
+import React from 'react';
+import Backdrop from './Backdrop';
+import { motion } from 'framer-motion';
+import { animation } from '../../lib/animation';
+import { useRecoilState } from 'recoil';
+import { popupState } from '../../atoms/popupAtom';
+import { modalState } from '../../atoms/modalAtom';
+import { getSelectedImgLengthState } from '../../atoms/postAtom';
 
 interface Props {
   mainText: string;
@@ -24,7 +24,7 @@ const Popup = ({ text, mainText, buttonTextYes, buttonTextNo }: Props) => {
   return (
     <Backdrop>
       <motion.div
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
         className="rounded-l-lg h-[45rem] flex items-center p-10 justify-center max-w-full"
         variants={animation}
         initial="hidden"

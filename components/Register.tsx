@@ -1,15 +1,15 @@
-import { Dispatch, SetStateAction, useState, useRef, useContext } from "react";
-import { AiFillFacebook } from "react-icons/ai";
-import { useRouter } from "next/router";
-import { TiDeleteOutline } from "react-icons/ti";
-import { AiOutlineCheckCircle } from "react-icons/ai";
-import useInput from "../hooks/use-input";
-import { includesFunction } from "../lib/emailValidationFunc";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { Dispatch, SetStateAction, useState, useContext } from 'react';
+import { AiFillFacebook } from 'react-icons/ai';
+import { useRouter } from 'next/router';
+import { TiDeleteOutline } from 'react-icons/ti';
+import { AiOutlineCheckCircle } from 'react-icons/ai';
+import useInput from '../hooks/use-input';
+import { includesFunction } from '../lib/emailValidationFunc';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
-import { auth, db } from "../firebase";
-import { doc, setDoc } from "firebase/firestore";
-import { ChatContext } from "../store/ChatContext";
+import { auth, db } from '../firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import { ChatContext } from '../store/ChatContext';
 
 interface Props {
   setLogin: Dispatch<SetStateAction<boolean>>;
@@ -30,8 +30,8 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
     valueBlurHandler: emailInputBlurHandler,
     reset: resetEmailInput,
   } = useInput(
-    (value) =>
-      value.trim() !== "" && includesFunction(value) && value.includes("@")
+    value =>
+      value.trim() !== '' && includesFunction(value) && value.includes('@')
   );
   const {
     value: enteredFullName,
@@ -40,7 +40,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
     valueChangeHandler: fullNameChangeHandler,
     valueBlurHandler: fullNameBlurHandler,
     reset: resetFullNameInput,
-  } = useInput((value) => value.trim() !== "" && value.length <= 25);
+  } = useInput(value => value.trim() !== '' && value.length <= 25);
   const {
     value: enteredUsername,
     isValid: enteredUsernameIsValid,
@@ -48,7 +48,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
     valueChangeHandler: usernameChangeHandler,
     valueBlurHandler: usernameBlurHandler,
     reset: resetUsernameInput,
-  } = useInput((value) => value.trim() !== "");
+  } = useInput(value => value.trim() !== '');
   const {
     value: enteredPassword,
     isValid: enteredPasswordIsValid,
@@ -56,7 +56,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
     valueChangeHandler: passwordChangeHandler,
     valueBlurHandler: passwordBlurHandler,
     reset: resetPasswordInput,
-  } = useInput((value) => value.trim() !== "" && value.length >= 7);
+  } = useInput(value => value.trim() !== '' && value.length >= 7);
 
   let formIsValid = false;
   if (
@@ -89,18 +89,18 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
         //Update profile
         await updateProfile(res.user, {
           displayName: displayName,
-          photoURL: "https://graph.facebook.com/9002313636460828/picture",
+          photoURL: 'https://graph.facebook.com/9002313636460828/picture',
         });
 
-        await setDoc(doc(db, "users", res.user.uid), {
+        await setDoc(doc(db, 'users', res.user.uid), {
           uid: res.user.uid,
           displayName,
           email,
-          photoURL: "https://graph.facebook.com/9002313636460828/picture",
+          photoURL: 'https://graph.facebook.com/9002313636460828/picture',
         });
-        await setDoc(doc(db, "userChat", res.user.uid), {});
+        await setDoc(doc(db, 'userChat', res.user.uid), {});
 
-        router.replace("/home");
+        router.replace('/home');
       } catch (err) {
         console.log(err);
         setErr(true);
@@ -115,7 +115,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
     resetPasswordInput();
     resetFullNameInput();
     resetUsernameInput();
-    dispatch({ type: "CHANGE_USER", payload: {} });
+    dispatch({ type: 'CHANGE_USER', payload: {} });
   };
 
   // const activeKeystroke =
@@ -252,7 +252,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
                 onClick={() => setLogin(true)}
                 className="text-[#0094f6] cursor-pointer"
               >
-                {" "}
+                {' '}
                 Log in
               </span>
             </p>

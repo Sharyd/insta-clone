@@ -3,8 +3,6 @@ import { HiOutlineSearch } from 'react-icons/hi';
 import SearchedUsers from './SearchedUsers';
 import { motion } from 'framer-motion';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
-import { auth, db } from '../firebase';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import useSearchUsers from '../hooks/use-searchUsers';
 import { DocumentData } from 'firebase/firestore';
 
@@ -13,7 +11,6 @@ interface Props {
 }
 
 const SidebarSearch = ({ type }: Props) => {
-  const [user, loading] = useAuthState(auth);
   const { username, setUsername, filteredUsers } = useSearchUsers();
 
   return (
