@@ -37,7 +37,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { v4 as uuid } from 'uuid';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 import { MdOutlineKeyboardArrowUp } from 'react-icons/md';
-import InputSearch from '../components/chat/inputSearch';
+import InputSearch from '../components/chat/InputSearch';
 import { motion } from 'framer-motion';
 
 const Messages = () => {
