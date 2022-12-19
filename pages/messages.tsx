@@ -11,7 +11,6 @@ import Layout from '../components/Layout';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db, storage } from '../firebase';
 import ChatUsers from '../components/chat/ChatUsers';
-import { HiOutlineSearch } from 'react-icons/hi';
 import { BsTelephone, BsCameraVideo, BsImage } from 'react-icons/bs';
 import { AiOutlineInfoCircle, AiOutlineSmile } from 'react-icons/ai';
 import Message from '../components/chat/Message';
