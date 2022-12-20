@@ -22,7 +22,7 @@ const MobileImages = () => {
     };
   });
   return (
-    <div className="relative bg-gray-100 w-full hidden lg:block h-[40rem] ">
+    <div className="relative bg-gray-100 w-full hidden lg:block h-full ">
       <img src="loginMain.png" alt="phone image" className="w-full h-full" />
       <div className="">
         {dataImg.map((item, i) => (
@@ -30,7 +30,7 @@ const MobileImages = () => {
             key={item.id}
             src={`screenshot${i + 1}.png`}
             alt="Image in the phone"
-            className={`absolute top-7 right-[3.75rem] ${
+            className={`absolute top-6 right-[3.5rem] ${
               img === i + 1 ? 'animate-imgAnimate' : 'invisible'
             }`}
           />
