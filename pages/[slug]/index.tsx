@@ -115,7 +115,7 @@ const ProfilePage = () => {
                         <div className="flex items-center gap-2 justify-center">
                           <Link
                             href="/editProfile"
-                            className="font-semibold text-sm border px-3 py-1 rounded-sm"
+                            className="flex items-center font-semibold text-sm border px-3 py-1 rounded-sm"
                           >
                             Edit profile
                             <IoSettingsOutline className="w-6 h-6 cursor-pointer mr-4" />
