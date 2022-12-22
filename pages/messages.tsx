@@ -146,7 +146,7 @@ const Messages = () => {
 
   return (
     <Layout hideFooter={hideFooter}>
-      <section className="m-auto flex md:mt-16 items-center md:items-start text-[0.85rem] h-full w-[360px] md:h-[800px] md:w-full">
+      <section className="m-auto flex md:mt-16 items-center md:items-start text-[0.85rem] h-[700px] md:h-[800px] ">
         <div className="hidden md:flex relative bg-white flex-col h-full border">
           <div className="flex border-b  flex-col py-3 px-8 w-[250px] lg:w-[300px]">
             <p className="font-[500] p-2 px-4">{currentUser?.displayName}</p>
@@ -218,7 +218,7 @@ const Messages = () => {
             {showSearchInput && (
               <motion.div
                 initial={{ y: '-10%', opacity: 0.5 }}
-                animate={{ y: '%', opacity: 1 }}
+                animate={{ y: '0%', opacity: 1 }}
                 transition={{ duration: 0.2 }}
                 exit={{ y: '-20%', opacity: 0.5 }}
                 className="md:hidden absolute top-[58px] left-0 bg-white flex-col h-max w-max border-r z-10"
