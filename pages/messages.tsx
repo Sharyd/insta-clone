@@ -146,7 +146,7 @@ const Messages = () => {
 
   return (
     <Layout hideFooter={hideFooter}>
-      <section className="m-auto flex md:mt-16 items-center md:items-start text-[0.85rem] h-[700px] md:h-[800px] ">
+      <section className="m-auto flex md:mt-16 items-center md:items-start text-[0.85rem] h-full md:h-[800px] w-[360px] overflow-y-auto">
         <div className="hidden md:flex relative bg-white flex-col h-full border">
           <div className="flex border-b  flex-col py-3 px-8 w-[250px] lg:w-[300px]">
             <p className="font-[500] p-2 px-4">{currentUser?.displayName}</p>
@@ -243,7 +243,7 @@ const Messages = () => {
                     />
                   )}
                 </div>
-                <div className="border-t overflow-y-scroll scrollbar-hide  border-b">
+                <div className="border-t overflow-y-scroll scrollbar-hide border-b">
                   <h2 className="font-[500] text-md mb-4 pt-2 px-4">
                     Existing chats
                   </h2>
@@ -266,7 +266,7 @@ const Messages = () => {
           </div>
           <form onSubmit={handleSend}>
             <div className="relative flex items-center justify-between px-2 border-t">
-              <div className="flex gap-2 items-center justify-center mt-5">
+              <div className="flex gap-2 items-center justify-center md:mt-5 py-3">
                 <AiOutlineSmile
                   onClick={() => setShowEmojis(prev => !prev)}
                   className="w-6 h-6 cursor-pointer"
@@ -291,7 +291,7 @@ const Messages = () => {
                   </div>
                 )}
               </div>
-              <div className="flex items-center gap-3 cursor-pointer mt-5">
+              <div className="flex items-center gap-3 cursor-pointer md:mt-5">
                 <div onClick={() => refFileToElement?.current?.click()}>
                   <BsImage className="w-5 h-5 text-gray-700 " />
                   <input

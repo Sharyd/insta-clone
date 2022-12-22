@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { AiOutlineHeart } from 'react-icons/ai';
 import { HiOutlineSearch } from 'react-icons/hi';
-import { AiOutlineHome, AiFillHome } from 'react-icons/ai';
-import { MdOutlineExplore } from 'react-icons/md';
+import {
+  AiOutlineHome,
+  AiFillHome,
+  AiOutlineHeart,
+  AiFillHeart,
+} from 'react-icons/ai';
+import { MdOutlineExplore, MdExplore } from 'react-icons/md';
 import { FiPlusSquare } from 'react-icons/fi';
-import { SlPaperPlane } from 'react-icons/sl';
-import { AiOutlineInstagram } from 'react-icons/ai';
-import { AiOutlineMenu } from 'react-icons/ai';
+import { IoPaperPlane, IoPaperPlaneOutline } from 'react-icons/io5';
+import { AiOutlineInstagram, AiOutlineMenu } from 'react-icons/ai';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { VscReport } from 'react-icons/vsc';
@@ -16,7 +19,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { auth } from '../firebase';
 import { modalState, modalTypeState } from '../atoms/modalAtom';
-import CreatePost from './CreatePost';
 import { SetterOrUpdater, useRecoilState } from 'recoil';
 import SidebarSearch from './SidebarWindow';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -43,6 +45,8 @@ const Sidebar = ({
   const [modalOpen, setModalOpen] = useRecoilState(modalState);
   const [modalType, setModalType] = useRecoilState(modalTypeState);
   const router = useRouter();
+
+  const active = router.pathname;
 
   return (
     <div
@@ -91,8 +95,8 @@ const Sidebar = ({
           <Link href="/home">
             <SidebarLink
               text="Home"
-              Icon={AiOutlineHome}
-              active={router.pathname == '/home'}
+              Icon={active == '/home' ? AiFillHome : AiOutlineHome}
+              active={active == '/home'}
               activeSearch={activeSearch}
               activeNotifications={activeNotifications}
             />
@@ -114,8 +118,8 @@ const Sidebar = ({
           <Link href="/explore">
             <SidebarLink
               text="Explore"
-              Icon={MdOutlineExplore}
-              active={router.pathname == '/explore'}
+              Icon={active == '/explore' ? MdExplore : MdOutlineExplore}
+              active={active == '/explore'}
               activeSearch={activeSearch}
               activeNotifications={activeNotifications}
             />
@@ -124,7 +128,7 @@ const Sidebar = ({
           <Link href="/messages">
             <SidebarLink
               text="Messages"
-              Icon={SlPaperPlane}
+              Icon={active == '/messages' ? IoPaperPlane : IoPaperPlaneOutline}
               activeSearch={activeSearch}
               activeNotifications={activeNotifications}
             />
@@ -138,7 +142,7 @@ const Sidebar = ({
           >
             <SidebarLink
               text="Notifications"
-              Icon={AiOutlineHeart}
+              Icon={activeNotifications ? AiFillHeart : AiOutlineHeart}
               activeSearch={activeSearch}
               activeNotifications={activeNotifications}
             />
@@ -154,8 +158,8 @@ const Sidebar = ({
               Icon={FiPlusSquare}
               active={
                 modalOpen
-                  ? router.pathname == '/home' ||
-                    router.pathname == '/explore' ||
+                  ? active == '/home' ||
+                    active == '/explore' ||
                     router.asPath == `/${user?.uid}`
                   : undefined
               }

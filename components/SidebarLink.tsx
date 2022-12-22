@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
+import { IconType } from 'react-icons';
 
 interface Props {
   text: string;
   activeSearch: boolean;
   activeNotifications: boolean;
-  Icon?: any;
+  Icon?: IconType;
   active?: boolean;
   img?: string;
 }

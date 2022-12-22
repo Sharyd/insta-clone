@@ -38,7 +38,7 @@ const SidebarSearch = ({ type }: Props) => {
               />
             </div>
           </div>
-          <div className="mt-2">
+          <div className="md:mt-2 h-full overflow-y-auto">
             {filteredUsers.map((users: DocumentData) => (
               <SearchedUsers users={users} key={users.uid} />
             ))}

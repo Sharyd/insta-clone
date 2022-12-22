@@ -118,8 +118,8 @@ const ProfilePage = () => {
                             className="font-semibold text-sm border px-3 py-1 rounded-sm"
                           >
                             Edit profile
+                            <IoSettingsOutline className="w-6 h-6 cursor-pointer mr-4" />
                           </Link>
-                          <IoSettingsOutline className="w-6 h-6 cursor-pointer mr-4" />
                         </div>
                       ) : (
                         ''
@@ -176,13 +176,13 @@ const ProfilePage = () => {
                 {createdPosts?.length !== 0 &&
                   user?.uid === slug &&
                   !isSaved && (
-                    <button className="text-sm textMainColor font-semibold ml-auto">
+                    <button className="text-sm textMainColor font-semibold ml-auto mt-2">
                       Share your photo
                     </button>
                   )}
 
                 {!isSaved ? (
-                  <div className="mt-5 md:mt-10 text-center">
+                  <div className="mt-3 md:mt-10 text-center">
                     {createdPosts?.length === 0 && user?.uid === slug ? (
                       <div
                         className={`${

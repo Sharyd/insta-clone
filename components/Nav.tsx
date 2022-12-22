@@ -9,6 +9,7 @@ import SearchedUsers from './SearchedUsers';
 import { DocumentData } from 'firebase/firestore';
 import useSearchUsers from '../hooks/use-searchUsers';
 import { SetterOrUpdater } from 'recoil';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface Props {
   activeSearch: boolean;
@@ -37,11 +38,22 @@ const Nav = ({ activeSearch, setActiveSearch }: Props) => {
           />
         </div>
         {activeSearch && (
-          <div className="absolute bg-white w-full rounded-b-md max-h-[250px] overflow-y-scroll scrollbar-hide">
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: '-20px',
+            }}
+            animate={{
+              opacity: 1,
+              y: '15px',
+            }}
+            transition={{ duration: 0.2 }}
+            className="absolute bg-white w-max rounded-b-md max-h-[250px] overflow-y-scroll scrollbar-hide"
+          >
             {filteredUsers.map((users: DocumentData) => (
               <SearchedUsers users={users} key={users.uid} />
             ))}
-          </div>
+          </motion.div>
         )}
       </div>
       <div>

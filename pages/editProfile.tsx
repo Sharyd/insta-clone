@@ -95,103 +95,105 @@ const EditProfile = () => {
 
   return (
     <Layout>
-      <section className="flex flex-col max-w-full max-h-full md:flex-row md:pr-10 m-auto justify-center md:h-[700px] md:w-[650px] bg-white border text-[0.95rem] ">
-        <div className="flex flex-col flex-1 items-start md:border-r border-b">
-          <button
-            onClick={() => setActiveBtn(ActiveBtn.EDITPROFILE)}
-            className={`${
-              activeBtn === ActiveBtn.EDITPROFILE
-                ? 'bg-gray-100 activeEditProfileOrChangePassword'
-                : ''
-            } font-[500] py-4 hover:bg-gray-100 w-full`}
-          >
-            Edit profile
-          </button>
-          <button
-            onClick={() => setActiveBtn(ActiveBtn.CHANGEPASSWORD)}
-            className={`${
-              activeBtn === ActiveBtn.CHANGEPASSWORD
-                ? 'bg-gray-100 activeEditProfileOrChangePassword'
-                : ''
-            } font-[500] py-4 hover:bg-gray-100 w-full`}
-          >
-            Change password
-          </button>
-        </div>
-        {activeBtn === ActiveBtn.EDITPROFILE ? (
-          <div className="w-[400px] h-full mt-4">
-            <h2 className="text-center text-xl py-4">Edit your profile</h2>
-            <form className="h-full" onSubmit={updateYourProfile}>
-              <div className="flex items-center flex-col justify-center">
-                <img
-                  className="w-40 h-40 object-cover rounded-full"
-                  src={
-                    selectedFileURL?.urlFile
-                      ? selectedFileURL?.urlFile
-                      : user?.photoURL ?? ''
-                  }
-                  alt="user-profile"
-                />
-                <div className="flex flex-col items-center p-4">
-                  <p>{user?.displayName}</p>
-                  <div
-                    onClick={() => refFileToElement?.current?.click()}
-                    className="text-sm textMainColor py-1.5 px-2.5 font-semibold cursor-pointer"
-                  >
-                    <p>Change your profile image</p>
-                    <input
-                      type="file"
-                      hidden
-                      ref={refFileToElement}
-                      multiple
-                      onChange={addImageProfile}
-                    />
+      <div className="pr-1 pl-10 md:m-auto">
+        <section className="flex mt-20 md:mt-32 flex-col  max-w-full max-h-full md:flex-row md:pr-10 justify-center md:h-[700px] md:w-[650px] bg-white border text-[0.95rem] ">
+          <div className="flex flex-col flex-1 items-center md:border-r border-b">
+            <button
+              onClick={() => setActiveBtn(ActiveBtn.EDITPROFILE)}
+              className={`${
+                activeBtn === ActiveBtn.EDITPROFILE
+                  ? 'bg-gray-100 activeEditProfileOrChangePassword'
+                  : ''
+              } font-[500] py-4 hover:bg-gray-100 w-full`}
+            >
+              Edit profile
+            </button>
+            <button
+              onClick={() => setActiveBtn(ActiveBtn.CHANGEPASSWORD)}
+              className={`${
+                activeBtn === ActiveBtn.CHANGEPASSWORD
+                  ? 'bg-gray-100 activeEditProfileOrChangePassword'
+                  : ''
+              } font-[500] py-4 hover:bg-gray-100 w-full`}
+            >
+              Change password
+            </button>
+          </div>
+          {activeBtn === ActiveBtn.EDITPROFILE ? (
+            <div className="w-[400px] h-full mt-4">
+              <h2 className="text-center text-xl py-4">Edit your profile</h2>
+              <form className="h-full" onSubmit={updateYourProfile}>
+                <div className="flex items-center flex-col justify-center">
+                  <img
+                    className="w-40 h-40 object-cover rounded-full"
+                    src={
+                      selectedFileURL?.urlFile
+                        ? selectedFileURL?.urlFile
+                        : user?.photoURL ?? ''
+                    }
+                    alt="user-profile"
+                  />
+                  <div className="flex flex-col items-center p-4">
+                    <p>{user?.displayName}</p>
+                    <div
+                      onClick={() => refFileToElement?.current?.click()}
+                      className="text-sm textMainColor py-1.5 px-2.5 font-semibold cursor-pointer"
+                    >
+                      <p>Change your profile image</p>
+                      <input
+                        type="file"
+                        hidden
+                        ref={refFileToElement}
+                        multiple
+                        onChange={addImageProfile}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="flex items-center justify-center flex-col h-1/2  ">
-                <div className="py-3 px-6 flex gap-4 items-center border-md">
-                  <label className="font-[500]" htmlFor="name">
-                    Name
-                  </label>
-                  <input
-                    className="bg-gray-100 border p-2"
-                    type="text"
-                    id="name"
-                    placeholder="Name"
-                    required
-                    value={fullName ?? ''}
-                    onChange={e => setFullName(e.target.value)}
-                  />
+                <div className="flex items-center justify-center flex-col h-1/2  ">
+                  <div className="py-3 px-6 flex gap-4 items-center border-md">
+                    <label className="font-[500]" htmlFor="name">
+                      Name
+                    </label>
+                    <input
+                      className="bg-gray-100 border p-2"
+                      type="text"
+                      id="name"
+                      placeholder="Name"
+                      required
+                      value={fullName ?? ''}
+                      onChange={e => setFullName(e.target.value)}
+                    />
+                  </div>
+                  <div className="py-4 px-6 flex gap-4 items-center border-md">
+                    <label className="font-[500]" htmlFor="email">
+                      Email
+                    </label>
+                    <input
+                      className="bg-gray-100 border p-2"
+                      type="email"
+                      id="email"
+                      placeholder="Email"
+                      required
+                      value={email ?? ''}
+                      onChange={e => setEmail(e.target.value)}
+                    />
+                  </div>
+                  <div className="mainColor  m-6 text-white bg-blue font-medium text-[0.8rem] py-1.5 px-4 rounded-md ">
+                    <button type="submit">
+                      {loading ? 'Updating...' : 'Submit'}
+                    </button>
+                  </div>
+                  {error && <p>{error}</p>}
+                  {success && <p>{success}</p>}
                 </div>
-                <div className="py-4 px-6 flex gap-4 items-center border-md">
-                  <label className="font-[500]" htmlFor="email">
-                    Email
-                  </label>
-                  <input
-                    className="bg-gray-100 border p-2"
-                    type="email"
-                    id="email"
-                    placeholder="Email"
-                    required
-                    value={email ?? ''}
-                    onChange={e => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="mainColor  m-6 text-white bg-blue font-medium text-[0.8rem] py-1.5 px-4 rounded-md ">
-                  <button type="submit">
-                    {loading ? 'Updating...' : 'Submit'}
-                  </button>
-                </div>
-                {error && <p>{error}</p>}
-                {success && <p>{success}</p>}
-              </div>
-            </form>
-          </div>
-        ) : (
-          <ChangePassword user={user} />
-        )}
-      </section>
+              </form>
+            </div>
+          ) : (
+            <ChangePassword user={user} />
+          )}
+        </section>
+      </div>
     </Layout>
   );
 };

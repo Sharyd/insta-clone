@@ -5,13 +5,13 @@ import {
   collection,
   QueryDocumentSnapshot,
   DocumentData,
-} from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+} from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
 
-import Post from "./Post";
-import { db } from "../firebase";
-import Slider from "./Slider/Slider";
-import Suggestions from "./Suggestions";
+import Post from './Post';
+import { db } from '../firebase';
+import Slider from './Slider/Slider';
+import Suggestions from './Suggestions';
 
 const Feed = () => {
   const [posts, setPosts] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
@@ -19,17 +19,17 @@ const Feed = () => {
   useEffect(
     () =>
       onSnapshot(
-        query(collection(db, "posts"), orderBy("timestamp", "desc")),
-        (snapshot) => setPosts(snapshot.docs)
+        query(collection(db, 'posts'), orderBy('timestamp', 'desc')),
+        snapshot => setPosts(snapshot.docs)
       ),
     [db]
   );
 
   return (
     <section className="m-auto lg:flex mt-16 gap-4 md:mt-8 ">
-      <div className="max-w-[410px]  sm:max-w-[440px]  ">
+      <div className="max-w-[360px]  sm:max-w-[410px]  ">
         <Slider />
-        {posts.map((post) => (
+        {posts.map(post => (
           <Post key={post.id} id={post.id} post={post?.data()} modalPost />
         ))}
       </div>
