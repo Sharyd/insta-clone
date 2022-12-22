@@ -146,7 +146,7 @@ const Messages = () => {
 
   return (
     <Layout hideFooter={hideFooter}>
-      <section className="m-auto flex md:mt-16 items-center md:items-start text-[0.85rem] h-full md:h-[800px] w-[360px] overflow-y-auto">
+      <section className="m-auto flex md:mt-16 items-center md:items-start text-[0.85rem] h-full w-[360px] md:h-[800px] max-w-full">
         <div className="hidden md:flex relative bg-white flex-col h-full border">
           <div className="flex border-b  flex-col py-3 px-8 w-[250px] lg:w-[300px]">
             <p className="font-[500] p-2 px-4">{currentUser?.displayName}</p>
@@ -218,7 +218,7 @@ const Messages = () => {
             {showSearchInput && (
               <motion.div
                 initial={{ y: '-10%', opacity: 0.5 }}
-                animate={{ y: '0%', opacity: 1 }}
+                animate={{ y: '%', opacity: 1 }}
                 transition={{ duration: 0.2 }}
                 exit={{ y: '-20%', opacity: 0.5 }}
                 className="md:hidden absolute top-[58px] left-0 bg-white flex-col h-max w-max border-r z-10"
@@ -243,7 +243,7 @@ const Messages = () => {
                     />
                   )}
                 </div>
-                <div className="border-t overflow-y-scroll scrollbar-hide border-b">
+                <div className="border-t overflow-y-scroll scrollbar-hide  border-b">
                   <h2 className="font-[500] text-md mb-4 pt-2 px-4">
                     Existing chats
                   </h2>
@@ -291,7 +291,7 @@ const Messages = () => {
                   </div>
                 )}
               </div>
-              <div className="flex items-center gap-3 cursor-pointer md:mt-5">
+              <div className="flex items-center gap-3 cursor-pointer md:mt-5 py-3">
                 <div onClick={() => refFileToElement?.current?.click()}>
                   <BsImage className="w-5 h-5 text-gray-700 " />
                   <input
