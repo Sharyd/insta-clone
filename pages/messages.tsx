@@ -146,7 +146,7 @@ const Messages = () => {
 
   return (
     <Layout hideFooter={hideFooter}>
-      <section className="m-auto flex md:mt-16 items-center md:items-start text-[0.85rem] h-full w-[360px] md:h-[800px] max-w-full">
+      <section className="m-auto flex md:mt-16 items-center md:items-start text-[0.85rem] h-full w-[360px] md:h-[800px] md:w-[700px]">
         <div className="hidden md:flex relative bg-white flex-col h-full border">
           <div className="flex border-b  flex-col py-3 px-8 w-[250px] lg:w-[300px]">
             <p className="font-[500] p-2 px-4">{currentUser?.displayName}</p>
