@@ -266,7 +266,7 @@ const Messages = () => {
           </div>
           <form onSubmit={handleSend}>
             <div className="relative flex items-center justify-between px-2 border-t">
-              <div className="flex gap-2 items-center justify-center md:mt-5 py-3">
+              <div className="flex gap-2 items-center justify-center md:mt-5 py-3 md:py-0">
                 <AiOutlineSmile
                   onClick={() => setShowEmojis(prev => !prev)}
                   className="w-6 h-6 cursor-pointer"
@@ -291,7 +291,7 @@ const Messages = () => {
                   </div>
                 )}
               </div>
-              <div className="flex items-center gap-3 cursor-pointer md:mt-5 py-3">
+              <div className="flex items-center gap-3 cursor-pointer md:mt-5 py-3 md:py-0">
                 <div onClick={() => refFileToElement?.current?.click()}>
                   <BsImage className="w-5 h-5 text-gray-700 " />
                   <input
