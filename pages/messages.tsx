@@ -146,9 +146,9 @@ const Messages = () => {
 
   return (
     <Layout hideFooter={hideFooter}>
-      <section className="m-auto flex md:mt-16 items-center md:items-start text-[0.85rem] h-[700px] md:h-[800px] ">
+      <section className="m-auto flex md:mt-16 items-center md:items-start text-[0.85rem] md:h-[800px] ">
         <div className="hidden md:flex relative bg-white flex-col h-full border">
-          <div className="flex border-b  flex-col py-3 px-8 w-[250px] lg:w-[300px]">
+          <div className="flex border-b flex-col py-3 px-8 w-[250px] lg:w-[300px]">
             <p className="font-[500] p-2 px-4">{currentUser?.displayName}</p>
             <div className="relative flex items-center mb-2 group">
               <InputSearch
@@ -179,7 +179,7 @@ const Messages = () => {
         </div>
 
         <div className="relative mt-4 w-[400px] md:w-[420px] lg:w-[540px] h-full md:mt-0 bg-white border border-l-0 ">
-          <div className="p-3 md:p-[38.5px] px-4 border-b flex items-center justify-between ">
+          <div className="p-3 md:p-[37px] px-4 border-b flex items-center justify-between ">
             <div className="flex items-center gap-2">
               {data?.user && (
                 <img
@@ -217,11 +217,11 @@ const Messages = () => {
             </div>
             {showSearchInput && (
               <motion.div
-                initial={{ y: '-10%', opacity: 0.5 }}
-                animate={{ y: '0%', opacity: 1 }}
+                initial={{ opacity: 0.5 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.2 }}
                 exit={{ y: '-20%', opacity: 0.5 }}
-                className="md:hidden absolute top-[58px] left-0 bg-white flex-col h-max w-max border-r z-10"
+                className="md:hidden absolute top-[52px] left-0 max-h-[400px] bg-white flex-col  w-max border-r z-10 overflow-y-auto"
               >
                 <div className="relative flex items-center px-2 mt-4 group">
                   <InputSearch
@@ -259,14 +259,14 @@ const Messages = () => {
             </div>
           </div>
 
-          <div className="h-[580px] md:h-[620px] overflow-y-scroll scrollbar-hide -z-20">
+          <div className="h-[430px] md:h-[620px]  overflow-y-scroll scrollbar-hide -z-20">
             {messages.map((m: DocumentData) => (
               <Message message={m} key={m?.id} />
             ))}
           </div>
           <form onSubmit={handleSend}>
             <div className="relative flex items-center justify-between px-2 border-t">
-              <div className="flex gap-2 items-center justify-center md:mt-5 py-3 md:py-0">
+              <div className="flex gap-2 items-center justify-center md:mt-5 py-5 md:py-0">
                 <AiOutlineSmile
                   onClick={() => setShowEmojis(prev => !prev)}
                   className="w-6 h-6 cursor-pointer"
@@ -291,7 +291,7 @@ const Messages = () => {
                   </div>
                 )}
               </div>
-              <div className="flex items-center gap-3 cursor-pointer md:mt-5 py-3 md:py-0">
+              <div className="flex items-center gap-3 cursor-pointer md:mt-5 py-5 md:py-0">
                 <div onClick={() => refFileToElement?.current?.click()}>
                   <BsImage className="w-5 h-5 text-gray-700 " />
                   <input

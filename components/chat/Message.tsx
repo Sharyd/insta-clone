@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useRef } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase";
-import { ChatContext } from "../../store/ChatContext";
+import React, { useContext, useEffect, useRef } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../../firebase';
+import { ChatContext } from '../../store/ChatContext';
 
 interface Props {
   message: any;
@@ -13,7 +13,7 @@ const Message = ({ message }: Props) => {
   const ref = useRef<any>(null);
 
   useEffect(() => {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
   }, [message]);
   console.log(message);
   return (
@@ -22,8 +22,8 @@ const Message = ({ message }: Props) => {
       <div
         className={`flex  gap-2 p-4 ${
           message.senderId === currentUser?.uid
-            ? "flex-row-reverse"
-            : " flex-col"
+            ? 'flex-row-reverse'
+            : ' flex-col'
         }`}
       >
         <div className="flex flex-col gap-3 flex-wrap">
@@ -31,12 +31,12 @@ const Message = ({ message }: Props) => {
             <img
               src={message.img}
               alt=""
-              className="h-[300px] w-[200px] object-contain bg-black rounded-lg ml-4 "
+              className="h-[225px] w-[150px] md:h-[300px] md:w-[200px] object-contain bg-black rounded-lg ml-4 "
             />
           )}
           <div
             className={`flex items-center gap-2 flex-wrap  ${
-              message.senderId === currentUser?.uid ? "flex-row-reverse" : ""
+              message.senderId === currentUser?.uid ? 'flex-row-reverse' : ''
             }`}
           >
             <img
@@ -52,7 +52,7 @@ const Message = ({ message }: Props) => {
           {message.text && (
             <div
               className={`${
-                message.senderId === currentUser?.uid ? "ml-auto" : "mr-auto"
+                message.senderId === currentUser?.uid ? 'ml-auto' : 'mr-auto'
               } border rounded-full p-6 break-all w-max `}
             >
               <p>{message.text}</p>

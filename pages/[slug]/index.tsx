@@ -95,9 +95,9 @@ const ProfilePage = () => {
           />
         </div>
       ) : (
-        <div className="flex flex-col text-sm items-center justify-center w-full  pt-20 md:pt-0">
-          <section className="p-4 tracking-wider text-gray-800 flex flex-col items-center md:max-w-[950px] m-auto">
-            <div className="w-full md:mb-[43rem] flex flex-col">
+        <div className="flex flex-col text-sm items-center justify-center w-full pt-20 md:pt-0">
+          <section className="p-4  tracking-wider text-gray-800 flex flex-col items-center md:max-w-[950px] m-auto">
+            <div className="w-full md:mb-[45rem] flex flex-col">
               <div className="flex w-full border-b mb-4 items-center justify-center">
                 <div className="flex w-full items-center gap-10 md:gap-20 xl:ml-10 flex-col md:flex-row mb-10">
                   <img
@@ -112,13 +112,13 @@ const ProfilePage = () => {
                         {user?.uid === slug ? user?.displayName : displayName}
                       </h2>
                       {user?.uid === slug ? (
-                        <div className="flex items-center gap-2 justify-center">
+                        <div className="flex items-centerjustify-center">
                           <Link
                             href="/editProfile"
-                            className="flex items-center gap-2 font-semibold text-sm border px-3 py-1 rounded-sm"
+                            className="flex items-center  justify-center gap-3 font-semibold text-sm border px-3 py-1 rounded-sm"
                           >
                             Edit profile
-                            <IoSettingsOutline className="w-6 h-6 cursor-pointer mr-4" />
+                            <IoSettingsOutline className="w-5 h-5 cursor-pointer " />
                           </Link>
                         </div>
                       ) : (
