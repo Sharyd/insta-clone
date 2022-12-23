@@ -95,8 +95,8 @@ const EditProfile = () => {
 
   return (
     <Layout>
-      <div className="pr-1 pl-10 md:m-auto">
-        <section className="flex mt-20 md:mt-32 flex-col  max-w-full max-h-full md:flex-row md:pr-10 justify-center md:h-[700px] md:w-[650px] bg-white border text-[0.95rem] ">
+      <section className="p-2 m-auto">
+        <div className="flex flex-col max-w-full max-h-full md:flex-row md:pr-10 justify-center md:h-[700px] md:w-[650px] bg-white border text-[0.95rem] ">
           <div className="flex flex-col flex-1 items-center md:border-r border-b">
             <button
               onClick={() => setActiveBtn(ActiveBtn.EDITPROFILE)}
@@ -192,8 +192,8 @@ const EditProfile = () => {
           ) : (
             <ChangePassword user={user} />
           )}
-        </section>
-      </div>
+        </div>
+      </section>
     </Layout>
   );
 };

@@ -163,7 +163,7 @@ const CreatePost = () => {
           next ? 'xl:w-[1000px] lg:w-[925px] md:w-[760px] w-[350px] ' : ''
         } h-[30rem] md:h-[40rem] ${
           selectedFilesURL.length === 0 && 'w-[42.5rem]'
-        }  w-full bg-white rounded-xl text-gray-800`}
+        }  w-full bg-white rounded-xl text-gray-800 `}
       >
         {selectedFilesURL.length === 0 && (
           <>
@@ -255,7 +255,7 @@ const CreatePost = () => {
                                   backgroundPosition: 'center center',
                                 }}
                               >
-                                <div className="absolute right-0 m-2 lg:mr-16 lg:m-4 flex items-center justify-center bg-black/60 h-7 w-7 rounded-full cursor-pointer hover:opacity-80 transition-all">
+                                <div className="absolute right-0 mx-8 my-2 lg:mr-16 lg:m-4 flex items-center justify-center bg-black/60 h-7 w-7 rounded-full cursor-pointer hover:opacity-80 transition-all">
                                   <AiOutlineClose
                                     onClick={() => {
                                       removeItemFromSlider(data.id);

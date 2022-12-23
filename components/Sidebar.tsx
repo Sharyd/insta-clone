@@ -68,7 +68,7 @@ const Sidebar = ({
           activeSearch || activeNotifications ? 'xl:w-[85px]' : 'xl:w-[250px]'
         }  w-[85px] xl:items-start bg-white border-r-[2px]`}
       >
-        <div
+        <aside
           className={`mt-5 mb-2.5 space-y-2.5 flex flex-col 
        ${
          activeSearch || activeNotifications ? 'xl:w-14' : 'xl:w-56'
@@ -244,7 +244,7 @@ const Sidebar = ({
               )}
             </AnimatePresence>
           </div>
-        </div>
+        </aside>
       </div>
     </div>
   );

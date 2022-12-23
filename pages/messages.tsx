@@ -146,7 +146,7 @@ const Messages = () => {
 
   return (
     <Layout hideFooter={hideFooter}>
-      <section className="m-auto p-2 mt-1 flex md:mt-16 items-center md:items-start text-[0.85rem] md:h-[800px] ">
+      <section className="m-auto p-2 flex md:mt-16 items-center md:items-start text-[0.85rem] md:h-[800px] ">
         <div className="hidden md:flex relative bg-white flex-col h-full border">
           <div className="flex border-b flex-col py-3 px-8 w-[250px] lg:w-[300px]">
             <p className="font-[500] p-2 px-4">{currentUser?.displayName}</p>
@@ -179,7 +179,7 @@ const Messages = () => {
         </div>
 
         <div className="relative mt-4 w-[400px] md:w-[420px] lg:w-[540px] h-full md:mt-0 bg-white border border-l-0 ">
-          <div className="p-3 md:p-[37px] px-4 border-b flex items-center justify-between ">
+          <div className="p-3 md:p-[39.5px] px-4 border-b flex items-center justify-between ">
             <div className="flex items-center gap-2">
               {data?.user && (
                 <img
@@ -259,7 +259,7 @@ const Messages = () => {
             </div>
           </div>
 
-          <div className="h-[380px] md:h-[620px] overflow-y-scroll scrollbar-hide -z-20">
+          <div className="h-[390px] md:h-[620px] overflow-y-scroll scrollbar-hide -z-20">
             {messages.map((m: DocumentData) => (
               <Message message={m} key={m?.id} />
             ))}

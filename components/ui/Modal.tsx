@@ -1,17 +1,17 @@
-import { motion } from "framer-motion";
-import Backdrop from "./Backdrop";
+import { motion } from 'framer-motion';
+import Backdrop from './Backdrop';
 
-import CreatePost from "../CreatePost";
-import { animation } from "../../lib/animation";
-import { useRecoilState, useRecoilValue } from "recoil";
+import CreatePost from '../CreatePost';
+import { animation } from '../../lib/animation';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   getPostState,
   getSelectedImgLengthState,
   getPostIdState,
-} from "../../atoms/postAtom";
-import Post from "../Post";
-import { AiOutlineClose } from "react-icons/ai";
-import { popupState } from "../../atoms/popupAtom";
+} from '../../atoms/postAtom';
+import Post from '../Post';
+import { AiOutlineClose } from 'react-icons/ai';
+import { popupState } from '../../atoms/popupAtom';
 
 interface Props {
   type: string;
@@ -33,10 +33,10 @@ const Modal = ({ type, setModalOpen }: Props) => {
       >
         <AiOutlineClose className="w-7 h-6 text-white opacity-85" />
       </div>
-      {type === "modalPost" ? (
+      {type === 'modalPost' ? (
         <>
           <div
-            onClick={(e) => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
             className="h-[100vh] w-[800px] p-8 scrollbar-hide"
           >
             <Post post={post} id={id} modalPost />
@@ -44,7 +44,7 @@ const Modal = ({ type, setModalOpen }: Props) => {
         </>
       ) : (
         <motion.div
-          onClick={(e) => e.stopPropagation()}
+          onClick={e => e.stopPropagation()}
           className="rounded-l-lg h-[45rem] flex items-center p-10 justify-center max-w-full"
           variants={animation}
           initial="hidden"
