@@ -27,7 +27,7 @@ const Feed = () => {
 
   return (
     <section className="m-auto lg:flex mt-16 gap-4 md:mt-8 ">
-      <div className="max-w-[360px]  sm:max-w-[410px]  ">
+      <div className="max-w-[360px]  sm:max-w-[430px]  ">
         <Slider />
         {posts.map(post => (
           <Post key={post.id} id={post.id} post={post?.data()} modalPost />
