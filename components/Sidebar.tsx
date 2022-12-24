@@ -22,7 +22,7 @@ import { modalState, modalTypeState } from '../atoms/modalAtom';
 import { SetterOrUpdater, useRecoilState } from 'recoil';
 import SidebarSearch from './SidebarWindow';
 import { AnimatePresence, motion } from 'framer-motion';
-// import LogoInsta from './LogoInsta';
+import LogoInsta from './LogoInsta';
 
 interface Props {
   activeSearch: boolean;
@@ -84,21 +84,13 @@ const Sidebar = ({
                     : 'xl:hidden'
                 }`}
               />
-
-              <h2
-                className={`hidden font-insta text-start text-[1.8rem] ${
-                  activeSearch || activeNotifications ? 'xl:hidden' : 'xl:block'
-                }`}
-              >
-                Instagram
-              </h2>
-              {/* <div
+              <div
                 className={`hidden font-insta text-start text-[1.8rem] ${
                   activeSearch || activeNotifications ? 'xl:hidden' : 'xl:block'
                 }`}
               >
                 <LogoInsta height="29" width="103" />
-              </div> */}
+              </div>
             </div>
           </Link>
           <Link href="/home">
