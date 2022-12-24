@@ -306,7 +306,7 @@ const Messages = () => {
                   type="submit"
                   disabled={
                     (!message.trim() && !img) ||
-                    data?.user.displayName === undefined
+                    data?.user?.displayName === undefined
                   }
                   className="disabled:text-[#bae6fd] textMainColor text-sm mr-2"
                 >
