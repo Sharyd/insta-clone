@@ -74,7 +74,7 @@ const Slider = () => {
   const calcSpace = data.length * 42;
   const { prevSlide, nextSlide, slideIndex } = useSlider(calcNumberOfSliding);
 
-  const calcfinal: any = slideIndex === calcNumberOfSliding ? '14' : '16';
+  const calcfinal: any = slideIndex === calcNumberOfSliding ? '13' : '16';
 
   return (
     <div className="relative flex gap-4 py-4 border-[1px] mt-4 items-center justify-center rounded-md bg-white overflow-hidden">
