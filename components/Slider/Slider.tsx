@@ -68,13 +68,29 @@ const data = [
     userImg: 'user-2.jpeg',
     userId: uuidv4(),
   },
+  {
+    userImg: 'user-2.jpeg',
+    userId: uuidv4(),
+  },
+  {
+    userImg: 'user-2.jpeg',
+    userId: uuidv4(),
+  },
+  {
+    userImg: 'user-2.jpeg',
+    userId: uuidv4(),
+  },
+  {
+    userImg: 'user-2.jpeg',
+    userId: uuidv4(),
+  },
 ];
 const Slider = () => {
   const calcNumberOfSliding = Math.floor((data.length * 65) / 255);
-  const calcSpace = data.length * 40;
+  const calcSpace = data.length * 39;
   const { prevSlide, nextSlide, slideIndex } = useSlider(calcNumberOfSliding);
 
-  const calcfinal: any = slideIndex === calcNumberOfSliding ? '12.5' : '16';
+  const calcfinal: any = slideIndex === calcNumberOfSliding ? '13.25' : '16';
 
   return (
     <div className="relative flex gap-4 py-4 border-[1px] mt-4 items-center justify-center rounded-md bg-white overflow-hidden">
@@ -95,7 +111,7 @@ const Slider = () => {
               alt="user-profile"
               className=" w-12 h-12 md:w-14 md:h-14 rounded-full"
             />
-            <p className="text-[0.68rem]">MichaelXXX</p>
+            <p className="text-[0.69rem]">MichaelXXX</p>
           </div>
         ))}
       </div>
