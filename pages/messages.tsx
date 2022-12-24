@@ -144,7 +144,6 @@ const Messages = () => {
     return () => unsub();
   }, [data?.chatId]);
 
-  console.log(data?.user.displayName);
   return (
     <Layout hideFooter={hideFooter}>
       <section className="m-auto p-2 flex md:mt-16 items-center md:items-start text-[0.85rem] md:h-[800px] ">
@@ -180,7 +179,7 @@ const Messages = () => {
         </div>
 
         <div className="relative mt-4 w-[400px] md:w-[420px] lg:w-[540px] h-full md:mt-0 bg-white border border-l-0 ">
-          <div className="p-3 md:p-[39.5px] px-4 border-b flex items-center justify-between ">
+          <div className="p-3 md:p-[40px] px-4 border-b flex items-center justify-between ">
             <div className="flex items-center gap-2">
               {data?.user && (
                 <img
