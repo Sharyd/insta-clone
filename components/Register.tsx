@@ -10,6 +10,7 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth, db } from '../firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { ChatContext } from '../store/ChatContext';
+import LogoInsta from './LogoInsta';
 
 interface Props {
   setLogin: Dispatch<SetStateAction<boolean>>;
@@ -41,14 +42,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
     valueBlurHandler: fullNameBlurHandler,
     reset: resetFullNameInput,
   } = useInput(value => value.trim() !== '' && value.length <= 25);
-  const {
-    value: enteredUsername,
-    isValid: enteredUsernameIsValid,
-    hasError: usernameInputHasError,
-    valueChangeHandler: usernameChangeHandler,
-    valueBlurHandler: usernameBlurHandler,
-    reset: resetUsernameInput,
-  } = useInput(value => value.trim() !== '');
+
   const {
     value: enteredPassword,
     isValid: enteredPasswordIsValid,
@@ -59,12 +53,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
   } = useInput(value => value.trim() !== '' && value.length >= 7);
 
   let formIsValid = false;
-  if (
-    enteredEmailIsValid &&
-    enteredPasswordIsValid &&
-    enteredFullNameIsValid &&
-    enteredUsernameIsValid
-  ) {
+  if (enteredEmailIsValid && enteredPasswordIsValid && enteredFullNameIsValid) {
     formIsValid = true;
   }
 
@@ -76,7 +65,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
     }
 
     const displayName = enteredFullName;
-    const userName = enteredUsername;
+
     const email = enteredEmail;
     const password = enteredPassword;
 
@@ -114,13 +103,9 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
     resetEmailInput();
     resetPasswordInput();
     resetFullNameInput();
-    resetUsernameInput();
+
     dispatch({ type: 'CHANGE_USER', payload: {} });
   };
-
-  // const activeKeystroke =
-  //   enteredEmail &&
-  //   "text-[0.7rem] top-[-14px] absolute left-0 pl-2.5 text-gray-400 transition-all";
 
   return (
     <div className="flex">
@@ -130,7 +115,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
             className="flex flex-col items-center text-[0.7rem]"
             onSubmit={submitHandler}
           >
-            <h1 className="font-insta text-[3.5rem] p-8 mb-4">Instagram</h1>
+            <LogoInsta height="110" width="150" />
             <h3 className="text-gray-400 text-[1rem] font-semibold text-lg text-center mb-4">
               Sign up to see photos and videos from your friends.
             </h3>
@@ -147,12 +132,6 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
             </div>
             <div className="flex flex-col flex-1 w-full">
               <div className="relative">
-                {/* <label htmlFor="email" className="relative"> */}
-                {/* <span
-                    className={`transition-all absolute top-[-2px] left-0 pl-2.5 text-gray-400 ${activeKeystroke}`}
-                  >
-                    Your email
-                  </span> */}
                 <input
                   className=" w-full bg-gray-100 border border-gray-300 p-2 mb-2 focus:outline-none focus:border-gray-400"
                   type="email"
@@ -162,7 +141,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
                   value={enteredEmail}
                   required
                 />
-                {/* </label> */}
+
                 {emailInputHasError && (
                   <TiDeleteOutline className="w-7 h-7 absolute right-1 top-1 text-red-500" />
                 )}
@@ -190,24 +169,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
                   <AiOutlineCheckCircle className="w-6 h-6 absolute right-1.5 top-2 text-gray-400" />
                 )}
               </div>
-              <div className="relative">
-                <input
-                  className="w-full bg-gray-100 border border-gray-300 p-2 mb-2 focus:outline-none focus:border-gray-400"
-                  type="text"
-                  placeholder="Username"
-                  onChange={usernameChangeHandler}
-                  value={enteredUsername}
-                  onBlur={usernameBlurHandler}
-                  required
-                />
-                {usernameInputHasError && (
-                  <TiDeleteOutline className="w-7 h-7 absolute right-1 top-1 text-red-500" />
-                )}
 
-                {enteredUsernameIsValid && (
-                  <AiOutlineCheckCircle className="w-6 h-6 absolute right-1.5 top-2 text-gray-400" />
-                )}
-              </div>
               <div className="relative">
                 <input
                   className="w-full bg-gray-100 border border-gray-300 p-2 focus:outline-none focus:border-gray-400"

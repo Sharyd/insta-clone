@@ -312,8 +312,8 @@ const Post = ({ post, id, modalPost }: Props) => {
         <Moment fromNow>{post?.timestamp?.toDate()}</Moment>
       </span>
       <form onSubmit={sendComment}>
-        <div className="relative flex items-center justify-between px-2 h-full w-full border-t">
-          <div className="flex gap-2 items-center justify-center">
+        <div className="relative flex items-center justify-between  h-full w-full border-t">
+          <div className="flex gap-2 pl-2 items-center justify-center">
             <AiOutlineSmile
               onClick={() => setShowEmojis(prev => !prev)}
               className="w-6 h-6 cursor-pointer"
@@ -329,7 +329,7 @@ const Post = ({ post, id, modalPost }: Props) => {
             />
 
             {showEmojis && (
-              <div className="absolute bottom-16 right-0">
+              <div className="absolute bottom-0 right-0 ml-2">
                 <EmojiPicker
                   onEmojiClick={addEmoji}
                   width={350}
@@ -342,7 +342,7 @@ const Post = ({ post, id, modalPost }: Props) => {
           <button
             type="submit"
             disabled={!comment.trim()}
-            className="disabled:text-[#bae6fd] textMainColor text-sm mr-2"
+            className="disabled:text-[#bae6fd] textMainColor text-sm flex-1"
           >
             Post
           </button>

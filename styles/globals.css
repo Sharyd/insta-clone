@@ -7,13 +7,7 @@
 html {
   font-size: 103%;
 }
-@font-face {
-  font-family: 'Billabong';
-  src: url('./Billabong.ttf'); /* IE9 Compat Modes */
-  src: url('./Billabong.ttf?#iefix') format('embedded-opentype'),
-    /* IE6-IE8 */ url('./Billabong.ttf') format('woff'),
-    /* Modern Browsers */ url('./Billabong.ttf') format('truetype');
-}
+
 @layer base {
   body {
     @apply font-body text-black/80 bg-gray-100 tracking-[0.015em];
