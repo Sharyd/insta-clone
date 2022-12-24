@@ -313,7 +313,7 @@ const Post = ({ post, id, modalPost }: Props) => {
       </span>
       <form onSubmit={sendComment}>
         <div className="relative flex items-center justify-between  h-full w-full border-t">
-          <div className="flex gap-2 pl-2 items-center justify-center">
+          <div className="flex w-full gap-2 pl-2 items-center justify-center">
             <AiOutlineSmile
               onClick={() => setShowEmojis(prev => !prev)}
               className="w-6 h-6 cursor-pointer"
@@ -323,7 +323,7 @@ const Post = ({ post, id, modalPost }: Props) => {
               placeholder="Add a comment..."
               className={`${
                 modalOpen && 'md:w-[30rem]'
-              } h-max w-72 outline-none text-sm resize-none mt-6 scrollbar-hide`}
+              } h-max w-full outline-none text-sm resize-none mt-6 scrollbar-hide`}
               value={comment}
               onChange={e => setComment(e.target.value)}
             />
@@ -342,7 +342,7 @@ const Post = ({ post, id, modalPost }: Props) => {
           <button
             type="submit"
             disabled={!comment.trim()}
-            className="disabled:text-[#bae6fd] textMainColor text-sm flex-1"
+            className="disabled:text-[#bae6fd] textMainColor text-sm flex-1 px-4"
           >
             Post
           </button>
