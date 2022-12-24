@@ -304,10 +304,11 @@ const Messages = () => {
                 </div>
                 <button
                   type="submit"
-                  disabled={
-                    (!message.trim() && !img) ||
-                    data?.user?.displayName === undefined
-                  }
+                  disabled={!message.trim() && !img}
+                  // disabled={
+                  //   (!message.trim() && !img) ||
+                  //   data?.user?.displayName === undefined
+                  // }
                   className="disabled:text-[#bae6fd] textMainColor text-sm mr-2"
                 >
                   Send

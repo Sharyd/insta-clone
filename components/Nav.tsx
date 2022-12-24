@@ -10,7 +10,7 @@ import { DocumentData } from 'firebase/firestore';
 import useSearchUsers from '../hooks/use-searchUsers';
 import { SetterOrUpdater } from 'recoil';
 import { AnimatePresence, motion } from 'framer-motion';
-import LogoInsta from './LogoInsta';
+// import LogoInsta from './LogoInsta';
 
 interface Props {
   activeSearch: boolean;
@@ -24,7 +24,8 @@ const Nav = ({ activeSearch, setActiveSearch }: Props) => {
   return (
     <div className="fixed bg-white w-full flex justify-between items-center p-0.5 border-b-[1px] h-16 z-20">
       <Link href="/home" className="pl-2">
-        <LogoInsta height="29" width="103" />
+        <h2 className="font-insta text-[2rem] p-2 cursor-pointer">Instagram</h2>
+        {/* <LogoInsta height="29" width="103" /> */}
       </Link>
       <div className="relative">
         <div className="group flex gap-2 items-center bg-gray-100 p-2 pl-3 rounded-md">

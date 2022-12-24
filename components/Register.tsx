@@ -10,7 +10,7 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth, db } from '../firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { ChatContext } from '../store/ChatContext';
-import LogoInsta from './LogoInsta';
+// import LogoInsta from './LogoInsta';
 
 interface Props {
   setLogin: Dispatch<SetStateAction<boolean>>;
@@ -22,6 +22,15 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
   const [error, setErr] = useState(false);
   const [loading, setLoading] = useState(false);
   const { dispatch } = useContext(ChatContext);
+
+  const {
+    value: enteredUsername,
+    isValid: enteredUsernameIsValid,
+    hasError: usernameInputHasError,
+    valueChangeHandler: usernameChangeHandler,
+    valueBlurHandler: usernameBlurHandler,
+    reset: resetUsernameInput,
+  } = useInput(value => value.trim() !== '');
 
   const {
     value: enteredEmail,
@@ -53,7 +62,12 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
   } = useInput(value => value.trim() !== '' && value.length >= 7);
 
   let formIsValid = false;
-  if (enteredEmailIsValid && enteredPasswordIsValid && enteredFullNameIsValid) {
+  if (
+    enteredEmailIsValid &&
+    enteredPasswordIsValid &&
+    enteredFullNameIsValid &&
+    enteredUsernameIsValid
+  ) {
     formIsValid = true;
   }
 
@@ -65,7 +79,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
     }
 
     const displayName = enteredFullName;
-
+    const userName = enteredUsername;
     const email = enteredEmail;
     const password = enteredPassword;
 
@@ -103,6 +117,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
     resetEmailInput();
     resetPasswordInput();
     resetFullNameInput();
+    resetUsernameInput();
 
     dispatch({ type: 'CHANGE_USER', payload: {} });
   };
@@ -115,7 +130,8 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
             className="flex flex-col items-center text-[0.7rem]"
             onSubmit={submitHandler}
           >
-            <LogoInsta height="110" width="150" />
+            {/* <LogoInsta height="110" width="150" /> */}
+            <h1 className="font-insta text-[3.5rem] p-8 mb-4">Instagram</h1>
             <h3 className="text-gray-400 text-[1rem] font-semibold text-lg text-center mb-4">
               Sign up to see photos and videos from your friends.
             </h3>
@@ -147,6 +163,24 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
                 )}
 
                 {enteredEmailIsValid && (
+                  <AiOutlineCheckCircle className="w-6 h-6 absolute right-1.5 top-2 text-gray-400" />
+                )}
+              </div>
+              <div className="relative">
+                <input
+                  className="w-full bg-gray-100 border border-gray-300 p-2 mb-2 focus:outline-none focus:border-gray-400"
+                  type="text"
+                  placeholder="Username"
+                  onChange={usernameChangeHandler}
+                  value={enteredUsername}
+                  onBlur={usernameBlurHandler}
+                  required
+                />
+                {usernameInputHasError && (
+                  <TiDeleteOutline className="w-7 h-7 absolute right-1 top-1 text-red-500" />
+                )}
+
+                {enteredUsernameIsValid && (
                   <AiOutlineCheckCircle className="w-6 h-6 absolute right-1.5 top-2 text-gray-400" />
                 )}
               </div>

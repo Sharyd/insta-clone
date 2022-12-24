@@ -9,7 +9,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/router';
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import LogoInsta from './LogoInsta';
+// import LogoInsta from './LogoInsta';
 
 interface Props {
   setLogin: Dispatch<SetStateAction<boolean>>;
@@ -71,7 +71,8 @@ const Login = ({ setLogin, FacebookProvider }: Props) => {
     <div className="flex flex-col w-[18.5rem] text-sm sm:min-w-[20.5rem] ">
       <div className="bg-white p-10 pb-5 pt-5 border border-gray-300">
         <form className="flex flex-col items-center" onSubmit={submitHandler}>
-          <LogoInsta height="110" width="150" />
+          {/* <LogoInsta height="110" width="150" /> */}
+          <h1 className="font-insta text-[3.5rem] p-8 mb-8">Instagram</h1>
           <div className="flex flex-col flex-1 w-full text-[0.7rem]">
             <div className="relative">
               <input
