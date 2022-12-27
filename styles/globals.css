@@ -5,7 +5,13 @@
 @tailwind utilities;
 
 html {
-  font-size: 104%;
+  font-size: 105%;
+}
+
+@media only screen and(max-width: 2000px) {
+  html {
+    font-size: 114%;
+  }
 }
 
 @layer base {

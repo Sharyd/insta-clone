@@ -90,12 +90,12 @@ const Slider = () => {
   const calcSpace = data.length * 39;
   const { prevSlide, nextSlide, slideIndex } = useSlider(calcNumberOfSliding);
 
-  const calcfinal: any = slideIndex === calcNumberOfSliding ? '13.25' : '16';
+  const calcfinal: any = slideIndex === calcNumberOfSliding ? '13' : '15';
 
   return (
     <div className="relative flex gap-4 py-4 border-[1px] mt-4 items-center justify-center rounded-md bg-white overflow-hidden">
       <div
-        className="flex gap-2 md:gap-3 items-center justify-center transition ease-in-out duration-500 mr-[28rem] "
+        className="flex gap-1.5 sm:gap-2.5 items-center justify-center transition ease-in-out duration-500 mr-[28rem] "
         style={{
           transform: `translateX(${-calcfinal * slideIndex}rem)`,
         }}
@@ -109,7 +109,7 @@ const Slider = () => {
             <img
               src={img.userImg}
               alt="user-profile"
-              className=" w-12 h-12 md:w-14 md:h-14 rounded-full"
+              className=" w-12 h-12 sm:w-14 sm:h-14 rounded-full"
             />
             <p className="text-[0.69rem]">MichaelXXX</p>
           </div>

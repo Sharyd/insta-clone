@@ -321,9 +321,7 @@ const Post = ({ post, id, modalPost }: Props) => {
 
             <textarea
               placeholder="Add a comment..."
-              className={`${
-                modalOpen && 'md:w-[30rem]'
-              } h-max w-full outline-none text-sm resize-none mt-6 scrollbar-hide`}
+              className={`h-max w-full outline-none text-sm resize-none mt-6 scrollbar-hide`}
               value={comment}
               onChange={e => setComment(e.target.value)}
             />
