@@ -104,7 +104,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
     resetPasswordInput();
     resetFullNameInput();
 
-    dispatch({ type: 'CHANGE_USER', payload: {} });
+    // dispatch({ type: 'CHANGE_USER', payload: {} });
   };
 
   return (
