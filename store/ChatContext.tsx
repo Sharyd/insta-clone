@@ -7,15 +7,15 @@ interface Props {
   children?: React.ReactNode;
 }
 
-type dataType = {
-  dispatch: Dispatch<{ type: string; payload: { uid: string | number } }>;
-  data: {
-    chatId: string;
-    user: any;
-  };
-};
+// type dataType = {
+//   dispatch: Dispatch<{ type: string; payload: { uid: string | number } }>;
+//   data: {
+//     chatId: string;
+//     user: any;
+//   };
+// };
 
-export const ChatContext = createContext({} as dataType);
+export const ChatContext = createContext({} as any);
 
 export const ChatContextProvider = ({ children }: Props) => {
   const [user] = useAuthState(auth);
