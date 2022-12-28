@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { IconType } from 'react-icons';
 
 interface Props {
@@ -18,11 +17,9 @@ const SidebarLink = ({
   activeSearch,
   activeNotifications,
 }: Props) => {
-  const router = useRouter();
-
   return (
     <div
-      className={`flex group h-max items-center justify-center gap-4 text-xl text-gray-800 xl:justify-start px-2 py-2 iconHover ${
+      className={`flex group w-[90%] h-max items-center justify-center gap-4 text-xl text-gray-800 xl:justify-start px-2 py-2 iconHover ${
         active && 'font-bold '
       }`}
     >

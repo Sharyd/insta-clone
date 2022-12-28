@@ -72,11 +72,11 @@ const Sidebar = ({
         <aside
           className={`mt-5 mb-2.5 gap-4 flex flex-col 
        ${
-         activeSearch || activeNotifications ? 'xl:w-14' : 'xl:w-56'
+         activeSearch || activeNotifications ? 'xl:w-12' : 'xl:w-56'
        }  h-full flex-1`}
         >
           <Link href="/home" className="h-20">
-            <div className="mt-2 mb-8 h-max group flex items-center justify-center gap-2 py-2 px-2">
+            <div className="mt-2 mb-8 h-max group flex items-center justify-center py-2 px-2">
               <AiOutlineInstagram
                 className={`w-7 h-7 ${
                   activeSearch || activeNotifications
