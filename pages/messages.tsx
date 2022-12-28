@@ -50,9 +50,9 @@ const Messages = () => {
   const [hideFooter, setHideFooter] = useState(true);
   const [showSearchInput, setShowSearchInput] = useState(false);
   const enterRef = useRef();
-
+  console.log(data);
   const [img, setImg] = useState<File | null>(null);
-  const [messages, setMessages] = useState<any>([]);
+  const [messages, setMessages] = useState<DocumentData | undefined>([]);
 
   const currentUser: any = userr;
   const {
@@ -260,7 +260,7 @@ const Messages = () => {
           </div>
 
           <div className="h-[390px] md:h-[610px] overflow-y-scroll scrollbar-hide -z-20">
-            {messages.map((m: DocumentData) => (
+            {messages?.map((m: DocumentData) => (
               <Message message={m} key={m?.id} />
             ))}
           </div>

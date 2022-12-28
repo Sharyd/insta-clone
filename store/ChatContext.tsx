@@ -1,5 +1,5 @@
 import { DocumentData } from 'firebase/firestore';
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, Dispatch, useContext, useReducer } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
 
@@ -7,21 +7,27 @@ interface Props {
   children?: React.ReactNode;
 }
 
-export const ChatContext = createContext<any>({
-  chatId: 'null',
-  user: {},
-});
+type dataType = {
+  dispatch: Dispatch<{ type: string; payload: { uid: string | number } }>;
+  data: {
+    chatId: string;
+    user: any;
+  };
+};
+
+export const ChatContext = createContext({} as dataType);
 
 export const ChatContextProvider = ({ children }: Props) => {
   const [user] = useAuthState(auth);
   const currentUser: any = user;
+
   const INITIAL_STATE = {
     chatId: 'null',
     user: {},
   };
 
   const chatReducer = (
-    state: any,
+    state: { chatId: string; user: object },
     action: { type: string; payload: { uid: string | number } }
   ) => {
     switch (action.type) {

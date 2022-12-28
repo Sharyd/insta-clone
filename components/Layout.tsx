@@ -27,7 +27,7 @@ const Layout = ({ children, hideFooter }: Props) => {
       </header>
 
       <div>
-        <div className="xl:w-[calc(100%-250px)] md:w-[calc(100%-85px)] md:ml-auto">
+        <div className="xl:w-[calc(100%-255px)] md:w-[calc(100%-85px)] md:ml-auto">
           <Sidebar
             setActiveSearch={setActiveSearch}
             activeSearch={activeSearch}

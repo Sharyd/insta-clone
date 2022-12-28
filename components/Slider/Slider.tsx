@@ -95,7 +95,7 @@ const Slider = () => {
   return (
     <div className="relative flex gap-4 py-4 border-[1px] mt-4 items-center justify-center rounded-md bg-white overflow-hidden">
       <div
-        className="flex gap-1.5 sm:gap-2.5 items-center justify-center transition ease-in-out duration-500 mr-[28rem] "
+        className="flex gap-1.5 sm:gap-2.5 items-center justify-center transition ease-in-out duration-500 mr-[34em] "
         style={{
           transform: `translateX(${-calcfinal * slideIndex}rem)`,
         }}

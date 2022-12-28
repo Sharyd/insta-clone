@@ -22,7 +22,7 @@ const SidebarLink = ({
 
   return (
     <div
-      className={`flex group h-max items-center justify-center  gap-4 text-xl text-gray-800 xl:justify-start px-3 py-3 iconHover ${
+      className={`flex group h-max items-center justify-center gap-4 text-xl text-gray-800 xl:justify-start px-2 py-2 iconHover ${
         active && 'font-bold '
       }`}
     >
@@ -45,7 +45,7 @@ const SidebarLink = ({
       <span
         className={`${
           (activeSearch || activeNotifications) && 'xl:hidden'
-        } hidden xl:inline text-[1rem]`}
+        } hidden xl:inline text-[1rem] `}
       >
         {text}
       </span>

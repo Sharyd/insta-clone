@@ -118,7 +118,6 @@ const CreatePost = () => {
       const promises: unknown[] = [];
 
       selectedFilesURL?.map((file: { images: File }) => {
-        console.log(file);
         const storageRef = ref(
           storage,
           `posts/${docRef?.id}/${file.images.name}`

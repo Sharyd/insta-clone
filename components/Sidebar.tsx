@@ -66,19 +66,19 @@ const Sidebar = ({
       <div
         className={`fixed top-0 left-0 hidden h-full flex-col 
         p-4 md:flex ${
-          activeSearch || activeNotifications ? 'xl:w-[85px]' : 'xl:w-[250px]'
+          activeSearch || activeNotifications ? 'xl:w-[85px]' : 'xl:w-[255px]'
         }  w-[85px] xl:items-start bg-white border-r-[2px]`}
       >
         <aside
-          className={`mt-5 mb-2.5 space-y-2.5 flex flex-col 
+          className={`mt-5 mb-2.5 gap-4 flex flex-col 
        ${
          activeSearch || activeNotifications ? 'xl:w-14' : 'xl:w-56'
        }  h-full flex-1`}
         >
           <Link href="/home" className="h-20">
-            <div className="mt-2 mb-8 h-max group flex items-center justify-center gap-2 py-3 px-3">
+            <div className="mt-2 mb-8 h-max group flex items-center justify-center gap-2 py-2 px-2">
               <AiOutlineInstagram
-                className={`w-7 h-8 ${
+                className={`w-7 h-7 ${
                   activeSearch || activeNotifications
                     ? 'xl:inline'
                     : 'xl:hidden'

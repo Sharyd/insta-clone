@@ -19,13 +19,6 @@ import PostsQuery from '../../components/PostsQuery';
 import { useRouter } from 'next/router';
 import { RotatingLines } from 'react-loader-spinner';
 
-interface dataQuery {
-  displayName: string;
-  uid: string;
-  photoURL: string;
-  email: string;
-}
-
 const ProfilePage = () => {
   const [user, loading] = useAuthState(auth);
   const [isSaved, setIsSaved] = useState(false);
