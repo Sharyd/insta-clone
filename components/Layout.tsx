@@ -7,6 +7,10 @@ import { useRecoilState } from 'recoil';
 import { modalState, modalTypeState } from '../atoms/modalAtom';
 import { AnimatePresence } from 'framer-motion';
 import Modal from './ui/Modal';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useRouter } from 'next/router';
+import LoadingSpinner from './LoadingSpinner';
+import { auth } from '../firebase';
 
 interface Props {
   children: JSX.Element[] | JSX.Element;
@@ -16,9 +20,14 @@ interface Props {
 const Layout = ({ children, hideFooter }: Props) => {
   const [modalOpen, setModalOpen] = useRecoilState(modalState);
   const [modalType, setModalType] = useRecoilState(modalTypeState);
-
+  const [user, loading] = useAuthState(auth);
   const [activeSearch, setActiveSearch] = useState(false);
   const [activeNotifications, setActiveNotifications] = useState(false);
+
+  const router = useRouter();
+
+  if (loading) return <LoadingSpinner />;
+  if (!user) router.push('/');
 
   return (
     <>

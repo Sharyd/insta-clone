@@ -49,8 +49,6 @@ const Post = ({ post, id, modalPost }: Props) => {
   const [modalType, setModalType] = useRecoilState(modalTypeState);
   const [postState, setPostState] = useRecoilState(getPostState);
   const [postId, setPostId] = useRecoilState(getPostIdState);
-  const [isPostOpen, setIsPostOpen] = useState(modalOpen);
-  const [popupOpen, setPopupOpen] = useRecoilState(popupState);
   const [likes, setLikes] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
   const [bookmarks, setBookmarks] = useState<
     QueryDocumentSnapshot<DocumentData>[]
