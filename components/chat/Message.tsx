@@ -1,10 +1,11 @@
+import { DocumentData } from 'firebase/firestore';
 import React, { useContext, useEffect, useRef } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../firebase';
 import { ChatContext } from '../../store/ChatContext';
 
 interface Props {
-  message: any;
+  message: DocumentData;
 }
 
 const Message = ({ message }: Props) => {
@@ -15,7 +16,7 @@ const Message = ({ message }: Props) => {
   useEffect(() => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
   }, [message]);
-  console.log(message);
+
   return (
     <div className="flex flex-col" ref={ref}>
       <span className="text-center p-4 text-gray-400"></span>

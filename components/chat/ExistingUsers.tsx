@@ -1,4 +1,4 @@
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, DocumentData, onSnapshot } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import React, { useState, useEffect, useContext } from 'react';
 import { auth, db } from '../../firebase';
@@ -6,7 +6,7 @@ import { ChatContext } from '../../store/ChatContext';
 
 const CombinedUsers = () => {
   const [loggedUser] = useAuthState(auth);
-  const [chats, setChats] = useState<any>([]);
+  const [chats, setChats] = useState<DocumentData | undefined>([]);
   const currentUser: any = loggedUser;
   const { dispatch } = useContext(ChatContext);
 
@@ -32,8 +32,8 @@ const CombinedUsers = () => {
       {chats && (
         <div>
           {Object.entries(chats)
-            ?.sort((a: any, b: any) => b[1].date - a[1].date)
-            .map((chat: any) => (
+            ?.sort((a: DocumentData, b: DocumentData) => b[1].date - a[1].date)
+            .map((chat: DocumentData) => (
               <div
                 onClick={() => handleSelect(chat[1]?.userInfo)}
                 key={chat[0]}
