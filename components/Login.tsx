@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Dispatch, SetStateAction } from 'react';
 import { AiFillFacebook } from 'react-icons/ai';
 import { TiDeleteOutline } from 'react-icons/ti';
@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import LogoInsta from './LogoInsta';
+import { ChatContext } from '../store/ChatContext';
 
 interface Props {
   setLogin: Dispatch<SetStateAction<boolean>>;
@@ -19,6 +20,7 @@ interface Props {
 const Login = ({ setLogin, FacebookProvider }: Props) => {
   const [error, setError] = useState(false);
   const [user, loading] = useAuthState(auth);
+  const { dispatch } = useContext(ChatContext);
   const router = useRouter();
   const {
     value: enteredEmail,
@@ -66,6 +68,8 @@ const Login = ({ setLogin, FacebookProvider }: Props) => {
 
     resetEmailInput();
     resetPasswordInput();
+
+    dispatch({ type: 'CHANGE_USER', payload: {} });
   };
   return (
     <div className="flex flex-col w-[18.5rem] text-sm sm:min-w-[20.5rem] ">
