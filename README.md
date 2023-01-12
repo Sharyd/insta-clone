@@ -9,7 +9,7 @@ Features =>
 + Validation for every keystroke
 + Full responsibility with tailwind css
 + Design taken from Instagram
-+ Create post(only images for now) + adding more images to the post with slider functionality and so on
++ Create post with image, text and emoji + adding more images to the post with slider functionality and so on
 + Comment, like or delete a post
 + Like a comment in the post or delete
 + Modals 
