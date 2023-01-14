@@ -4,13 +4,13 @@ import React, { useState } from 'react';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { HiOutlineSearch } from 'react-icons/hi';
 
-import SearchedUsers from './SearchedUsers';
+import SearchedUsers from '../SearchedUsers';
 
 import { DocumentData } from 'firebase/firestore';
-import useSearchUsers from '../hooks/use-searchUsers';
+import useSearchUsers from '../../hooks/use-searchUsers';
 import { SetterOrUpdater } from 'recoil';
 import { AnimatePresence, motion } from 'framer-motion';
-import LogoInsta from './LogoInsta';
+import LogoInsta from '../ui/LogoInsta';
 
 interface Props {
   activeSearch: boolean;
@@ -18,7 +18,6 @@ interface Props {
 }
 
 const Nav = ({ activeSearch, setActiveSearch }: Props) => {
-  const [isSearching, setIsSearching] = useState(false);
   const { username, setUsername, filteredUsers } = useSearchUsers();
 
   return (

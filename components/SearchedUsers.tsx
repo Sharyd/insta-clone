@@ -7,8 +7,6 @@ interface Props {
 }
 
 const SearchedUsers = ({ users }: Props) => {
-  // const [user, loading] = useAuthState(auth);
-  console.log(users);
   return (
     <Link
       href={{

@@ -4,7 +4,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { AiOutlineCamera } from 'react-icons/ai';
 import { auth, db } from '../../firebase';
-import Layout from '../../components/Layout';
+import Layout from '../../components/layout/Layout';
 
 import Link from 'next/link';
 import {
@@ -15,7 +15,7 @@ import {
   QueryDocumentSnapshot,
   where,
 } from 'firebase/firestore';
-import PostsQuery from '../../components/PostsQuery';
+import PostsPreview from '../../components/post/PostsPreview';
 import { useRouter } from 'next/router';
 import { RotatingLines } from 'react-loader-spinner';
 
@@ -24,7 +24,6 @@ const ProfilePage = () => {
   const [isSaved, setIsSaved] = useState(false);
   const router = useRouter();
 
-  // if (!user) return router.push("/");
   const [createdPosts, setCreatedPosts] = useState<
     QueryDocumentSnapshot<DocumentData>[]
   >([]);
@@ -32,9 +31,9 @@ const ProfilePage = () => {
     QueryDocumentSnapshot<DocumentData>[]
   >([]);
 
-  const data: any = router.query;
+  const userData: any = router.query;
 
-  const { displayName, email, uid, photoURL } = data;
+  const { displayName, email, uid, photoURL } = userData;
   const { slug } = router?.query;
 
   const getCreatedData = () => {
@@ -70,10 +69,10 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
-    if (!user || !data) return;
+    if (!user || !userData) return;
 
     getCreatedData();
-  }, [db, router?.query, data]);
+  }, [db, router?.query, userData]);
 
   return (
     <Layout>
@@ -204,7 +203,7 @@ const ProfilePage = () => {
                       >
                         {user?.email !== null &&
                           createdPosts?.map(post => (
-                            <PostsQuery
+                            <PostsPreview
                               key={post.id}
                               post={post.data()}
                               id={post.id}
@@ -223,7 +222,7 @@ const ProfilePage = () => {
                   >
                     {user?.uid !== null &&
                       savedPosts?.map(post => (
-                        <PostsQuery
+                        <PostsPreview
                           key={post.id}
                           post={post.data()}
                           id={post.id}

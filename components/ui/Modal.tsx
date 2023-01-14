@@ -1,15 +1,15 @@
 import { motion } from 'framer-motion';
 import Backdrop from './Backdrop';
 
-import CreatePost from '../CreatePost';
-import { animation } from '../../lib/animation';
+import CreatePost from '../post/CreatePost';
+import { animation } from '../../helpers/animation';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   getPostState,
   getSelectedImgLengthState,
   getPostIdState,
 } from '../../atoms/postAtom';
-import Post from '../Post';
+import Post from '../post/Post';
 import { AiOutlineClose } from 'react-icons/ai';
 import { popupState } from '../../atoms/popupAtom';
 

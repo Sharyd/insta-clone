@@ -3,14 +3,14 @@ import { AiFillFacebook } from 'react-icons/ai';
 import { useRouter } from 'next/router';
 import { TiDeleteOutline } from 'react-icons/ti';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
-import useInput from '../hooks/use-input';
-import { includesFunction } from '../lib/emailValidationFunc';
+import useInput from '../../hooks/use-input';
+import { isEmailValid } from '../../helpers/isEmailValid';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
-import { auth, db } from '../firebase';
+import { auth, db } from '../../firebase';
 import { doc, setDoc } from 'firebase/firestore';
-import { ChatContext } from '../store/ChatContext';
-import LogoInsta from './LogoInsta';
+import { ChatContext } from '../../store/ChatContext';
+import LogoInsta from '../ui/LogoInsta';
 
 interface Props {
   setLogin: Dispatch<SetStateAction<boolean>>;
@@ -31,8 +31,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
     valueBlurHandler: emailInputBlurHandler,
     reset: resetEmailInput,
   } = useInput(
-    value =>
-      value.trim() !== '' && includesFunction(value) && value.includes('@')
+    value => value.trim() !== '' && isEmailValid(value) && value.includes('@')
   );
   const {
     value: enteredFullName,
@@ -219,6 +218,7 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
               </span>
             </p>
           </div>
+          <p className="color-red-500 text-md">{error}</p>
           <p className="text-center p-4">Get the app.</p>
           <div className="flex items-center justify-center gap-3 p-2">
             <a

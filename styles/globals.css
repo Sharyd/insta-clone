@@ -5,7 +5,10 @@
 @tailwind utilities;
 
 html {
+  /* For production */
   font-size: 105%;
+  /* For developing */
+  /* font-size: 100%; */
 }
 
 @media only screen and(max-width: 2000px) {

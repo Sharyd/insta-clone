@@ -3,14 +3,13 @@ import { Dispatch, SetStateAction } from 'react';
 import { AiFillFacebook } from 'react-icons/ai';
 import { TiDeleteOutline } from 'react-icons/ti';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
-import useInput from '../hooks/use-input';
-import { includesFunction } from '../lib/emailValidationFunc';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import useInput from '../../hooks/use-input';
+import { isEmailValid } from '../../helpers/isEmailValid';
 import { useRouter } from 'next/router';
-import { auth } from '../firebase';
+import { auth } from '../../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import LogoInsta from './LogoInsta';
-import { ChatContext } from '../store/ChatContext';
+import LogoInsta from '../ui/LogoInsta';
+import { ChatContext } from '../../store/ChatContext';
 
 interface Props {
   setLogin: Dispatch<SetStateAction<boolean>>;
@@ -19,9 +18,9 @@ interface Props {
 
 const Login = ({ setLogin, FacebookProvider }: Props) => {
   const [error, setError] = useState(false);
-  const [user, loading] = useAuthState(auth);
   const { dispatch } = useContext(ChatContext);
   const router = useRouter();
+
   const {
     value: enteredEmail,
     isValid: enteredEmailIsValid,
@@ -30,9 +29,9 @@ const Login = ({ setLogin, FacebookProvider }: Props) => {
     valueBlurHandler: emailInputBlurHandler,
     reset: resetEmailInput,
   } = useInput(
-    value =>
-      value.trim() !== '' && includesFunction(value) && value.includes('@')
+    value => value.trim() !== '' && isEmailValid(value) && value.includes('@')
   );
+
   const {
     value: enteredPassword,
     isValid: enteredPasswordIsValid,

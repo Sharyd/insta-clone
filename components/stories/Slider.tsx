@@ -86,6 +86,7 @@ const data = [
   },
 ];
 const Slider = () => {
+  // This is just shitty calculating
   const calcNumberOfSliding = Math.floor((data.length * 65) / 255);
   const calcSpace = data.length * 39;
   const { prevSlide, nextSlide, slideIndex } = useSlider(calcNumberOfSliding);

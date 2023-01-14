@@ -6,18 +6,17 @@ import { FiPlusSquare } from 'react-icons/fi';
 import { IoPaperPlane, IoPaperPlaneOutline } from 'react-icons/io5';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Link from 'next/link';
-import { auth } from '../firebase';
+import { auth } from '../../firebase';
 import { SetterOrUpdater } from 'recoil';
 import { useRouter } from 'next/router';
 
 interface Props {
-  type: string;
   setModalOpen: (arg: boolean) => void;
   setModalType: SetterOrUpdater<string>;
 }
 
-const BottomNav = ({ type, setModalOpen, setModalType }: Props) => {
-  const [user, loading] = useAuthState(auth);
+const BottomNav = ({ setModalOpen, setModalType }: Props) => {
+  const [user, _] = useAuthState(auth);
   const router = useRouter();
   const active = router.pathname;
   return (

@@ -1,4 +1,3 @@
-import { DocumentData } from 'firebase/firestore';
 import { createContext, Dispatch, useContext, useReducer } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
@@ -6,14 +5,6 @@ import { auth } from '../firebase';
 interface Props {
   children?: React.ReactNode;
 }
-
-// type dataType = {
-//   dispatch: Dispatch<{ type: string; payload: { uid: string | number } }>;
-//   data: {
-//     chatId: string;
-//     user: any;
-//   };
-// };
 
 export const ChatContext = createContext({} as any);
 

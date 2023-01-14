@@ -6,8 +6,8 @@ import { FaRegComment } from 'react-icons/fa';
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { motion } from 'framer-motion';
-import useSlider from '../hooks/use-slider';
-import BtnSlider from './Slider/SliderBtn';
+import useSlider from '../../hooks/use-slider';
+import BtnSlider from '../stories/SliderBtn';
 import Moment from 'react-moment';
 import {
   addDoc,
@@ -26,17 +26,18 @@ import {
   where,
 } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, db } from '../firebase';
+import { auth, db } from '../../firebase';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { modalState, modalTypeState } from '../atoms/modalAtom';
-import { popupState } from '../atoms/popupAtom';
-import { getPostState, getPostIdState } from '../atoms/postAtom';
+import { modalState, modalTypeState } from '../../atoms/modalAtom';
+import { getPostState, getPostIdState } from '../../atoms/postAtom';
 import EmojiPicker from 'emoji-picker-react';
 import { EmojiStyle } from 'emoji-picker-react';
-import useEmoji from '../hooks/use-emoji';
+import useEmoji from '../../hooks/use-emoji';
 import Comments from './Comments';
 
 import Image from 'next/image';
+import useIsAlreadySet from '../../hooks/use-isAlreadySet';
+import useSnapshotWithId from '../../hooks/use-snapshotWithId';
 
 interface Props {
   post: DocumentData;
@@ -47,26 +48,30 @@ interface Props {
 const Post = ({ post, id, modalPost }: Props) => {
   const [modalOpen, setModalOpen] = useRecoilState(modalState);
   const [modalType, setModalType] = useRecoilState(modalTypeState);
+
   const [postState, setPostState] = useRecoilState(getPostState);
   const [postId, setPostId] = useRecoilState(getPostIdState);
+  const { image, text, userImg, username } = post;
+
   const [likes, setLikes] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
   const [bookmarks, setBookmarks] = useState<
     QueryDocumentSnapshot<DocumentData>[]
   >([]);
-  const [liked, setLiked] = useState(false);
-  const [bookmarked, setBookmarked] = useState(false);
 
   const [showComments, setShowComments] = useState(false);
-
-  // const [comment, setComment] = useState("");
   const [comments, setComments] = useState<
     QueryDocumentSnapshot<DocumentData>[]
   >([]);
+
   const [user, loading] = useAuthState(auth);
-  const { image, text, userImg, username } = post;
   const { setSlideIndex, slideIndex, prevSlide, nextSlide } = useSlider(
     image?.length - 1
   );
+
+  // const { value: likes } = useSnapshotWithId('posts', id, 'likes');
+
+  const { value: liked } = useIsAlreadySet(likes, user?.uid ?? '');
+  const { value: bookmarked } = useIsAlreadySet(bookmarks, id);
 
   const {
     text: comment,
@@ -80,18 +85,6 @@ const Post = ({ post, id, modalPost }: Props) => {
   const moveDot = (index: number) => {
     setSlideIndex(index);
   };
-
-  useEffect(
-    () => setLiked(likes.findIndex(like => like?.id === user?.uid) !== -1),
-    [likes]
-  );
-  useEffect(
-    () =>
-      setBookmarked(
-        bookmarks.findIndex(bookmark => bookmark?.id === id) !== -1
-      ),
-    [bookmarks]
-  );
 
   useEffect(
     () =>
@@ -121,20 +114,6 @@ const Post = ({ post, id, modalPost }: Props) => {
       });
     }
   };
-  const sendComment = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-
-    await addDoc(collection(db, 'posts', id, 'comments'), {
-      comment: comment,
-      userId: user?.uid,
-      username: user?.displayName,
-      userImg: user?.photoURL,
-      timestamp: serverTimestamp(),
-    });
-
-    // setIsOpen(false);
-    resetEmojiAndText();
-  };
 
   const bookmarkedPosts = async () => {
     if (!bookmarked) {
@@ -146,6 +125,20 @@ const Post = ({ post, id, modalPost }: Props) => {
         bookmarked: deleteField(),
       });
     }
+  };
+
+  const sendComment = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+
+    await addDoc(collection(db, 'posts', id, 'comments'), {
+      comment: comment,
+      userId: user?.uid,
+      username: user?.displayName,
+      userImg: user?.photoURL,
+      timestamp: serverTimestamp(),
+    });
+
+    resetEmojiAndText();
   };
 
   useEffect(

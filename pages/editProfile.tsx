@@ -1,10 +1,11 @@
 import React, { FormEvent, useRef, useState } from 'react';
-import Layout from '../components/Layout';
+import Layout from '../components/layout/Layout';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, storage } from '../firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { updateEmail, updateProfile } from 'firebase/auth';
 import ChangePassword from '../components/ChangePassword';
+import { isImageValid } from '../helpers/isImageValid';
 
 enum ActiveBtn {
   EDITPROFILE,
@@ -21,48 +22,42 @@ const EditProfile = () => {
   const [activeBtn, setActiveBtn] = useState(ActiveBtn.EDITPROFILE);
   const refFileToElement = useRef<HTMLInputElement>(null);
   const [selectedFileURL, setSelectedFileURL] = useState<any>({});
-  console.log(user);
 
   const addImageProfile = (e: { target: { files: any } }) => {
     const files = e.target.files[0] as Blob;
     const type = files?.type as string;
 
-    if (
-      type === 'image/png' ||
-      type === 'image/jpg' ||
-      type === 'image/jpeg' ||
-      type === 'image/gif' ||
-      type === 'image/webp' ||
-      type === 'image/svg'
-    ) {
+    if (isImageValid(type)) {
       setSelectedFileURL({
-        urlFile: URL.createObjectURL(e.target.files[0]),
-        image: e.target.files[0],
+        imageToPreview: URL.createObjectURL(e.target.files[0]),
+        imageToDB: e.target.files[0],
       });
+      setError('');
     } else {
-      throw new Error('Wrong image format');
+      setError('Wrong image format!');
     }
   };
 
-  const updateYourProfile = async (e: FormEvent) => {
+  const updateUserProfile = async (e: FormEvent) => {
     e.preventDefault();
     if (loading) return;
     setLoading(true);
 
-    const storageRef = ref(storage, `/profileImg${selectedFileURL?.image}`);
+    const storageRef = ref(storage, `/profileImg${selectedFileURL?.imageToDB}`);
 
     if (user) {
-      if (selectedFileURL?.image) {
+      if (selectedFileURL?.imageToDB) {
         try {
-          await uploadBytesResumable(storageRef, selectedFileURL.image).then(
-            () => {
-              getDownloadURL(storageRef).then(async downloadURL => {
-                await updateProfile(user, {
-                  photoURL: downloadURL,
-                });
+          await uploadBytesResumable(
+            storageRef,
+            selectedFileURL.imageToDB
+          ).then(() => {
+            getDownloadURL(storageRef).then(async downloadURL => {
+              await updateProfile(user, {
+                photoURL: downloadURL,
               });
-            }
-          );
+            });
+          });
         } catch (err) {
           setError(
             (err as { message?: string })?.message ?? 'Something went wrong'
@@ -122,13 +117,13 @@ const EditProfile = () => {
           {activeBtn === ActiveBtn.EDITPROFILE ? (
             <div className="w-[400px] h-full mt-4">
               <h2 className="text-center text-xl py-4">Edit your profile</h2>
-              <form className="h-full" onSubmit={updateYourProfile}>
+              <form className="h-full" onSubmit={updateUserProfile}>
                 <div className="flex items-center flex-col justify-center">
                   <img
                     className="w-40 h-40 object-cover rounded-full"
                     src={
-                      selectedFileURL?.urlFile
-                        ? selectedFileURL?.urlFile
+                      selectedFileURL?.imageToPreview
+                        ? selectedFileURL?.imageToPreview
                         : user?.photoURL ?? ''
                     }
                     alt="user-profile"
@@ -184,8 +179,8 @@ const EditProfile = () => {
                       {loading ? 'Updating...' : 'Submit'}
                     </button>
                   </div>
-                  {error && <p>{error}</p>}
-                  {success && <p>{success}</p>}
+                  {error && <p className="text-red-500 capitalize">{error}</p>}
+                  {success && <p className="capitalize">{success}</p>}
                 </div>
               </form>
             </div>

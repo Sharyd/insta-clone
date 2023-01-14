@@ -11,7 +11,7 @@ interface Props {
 const Message = ({ message }: Props) => {
   const [currentUser] = useAuthState(auth);
   const { data } = useContext(ChatContext);
-  const ref = useRef<any>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });

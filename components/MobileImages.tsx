@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
-import dataImg from '../lib/dataImg';
+import dataImg from '../helpers/dataImg';
 const MobileImages = () => {
   const [img, setImg] = useState(1);
 

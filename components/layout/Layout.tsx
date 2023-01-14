@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import Nav from '../components/Nav';
-import BottomNav from '../components/BottomNav';
-import Sidebar from './Sidebar';
+import Nav from './Nav';
+import BottomNav from './BottomNav';
+import Sidebar from './sidebar/Sidebar';
 import Footer from './Footer';
 import { useRecoilState } from 'recoil';
-import { modalState, modalTypeState } from '../atoms/modalAtom';
+import { modalState, modalTypeState } from '../../atoms/modalAtom';
 import { AnimatePresence } from 'framer-motion';
-import Modal from './ui/Modal';
+import Modal from '../ui/Modal';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/router';
-import LoadingSpinner from './LoadingSpinner';
-import { auth } from '../firebase';
+import LoadingSpinner from '../ui/LoadingSpinner';
+import { auth } from '../../firebase';
 
 interface Props {
   children: JSX.Element[] | JSX.Element;
@@ -30,7 +30,7 @@ const Layout = ({ children, hideFooter }: Props) => {
   if (!user) router.push('/');
 
   return (
-    <>
+    <div>
       <header className="md:hidden">
         <Nav setActiveSearch={setActiveSearch} activeSearch={activeSearch} />
       </header>
@@ -60,17 +60,13 @@ const Layout = ({ children, hideFooter }: Props) => {
           )}
         </div>
         <div className="mt-auto w-full fixed bottom-0 left-0 p-4 border-t-[1px] md:hidden bg-white z-20">
-          <BottomNav
-            type={modalType}
-            setModalOpen={setModalOpen}
-            setModalType={setModalType}
-          />
+          <BottomNav setModalOpen={setModalOpen} setModalType={setModalType} />
         </div>
         <AnimatePresence>
           {modalOpen && <Modal type={modalType} setModalOpen={setModalOpen} />}
         </AnimatePresence>
       </div>
-    </>
+    </div>
   );
 };
 

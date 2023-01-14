@@ -6,19 +6,19 @@ import {
   QueryDocumentSnapshot,
 } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { db } from '../firebase';
+import { db } from '../../firebase';
 import { AiFillHeart } from 'react-icons/ai';
 import { FaComment } from 'react-icons/fa';
 import { useRecoilState } from 'recoil';
-import { modalState, modalTypeState } from '../atoms/modalAtom';
-import { getPostIdState, getPostState } from '../atoms/postAtom';
+import { modalState, modalTypeState } from '../../atoms/modalAtom';
+import { getPostIdState, getPostState } from '../../atoms/postAtom';
 import Image from 'next/image';
 interface Props {
   post: DocumentData;
   id: string;
 }
 
-const PostsQuery = ({ id, post }: Props) => {
+const PostsPreview = ({ id, post }: Props) => {
   const [modalOpen, setModalOpen] = useRecoilState(modalState);
   const [modalType, setModalType] = useRecoilState(modalTypeState);
   const [postState, setPostState] = useRecoilState(getPostState);
@@ -86,4 +86,4 @@ const PostsQuery = ({ id, post }: Props) => {
   );
 };
 
-export default PostsQuery;
+export default PostsPreview;

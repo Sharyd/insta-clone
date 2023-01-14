@@ -1,7 +1,7 @@
 import React from 'react';
 import Backdrop from './Backdrop';
 import { motion } from 'framer-motion';
-import { animation } from '../../lib/animation';
+import { animation } from '../../helpers/animation';
 import { useRecoilState } from 'recoil';
 import { popupState } from '../../atoms/popupAtom';
 import { modalState } from '../../atoms/modalAtom';

@@ -19,14 +19,14 @@ interface Props {
 
 const ChatUsers = ({ user, setUsername, setUser }: Props) => {
   const [loggedUser] = useAuthState(auth);
-
   const currentUser: any = loggedUser;
-  console.log(currentUser);
+
   const handleSelectUser = async () => {
     const combinedId =
       currentUser?.uid > user?.uid
         ? currentUser?.uid + user?.uid
         : user?.uid + currentUser?.uid;
+
     try {
       const res = await getDoc(doc(db, 'chats', combinedId));
 
@@ -42,6 +42,7 @@ const ChatUsers = ({ user, setUsername, setUser }: Props) => {
           },
           [combinedId + '.date']: serverTimestamp(),
         });
+
         await updateDoc(doc(db, 'userChat', user.uid), {
           [combinedId + '.userInfo']: {
             uid: currentUser?.uid,
@@ -51,6 +52,7 @@ const ChatUsers = ({ user, setUsername, setUser }: Props) => {
           [combinedId + '.date']: serverTimestamp(),
         });
       }
+
       setUser(null);
       setUsername('');
     } catch (err) {

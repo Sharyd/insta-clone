@@ -17,12 +17,12 @@ import { BiBookmark } from 'react-icons/bi';
 import SidebarLink from './SidebarLink';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { auth } from '../firebase';
-import { modalState, modalTypeState } from '../atoms/modalAtom';
+import { auth } from '../../../firebase';
+import { modalState, modalTypeState } from '../../../atoms/modalAtom';
 import { SetterOrUpdater, useRecoilState } from 'recoil';
-import SidebarSearch from './SidebarWindow';
+import SidebarWindow from './SidebarWindow';
 import { AnimatePresence, motion } from 'framer-motion';
-import LogoInsta from './LogoInsta';
+import LogoInsta from '../../ui/LogoInsta';
 
 interface Props {
   activeSearch: boolean;
@@ -55,11 +55,11 @@ const Sidebar = ({
     p-4 md:flex"
     >
       <AnimatePresence>
-        {activeSearch && <SidebarSearch type={typeWindow.SEARCH} />}
+        {activeSearch && <SidebarWindow type={typeWindow.SEARCH} />}
       </AnimatePresence>
       <AnimatePresence>
         {activeNotifications && (
-          <SidebarSearch type={typeWindow.NOTIFICATIONS} />
+          <SidebarWindow type={typeWindow.NOTIFICATIONS} />
         )}
       </AnimatePresence>
 

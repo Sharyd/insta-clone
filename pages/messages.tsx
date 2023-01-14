@@ -7,7 +7,7 @@ import React, {
   useContext,
   FormEvent,
 } from 'react';
-import Layout from '../components/Layout';
+import Layout from '../components/layout/Layout';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db, storage } from '../firebase';
 import ChatUsers from '../components/chat/ChatUsers';
@@ -38,10 +38,11 @@ import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 import { MdOutlineKeyboardArrowUp } from 'react-icons/md';
 import InputSearch from '../components/chat/InputSearch';
 import { motion } from 'framer-motion';
+import { isImageValid } from '../helpers/isImageValid';
 
 const Messages = () => {
   const [userr, loading] = useAuthState(auth);
-  const [error, setError] = useState<unknown>(false);
+  const [error, setError] = useState('');
   const [username, setUsername] = useState('');
   const [chats, setChats] = useState<DocumentData | undefined>([]);
   const [user, setUser] = useState<DocumentData | null>(null);
@@ -50,7 +51,7 @@ const Messages = () => {
   const [hideFooter, setHideFooter] = useState(true);
   const [showSearchInput, setShowSearchInput] = useState(false);
   const enterRef = useRef();
-  console.log(data);
+
   const [img, setImg] = useState<File | null>(null);
   const [messages, setMessages] = useState<DocumentData | undefined>([]);
 
@@ -75,7 +76,9 @@ const Messages = () => {
         setUser(doc.data());
       });
     } catch (err) {
-      setError(true);
+      setError(
+        (err as { message?: string })?.message ?? 'Something went wrong'
+      );
     }
   };
 
@@ -87,7 +90,7 @@ const Messages = () => {
     e.preventDefault();
 
     try {
-      if (img) {
+      if (img && isImageValid(img.type)) {
         const storageRef = ref(storage, uuid());
 
         await uploadBytesResumable(storageRef, img).then(() => {
@@ -114,7 +117,9 @@ const Messages = () => {
         });
       }
     } catch (err) {
-      setError(err);
+      setError(
+        (err as { message?: string })?.message ?? 'Something went wrong'
+      );
     }
 
     await updateDoc(doc(db, 'userChat', currentUser?.uid), {
@@ -133,7 +138,7 @@ const Messages = () => {
 
     resetEmojiAndText();
     setImg(null);
-    setError(null);
+    setError('');
   };
 
   useEffect(() => {
@@ -169,6 +174,7 @@ const Messages = () => {
                 setUser={setUser}
               />
             )}
+            {error && <p>{error}</p>}
           </div>
           <div className="border-t overflow-y-scroll scrollbar-hide">
             <h2 className="font-[500] text-md mb-4 pt-2 px-4">

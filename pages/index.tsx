@@ -1,9 +1,9 @@
 import type { NextPage } from 'next';
 import { useState, useEffect, useContext } from 'react';
-import Login from '../components/Login';
+import Login from '../components/auth/Login';
 import MobileImages from '../components/MobileImages';
-import Register from '../components/Register';
-import Footer from '../components/Footer';
+import Register from '../components/auth/Register';
+import Footer from '../components/layout/Footer';
 import { auth, db } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {
@@ -15,7 +15,7 @@ import { useRouter } from 'next/router';
 import { RotatingLines } from 'react-loader-spinner';
 import { doc, setDoc } from 'firebase/firestore';
 import { ChatContext } from '../store/ChatContext';
-import LoadingSpinner from '../components/LoadingSpinner';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
 const Home: NextPage = () => {
   const [login, setLogin] = useState(true);
   const [user, loading] = useAuthState(auth);

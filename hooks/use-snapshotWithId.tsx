@@ -9,13 +9,20 @@ import {
 import React, { useEffect, useState } from 'react';
 import { db } from '../firebase';
 
-const useSnapshot = (item: string) => {
+const useSnapshotWithId = (
+  firstCollection: string,
+  id: string,
+  secondCollection: string
+) => {
   const [value, setValue] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
 
   useEffect(
     () =>
       onSnapshot(
-        query(collection(db, item), orderBy('timestamp', 'desc')),
+        query(
+          collection(db, firstCollection, id, secondCollection),
+          orderBy('timestamp', 'desc')
+        ),
         snapshot => setValue(snapshot.docs)
       ),
     [db]
@@ -26,4 +33,4 @@ const useSnapshot = (item: string) => {
   };
 };
 
-export default useSnapshot;
+export default useSnapshotWithId;
