@@ -23,8 +23,7 @@ const useSearchUsers = () => {
 
   const filteredUsers = useMemo(() => {
     return users.filter((userr: { displayName: string; uid: string }) => {
-      if (userr.uid !== user?.uid)
-        return userr.displayName.toLowerCase().includes(username.toLowerCase());
+      return userr.displayName.toLowerCase().includes(username.toLowerCase());
     });
   }, [users, username]);
 

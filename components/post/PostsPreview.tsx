@@ -13,6 +13,7 @@ import { useRecoilState } from 'recoil';
 import { modalState, modalTypeState } from '../../atoms/modalAtom';
 import { getPostIdState, getPostState } from '../../atoms/postAtom';
 import Image from 'next/image';
+import useSnapshotWithId from '../../hooks/use-snapshotWithId';
 interface Props {
   post: DocumentData;
   id: string;
@@ -24,24 +25,8 @@ const PostsPreview = ({ id, post }: Props) => {
   const [postState, setPostState] = useRecoilState(getPostState);
   const [postId, setPostId] = useRecoilState(getPostIdState);
 
-  const [comments, setComments] = useState<
-    QueryDocumentSnapshot<DocumentData>[]
-  >([]);
-  const [likes, setLikes] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
-  useEffect(
-    () =>
-      onSnapshot(query(collection(db, 'posts', id, 'comments')), snapshot =>
-        setComments(snapshot.docs)
-      ),
-    [db]
-  );
-  useEffect(
-    () =>
-      onSnapshot(query(collection(db, 'posts', id, 'likes')), snapshot => {
-        setLikes(snapshot.docs);
-      }),
-    [db]
-  );
+  const { value: likes } = useSnapshotWithId('posts', id, 'likes');
+  const { value: comments } = useSnapshotWithId('posts', id, 'comments');
 
   return (
     <div className="max-w-full ">
@@ -74,11 +59,11 @@ const PostsPreview = ({ id, post }: Props) => {
         >
           <div className="group-hover:flex items-center justify-center gap-1 text-white/90 hidden">
             <AiFillHeart className="w-5 h-5 " />
-            <p>{likes.length}</p>
+            <p>{likes?.length}</p>
           </div>
           <div className="group-hover:flex items-center justify-center gap-1 text-white/90 hidden">
             <FaComment className="w-4 h-4" />
-            <p>{comments.length}</p>
+            <p>{comments?.length}</p>
           </div>
         </div>
       </div>

@@ -11,9 +11,6 @@ import { FiPlusSquare } from 'react-icons/fi';
 import { IoPaperPlane, IoPaperPlaneOutline } from 'react-icons/io5';
 import { AiOutlineInstagram, AiOutlineMenu } from 'react-icons/ai';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { IoSettingsOutline } from 'react-icons/io5';
-import { VscReport } from 'react-icons/vsc';
-import { BiBookmark } from 'react-icons/bi';
 import SidebarLink from './SidebarLink';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -21,8 +18,9 @@ import { auth } from '../../../firebase';
 import { modalState, modalTypeState } from '../../../atoms/modalAtom';
 import { SetterOrUpdater, useRecoilState } from 'recoil';
 import SidebarWindow from './SidebarWindow';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import LogoInsta from '../../ui/LogoInsta';
+import SidebarMore from './SidebarMore';
 
 interface Props {
   activeSearch: boolean;
@@ -187,7 +185,11 @@ const Sidebar = ({
             />
           </Link>
 
-          <div className="absolute bottom-5 xl:w-56">
+          <div
+            className={`absolute bottom-5 ${
+              activeNotifications || activeSearch ? 'w-12' : 'xl:w-56'
+            }`}
+          >
             <div onClick={() => setMore(prev => !prev)}>
               <SidebarLink
                 text="More"
@@ -197,52 +199,7 @@ const Sidebar = ({
               />
             </div>
             <AnimatePresence>
-              {more && (
-                <motion.div
-                  initial={{
-                    y: '100%',
-                    opacity: 0,
-                    width: '5rem',
-                    zIndex: '-10',
-                  }}
-                  animate={{
-                    y: '0%',
-                    opacity: 1,
-                    width: '15rem',
-                    zIndex: '0',
-                  }}
-                  transition={{ duration: 0.2 }}
-                  exit={{ y: '100%', opacity: 0, width: '5rem', zIndex: '-10' }}
-                  className="bg-white flex flex-col absolute bottom-16 left-0 shadow-lg rounded-md w-60 cursor-pointer  text-[0.9rem]"
-                >
-                  <div className="flex w-full items-center justify-between border-b-[1px] p-2 hover:bg-gray-100 ">
-                    <button className="text-gray-800">Settings</button>
-                    <IoSettingsOutline className="w-6 h-6" />
-                  </div>
-                  <Link href={`/${user?.uid}`}>
-                    <div className="flex w-full items-center justify-between border-b-[1px] p-2 hover:bg-gray-100">
-                      <button>Saved</button>
-                      <BiBookmark className="w-6 h-6" />
-                    </div>
-                  </Link>
-                  <div className="flex w-full items-center justify-between border-b-[1px] p-2 hover:bg-gray-100">
-                    <button>Report a problem</button>
-                    <VscReport className="w-6 h-6" />
-                  </div>
-                  <div className="flex w-full items-center justify-between border-b-[1px] p-2 hover:bg-gray-100">
-                    <button>Switch accounts</button>
-                  </div>
-                  <div
-                    onClick={() => {
-                      auth.signOut();
-                      router.push('/');
-                    }}
-                    className="flex w-full items-center justify-between p-2 hover:bg-gray-100"
-                  >
-                    <button>Log out</button>
-                  </div>
-                </motion.div>
-              )}
+              {more && <SidebarMore user={user} router={router} />}
             </AnimatePresence>
           </div>
         </aside>

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 const useEmoji = () => {
   const [text, setText] = useState<string>('');
-
   const [showEmojis, setShowEmojis] = useState(false);
+
   const addEmoji = (e: { unified: string }) => {
     let sym = e.unified.split('-');
     let codesArray: Array<string | any> = [];

@@ -18,10 +18,14 @@ import {
 import PostsPreview from '../../components/post/PostsPreview';
 import { useRouter } from 'next/router';
 import { RotatingLines } from 'react-loader-spinner';
+import { useRecoilState } from 'recoil';
+import { modalState, modalTypeState } from '../../atoms/modalAtom';
 
 const ProfilePage = () => {
   const [user, loading] = useAuthState(auth);
   const [isSaved, setIsSaved] = useState(false);
+  const [modalOpen, setModalOpen] = useRecoilState(modalState);
+  const [modalType, setModalType] = useRecoilState(modalTypeState);
   const router = useRouter();
 
   const [createdPosts, setCreatedPosts] = useState<
@@ -39,16 +43,16 @@ const ProfilePage = () => {
   const getCreatedData = () => {
     let unsubscribe;
 
-    if (email) {
+    if (uid) {
       unsubscribe = onSnapshot(
-        query(collection(db, 'posts'), where('email', '==', email)),
+        query(collection(db, 'posts'), where('userid', '==', uid)),
         snapshot => {
           setCreatedPosts(snapshot?.docs);
         }
       );
     } else {
       unsubscribe = onSnapshot(
-        query(collection(db, 'posts'), where('email', '==', user?.email)),
+        query(collection(db, 'posts'), where('userid', '==', user?.uid)),
         snapshot => {
           setCreatedPosts(snapshot?.docs);
         }
@@ -132,7 +136,7 @@ const ProfilePage = () => {
                       </p>
                     </div>
                     <p className="font-semibold text-center md:text-start">
-                      {email}
+                      {email ? email : user?.email}
                     </p>
                   </div>
                 </div>
@@ -189,7 +193,14 @@ const ProfilePage = () => {
                           When you share photos, they will appear on your
                           profile.
                         </p>
-                        <button className="text-sm textMainColor font-semibold">
+
+                        <button
+                          onClick={() => {
+                            setModalType('createPost');
+                            setModalOpen(true);
+                          }}
+                          className="text-sm textMainColor font-semibold"
+                        >
                           Share your first photo
                         </button>
                       </div>
@@ -213,22 +224,28 @@ const ProfilePage = () => {
                     )}
                   </div>
                 ) : (
-                  <div
-                    className={`mt-5 md:mt-10 grid grid-cols-3 max-h-full ${
-                      savedPosts?.length === 0
-                        ? 'max-w-full md:w-[618px] lg:w-[918px]'
-                        : 'max-w-full md:w-[618px] lg:w-[918px]'
-                    } gap-2 md:gap-6`}
-                  >
-                    {user?.uid !== null &&
-                      savedPosts?.map(post => (
-                        <PostsPreview
-                          key={post.id}
-                          post={post.data()}
-                          id={post.id}
-                        />
-                      ))}
-                  </div>
+                  <>
+                    <div
+                      className={`mt-5 md:mt-10 grid grid-cols-3 max-h-full ${
+                        savedPosts?.length === 0
+                          ? 'max-w-full md:w-[618px] lg:w-[918px]'
+                          : 'max-w-full md:w-[618px] lg:w-[918px]'
+                      } gap-2 md:gap-6`}
+                    >
+                      {user?.uid !== null && savedPosts.length !== 0
+                        ? savedPosts?.map(post => (
+                            <PostsPreview
+                              key={post.id}
+                              post={post.data()}
+                              id={post.id}
+                            />
+                          ))
+                        : ''}
+                    </div>
+                    {savedPosts.length === 0 && (
+                      <p className="text-center text-lg">No saved posts!</p>
+                    )}
+                  </>
                 )}
                 {user?.uid !== slug && createdPosts.length === 0 && (
                   <p className="text-lg">User has no posts!</p>

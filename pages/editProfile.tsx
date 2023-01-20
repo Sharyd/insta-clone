@@ -1,11 +1,15 @@
-import React, { FormEvent, useRef, useState } from 'react';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import Layout from '../components/layout/Layout';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, storage } from '../firebase';
+import { auth, db, storage } from '../firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { updateEmail, updateProfile } from 'firebase/auth';
 import ChangePassword from '../components/ChangePassword';
 import { isImageValid } from '../helpers/isImageValid';
+import { doc, updateDoc } from 'firebase/firestore';
+import useSnapshot from '../hooks/use-snapshot';
+import { useRecoilState } from 'recoil';
+import { updateUser } from '../atoms/userAtom';
 
 enum ActiveBtn {
   EDITPROFILE,
@@ -17,8 +21,11 @@ const EditProfile = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [isUserUpdated, setIsUserUpdated] = useRecoilState(updateUser);
+
   const [fullName, setFullName] = useState(user?.displayName);
   const [email, setEmail] = useState(user?.email);
+
   const [activeBtn, setActiveBtn] = useState(ActiveBtn.EDITPROFILE);
   const refFileToElement = useRef<HTMLInputElement>(null);
   const [selectedFileURL, setSelectedFileURL] = useState<any>({});
@@ -65,28 +72,46 @@ const EditProfile = () => {
           setLoading(false);
         }
       }
-      if (fullName && email) {
-        try {
-          await updateProfile(user, {
-            displayName: fullName,
-          });
-          await updateEmail(user, email);
-        } catch (err) {
-          setError(
-            (err as { message?: string })?.message ?? 'Something went wrong'
-          );
-          setLoading(false);
-        }
+
+      try {
+        await updateProfile(user, {
+          displayName: fullName,
+        });
+        await updateEmail(user, email ?? '');
+      } catch (err) {
+        setError(
+          (err as { message?: string })?.message ?? 'Something went wrong'
+        );
+        setLoading(false);
       }
+
       setSuccess('Successfully updated!');
     }
-
+    setIsUserUpdated(true);
     setError('');
     setFullName('');
     setSelectedFileURL(null);
     setEmail('');
     setLoading(false);
   };
+
+  const updateUsers = async () => {
+    try {
+      await updateDoc(doc(db, 'users', user?.uid ?? ''), {
+        displayName: user?.displayName,
+        photoURL: user?.photoURL,
+        email: user?.email,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (isUserUpdated && user) {
+      updateUsers();
+    }
+  }, [isUserUpdated, user]);
 
   return (
     <Layout>

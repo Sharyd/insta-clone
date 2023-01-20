@@ -9,7 +9,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ChatContextProvider>
       <RecoilRoot>
         <NextNProgress />
-
         <Component {...pageProps} />
       </RecoilRoot>
     </ChatContextProvider>

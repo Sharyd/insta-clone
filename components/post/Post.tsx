@@ -38,6 +38,8 @@ import Comments from './Comments';
 import Image from 'next/image';
 import useIsAlreadySet from '../../hooks/use-isAlreadySet';
 import useSnapshotWithId from '../../hooks/use-snapshotWithId';
+import Link from 'next/link';
+import { updateUser } from '../../atoms/userAtom';
 
 interface Props {
   post: DocumentData;
@@ -51,24 +53,23 @@ const Post = ({ post, id, modalPost }: Props) => {
 
   const [postState, setPostState] = useRecoilState(getPostState);
   const [postId, setPostId] = useRecoilState(getPostIdState);
-  const { image, text, userImg, username } = post;
+  const [isUserUpdated, setIsUserUpdated] = useRecoilState(updateUser);
 
-  const [likes, setLikes] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
+  const { image, text, userImg, username, userid, email } = post;
+
   const [bookmarks, setBookmarks] = useState<
     QueryDocumentSnapshot<DocumentData>[]
   >([]);
 
   const [showComments, setShowComments] = useState(false);
-  const [comments, setComments] = useState<
-    QueryDocumentSnapshot<DocumentData>[]
-  >([]);
 
   const [user, loading] = useAuthState(auth);
   const { setSlideIndex, slideIndex, prevSlide, nextSlide } = useSlider(
     image?.length - 1
   );
 
-  // const { value: likes } = useSnapshotWithId('posts', id, 'likes');
+  const { value: likes } = useSnapshotWithId('posts', id, 'likes');
+  const { value: comments } = useSnapshotWithId('posts', id, 'comments');
 
   const { value: liked } = useIsAlreadySet(likes, user?.uid ?? '');
   const { value: bookmarked } = useIsAlreadySet(bookmarks, id);
@@ -86,13 +87,6 @@ const Post = ({ post, id, modalPost }: Props) => {
     setSlideIndex(index);
   };
 
-  useEffect(
-    () =>
-      onSnapshot(query(collection(db, 'posts', id, 'likes')), snapshot => {
-        setLikes(snapshot.docs);
-      }),
-    [db]
-  );
   useEffect(
     () =>
       onSnapshot(
@@ -141,21 +135,30 @@ const Post = ({ post, id, modalPost }: Props) => {
     resetEmojiAndText();
   };
 
-  useEffect(
-    () =>
-      onSnapshot(
-        query(
-          collection(db, 'posts', id, 'comments'),
-          orderBy('timestamp', 'desc')
-        ),
-        snapshot => setComments(snapshot.docs)
-      ),
-    [db, id]
-  );
-
   const deletePost = () => {
     deleteDoc(doc(db, 'posts', id));
   };
+
+  const updateUserInPost = async () => {
+    if (user?.uid === post?.userid) {
+      try {
+        await updateDoc(doc(db, 'posts', id), {
+          username: user?.displayName,
+          userImg: user?.photoURL,
+          email: user?.email,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (isUserUpdated && user) {
+      updateUserInPost();
+      setIsUserUpdated(false);
+    }
+  }, [isUserUpdated, user]);
 
   return (
     <div
@@ -164,10 +167,25 @@ const Post = ({ post, id, modalPost }: Props) => {
       }
     >
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <img src={userImg} alt="" className="w-9 h-9 rounded-full m-2" />
+        <Link
+          href={{
+            pathname: `/${userid === user?.uid ? user?.uid : userid}`,
+            query: {
+              uid: userid,
+              displayName: username,
+              email: email,
+              photoURL: userImg,
+            },
+          }}
+          className="flex items-center gap-2"
+        >
+          <img
+            src={userImg}
+            alt="user image profile"
+            className="w-9 h-9 rounded-full m-2 object-cover"
+          />
           <p className="font-[500] text-[0.8rem]">{username}</p>
-        </div>
+        </Link>
         <BsThreeDots className="mr-4 w-5 h-5" />
       </div>
 
@@ -185,7 +203,7 @@ const Post = ({ post, id, modalPost }: Props) => {
             key={index}
             src={data}
             priority
-            alt=""
+            alt="some Post"
             className={`min-w-full transition max-h-[375px] lg:max-h-[445px] ease-in-out duration-500 object-contain bg-black  
            `}
             style={{ transform: `translateX(${-100 * slideIndex}%)` }}

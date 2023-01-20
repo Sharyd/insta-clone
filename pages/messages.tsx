@@ -44,13 +44,12 @@ const Messages = () => {
   const [userr, loading] = useAuthState(auth);
   const [error, setError] = useState('');
   const [username, setUsername] = useState('');
-  const [chats, setChats] = useState<DocumentData | undefined>([]);
-  const [user, setUser] = useState<DocumentData | null>(null);
+
+  const [searchedUser, setSearchedUser] = useState<DocumentData | null>(null);
   const refFileToElement = useRef<HTMLInputElement>(null);
   const { data } = useContext(ChatContext);
   const [hideFooter, setHideFooter] = useState(true);
   const [showSearchInput, setShowSearchInput] = useState(false);
-  const enterRef = useRef();
 
   const [img, setImg] = useState<File | null>(null);
   const [messages, setMessages] = useState<DocumentData | undefined>([]);
@@ -73,7 +72,7 @@ const Messages = () => {
     try {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach(doc => {
-        setUser(doc.data());
+        setSearchedUser(doc.data());
       });
     } catch (err) {
       setError(
@@ -166,12 +165,12 @@ const Messages = () => {
           <div className="h-[100px]">
             <h2 className="font-[500] text-md mb-4 pt-2 px-4"></h2>
 
-            {user && (
+            {searchedUser && (
               <ChatUsers
-                user={user}
+                user={searchedUser}
                 setUsername={setUsername}
                 username={username}
-                setUser={setUser}
+                setUser={setSearchedUser}
               />
             )}
             {error && <p>{error}</p>}
@@ -240,12 +239,12 @@ const Messages = () => {
                 <div className="h-[100px]">
                   <h2 className="font-[500] text-md mb-4 pt-2 px-4"></h2>
 
-                  {user && (
+                  {searchedUser && (
                     <ChatUsers
-                      user={user}
+                      user={searchedUser}
                       setUsername={setUsername}
                       username={username}
-                      setUser={setUser}
+                      setUser={setSearchedUser}
                     />
                   )}
                 </div>

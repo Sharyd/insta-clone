@@ -36,7 +36,7 @@ const SidebarLink = ({
           src={img}
           alt="user-profile"
           className={`
-           h-7 w-7 rounded-full group-hover:scale-105 transition-all`}
+           h-7 w-7 rounded-full group-hover:scale-105 transition-all object-cover`}
         />
       )}
       <span

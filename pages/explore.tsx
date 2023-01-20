@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Layout from '../components/layout/Layout';
 
 import PostsPreview from '../components/post/PostsPreview';
@@ -6,7 +6,6 @@ import PostsPreview from '../components/post/PostsPreview';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import useSnapshot from '../hooks/use-snapshot';
 const explore = () => {
-  const [loading, setLoading] = useState(false);
   const { value: posts } = useSnapshot('posts');
 
   return (

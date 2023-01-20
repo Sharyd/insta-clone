@@ -1,20 +1,20 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
 
 export const handlePostState = atom({
-  key: "handlePostKey",
+  key: 'handlePostKey',
   default: false,
 });
 
 export const getSelectedImgLengthState = atom({
-  key: "getSelectedImgKey",
+  key: 'getSelectedImgKey',
   default: 0,
 });
 
 export const getPostState = atom({
-  key: "getPostKey",
+  key: 'getPostKey',
   default: {},
 });
 export const getPostIdState = atom({
-  key: "getPostIdKey",
-  default: "",
+  key: 'getPostIdKey',
+  default: '',
 });

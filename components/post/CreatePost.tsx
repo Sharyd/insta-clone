@@ -91,6 +91,7 @@ const CreatePost = () => {
     );
     setSelectedFilesURL(filteredItems);
     prevSlide();
+    setNext(false);
   };
 
   const sendPost = async () => {
@@ -214,7 +215,7 @@ const CreatePost = () => {
             {!loading ? (
               <div className="flex border-t flex-col md:flex-row overflow-hidden">
                 <div className="relative">
-                  <div className="bg-black relative h-[20.5rem] w-[21.9rem] md:h-[38rem] md:w-[32.5rem] lg:h-[40.5rem] lg:w-[45rem]  overflow-hidden">
+                  <div className="bg-black relative h-[20.5rem] w-[21.9rem] md:h-[38rem] md:w-[27.5rem] lg:h-[40.5rem] lg:w-[37rem] xl:w-[41rem]  overflow-hidden">
                     {selectedFilesURL?.map(
                       (
                         data: { id: string; imagesToPreview: string },
@@ -225,7 +226,7 @@ const CreatePost = () => {
                             {slideIndex === index && (
                               <div
                                 key={data.id}
-                                className="absolute h-[20.5rem] w-[21.9rem] md:h-[38rem] md:w-[32.5rem] lg:h-[40.5rem] lg:w-[45rem] object-cover "
+                                className="absolute h-[20.5rem] w-[21.9rem] md:h-[38rem] md:w-[27.5rem] lg:h-[40.5rem] lg:w-full object-cover "
                                 style={{
                                   backgroundImage: `url(${data.imagesToPreview})`,
                                   backgroundRepeat: 'no-repeat',

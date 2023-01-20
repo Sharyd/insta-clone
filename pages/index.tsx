@@ -12,10 +12,10 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import { useRouter } from 'next/router';
-import { RotatingLines } from 'react-loader-spinner';
 import { doc, setDoc } from 'firebase/firestore';
 import { ChatContext } from '../store/ChatContext';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
+
 const Home: NextPage = () => {
   const [login, setLogin] = useState(true);
   const [user, loading] = useAuthState(auth);
@@ -28,9 +28,9 @@ const Home: NextPage = () => {
       const res = await signInWithPopup(auth, fbProvider);
 
       const credantial = FacebookAuthProvider.credentialFromResult(res);
-
       const token = credantial?.accessToken;
       let photoUrl = res.user.photoURL + '?height=500&access_token=' + token;
+
       await updateProfile(res.user, { photoURL: photoUrl });
 
       await setDoc(doc(db, 'users', res.user.uid), {

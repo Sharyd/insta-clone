@@ -9,13 +9,13 @@ import {
 import React, { useEffect, useState } from 'react';
 import { db } from '../firebase';
 
-const useSnapshot = (item: string) => {
+const useSnapshot = (myCollection: string) => {
   const [value, setValue] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
 
   useEffect(
     () =>
       onSnapshot(
-        query(collection(db, item), orderBy('timestamp', 'desc')),
+        query(collection(db, myCollection), orderBy('timestamp', 'desc')),
         snapshot => setValue(snapshot.docs)
       ),
     [db]
