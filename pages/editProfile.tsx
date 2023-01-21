@@ -1,4 +1,10 @@
-import React, { FormEvent, useEffect, useRef, useState } from 'react';
+import React, {
+  FormEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import Layout from '../components/layout/Layout';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db, storage } from '../firebase';
@@ -50,7 +56,10 @@ const EditProfile = () => {
     if (loading) return;
     setLoading(true);
 
-    const storageRef = ref(storage, `/profileImg${selectedFileURL?.imageToDB}`);
+    const storageRef = ref(
+      storage,
+      `/profileImg/${user?.uid}/${selectedFileURL?.imageToDB.name}`
+    );
 
     if (user) {
       if (selectedFileURL?.imageToDB) {
@@ -95,7 +104,7 @@ const EditProfile = () => {
     setLoading(false);
   };
 
-  const updateUsers = async () => {
+  const updateUsers = useCallback(async () => {
     try {
       await updateDoc(doc(db, 'users', user?.uid ?? ''), {
         displayName: user?.displayName,
@@ -105,13 +114,14 @@ const EditProfile = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (isUserUpdated && user) {
       updateUsers();
+      () => setIsUserUpdated(false);
     }
-  }, [isUserUpdated, user]);
+  }, [isUserUpdated, updateUsers, user]);
 
   return (
     <Layout>

@@ -139,7 +139,7 @@ const Post = ({ post, id, modalPost }: Props) => {
     deleteDoc(doc(db, 'posts', id));
   };
 
-  const updateUserInPost = async () => {
+  const updateUserInPost = useCallback(async () => {
     if (user?.uid === post?.userid) {
       try {
         await updateDoc(doc(db, 'posts', id), {
@@ -151,14 +151,14 @@ const Post = ({ post, id, modalPost }: Props) => {
         console.log(error);
       }
     }
-  };
+  }, [user?.uid, post?.userid]);
 
   useEffect(() => {
-    if (isUserUpdated && user) {
+    if (isUserUpdated) {
       updateUserInPost();
       setIsUserUpdated(false);
     }
-  }, [isUserUpdated, user]);
+  }, [isUserUpdated, updateUserInPost]);
 
   return (
     <div

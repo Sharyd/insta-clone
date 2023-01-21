@@ -10,7 +10,7 @@ const SearchedUsers = ({ users }: Props) => {
   return (
     <Link
       href={{
-        pathname: `/${users?.email}`,
+        pathname: `/${users?.uid}`,
         query: {
           uid: users.uid,
           displayName: users.displayName,

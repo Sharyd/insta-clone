@@ -22,7 +22,7 @@ const SidebarSearch = () => {
           />
         </div>
       </div>
-      <div className="md:mt-2 h-full overflow-y-auto">
+      <div className="md:mt-2 h-full overflow-y-auto overflow-scroll scrollbar-hide">
         {filteredUsers.map((users: DocumentData) => (
           <SearchedUsers users={users} key={users.uid} />
         ))}
