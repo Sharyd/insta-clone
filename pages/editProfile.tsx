@@ -81,17 +81,18 @@ const EditProfile = () => {
           setLoading(false);
         }
       }
-
-      try {
-        await updateProfile(user, {
-          displayName: fullName,
-        });
-        await updateEmail(user, email ?? '');
-      } catch (err) {
-        setError(
-          (err as { message?: string })?.message ?? 'Something went wrong'
-        );
-        setLoading(false);
+      if (email || fullName) {
+        try {
+          await updateProfile(user, {
+            displayName: fullName,
+          });
+          await updateEmail(user, email ?? '');
+        } catch (err) {
+          setError(
+            (err as { message?: string })?.message ?? 'Something went wrong'
+          );
+          setLoading(false);
+        }
       }
 
       setSuccess('Successfully updated!');
