@@ -58,7 +58,7 @@ const EditProfile = () => {
 
     const storageRef = ref(
       storage,
-      `/profileImg/${user?.uid}/${selectedFileURL?.imageToDB.name}`
+      `/profileImg/${user?.uid}/${selectedFileURL?.imageToDB?.name}`
     );
 
     if (user) {
