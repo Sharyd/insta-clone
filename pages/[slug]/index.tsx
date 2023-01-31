@@ -37,8 +37,8 @@ const ProfilePage = () => {
 
   const userData: any = router.query;
 
-  const { displayName, email, uid, photoURL } = userData;
-  const { slug } = router?.query;
+  const { displayName, uid, photoURL } = userData;
+  const { slug: currentUserID } = router?.query;
 
   const getCreatedData = () => {
     let unsubscribe;
@@ -97,7 +97,11 @@ const ProfilePage = () => {
               <div className="flex w-full border-b mb-4 items-center justify-center">
                 <div className="flex w-full items-center gap-10 md:gap-20 xl:ml-10 flex-col md:flex-row mb-10">
                   <img
-                    src={user?.uid === slug ? user?.photoURL ?? '' : photoURL}
+                    src={
+                      user?.uid === currentUserID
+                        ? user?.photoURL ?? ''
+                        : photoURL
+                    }
                     alt="user profile"
                     className="w-28 h-28 md:w-40 md:h-40 rounded-full object-cover"
                   />
@@ -105,9 +109,11 @@ const ProfilePage = () => {
                   <div className="flex flex-col gap-2 md:gap-4 text-gray-700 ">
                     <div className="flex flex-col md:flex-row items-center justify-between mb-4 gap-2">
                       <h2 className="text-xl md:text-2xl font-thin mb-4 md:mb-0 ">
-                        {user?.uid === slug ? user?.displayName : displayName}
+                        {user?.uid === currentUserID
+                          ? user?.displayName
+                          : displayName}
                       </h2>
-                      {user?.uid === slug ? (
+                      {user?.uid === currentUserID ? (
                         <div className="flex items-centerjustify-center">
                           <Link
                             href="/editProfile"
@@ -136,7 +142,9 @@ const ProfilePage = () => {
                       </p>
                     </div>
                     <p className="font-semibold text-center md:text-start">
-                      {email ? email : user?.email}
+                      {user?.uid === uid || user?.uid === currentUserID
+                        ? user?.email
+                        : ''}
                     </p>
                   </div>
                 </div>
@@ -144,7 +152,7 @@ const ProfilePage = () => {
               <div className="flex flex-col items-center justify-center">
                 <div
                   className={`flex items-center justify-center ${
-                    user?.uid === slug ? 'gap-12' : 'gap-0'
+                    user?.uid === currentUserID ? 'gap-12' : 'gap-0'
                   }`}
                 >
                   <div className={`${!isSaved && 'lineActivePostsOrSaved'}`}>
@@ -157,7 +165,7 @@ const ProfilePage = () => {
                     </button>
                   </div>
                   <div className={`${isSaved && 'lineActivePostsOrSaved'}`}>
-                    {user?.uid === slug && (
+                    {user?.uid === currentUserID && (
                       <button
                         onClick={() => {
                           setIsSaved(true);
@@ -170,7 +178,7 @@ const ProfilePage = () => {
                   </div>
                 </div>
                 {createdPosts?.length !== 0 &&
-                  user?.uid === slug &&
+                  user?.uid === currentUserID &&
                   !isSaved && (
                     <button className="text-sm textMainColor font-semibold ml-auto mt-2">
                       Share your photo
@@ -179,7 +187,8 @@ const ProfilePage = () => {
 
                 {!isSaved ? (
                   <div className="mt-3 md:mt-10 text-center">
-                    {createdPosts?.length === 0 && user?.uid === slug ? (
+                    {createdPosts?.length === 0 &&
+                    user?.uid === currentUserID ? (
                       <div
                         className={`${
                           createdPosts?.length === 0
@@ -247,7 +256,7 @@ const ProfilePage = () => {
                     )}
                   </>
                 )}
-                {user?.uid !== slug && createdPosts.length === 0 && (
+                {user?.uid !== currentUserID && createdPosts.length === 0 && (
                   <p className="text-lg">User has no posts!</p>
                 )}
               </div>

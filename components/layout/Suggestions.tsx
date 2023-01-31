@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../firebase';
+import { auth } from '../../firebase';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 const Suggestions = () => {
@@ -13,7 +13,7 @@ const Suggestions = () => {
       <div className="flex flex-col">
         <div className="flex items-center">
           <Link
-            href={`/${user?.uid}/`}
+            href={`/${user?.uid}`}
             className="flex items-center cursor-pointer"
           >
             <img

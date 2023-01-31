@@ -1,12 +1,15 @@
 import { DocumentData } from 'firebase/firestore';
 import Link from 'next/link';
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../firebase';
 
 interface Props {
   users: DocumentData;
 }
 
 const SearchedUsers = ({ users }: Props) => {
+  const [user] = useAuthState(auth);
   return (
     <Link
       href={{
@@ -14,7 +17,6 @@ const SearchedUsers = ({ users }: Props) => {
         query: {
           uid: users.uid,
           displayName: users.displayName,
-          email: users?.email,
           photoURL: users?.photoURL,
         },
       }}
@@ -27,7 +29,9 @@ const SearchedUsers = ({ users }: Props) => {
         />
         <div className="flex flex-col text-sm ">
           <p className="font-[500]">{users?.displayName}</p>
-          <p className="text-gray-400 text-xs">{users?.email}</p>
+          <p className="text-gray-400 text-xs">
+            {user?.uid === users.uid ? users?.email : ''}
+          </p>
         </div>
       </div>
     </Link>

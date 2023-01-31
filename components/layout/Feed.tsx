@@ -3,7 +3,7 @@ import React from 'react';
 import Post from '../post/Post';
 
 import Slider from '../stories/Slider';
-import Suggestions from '../Suggestions';
+import Suggestions from './Suggestions';
 import useSnapshot from '../../hooks/use-snapshot';
 
 const Feed = () => {

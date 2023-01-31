@@ -1,94 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import useSlider from '../../hooks/use-slider';
-import { v4 as uuidv4 } from 'uuid';
+import { data as dataSlider } from '../../helpers/dataStories';
 import BtnSlider from './SliderBtn';
 
-const data = [
-  {
-    userImg: 'user-1.jpeg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-2.jpeg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-3.jpeg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-5.jpg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-5.jpg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-2.jpeg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-1.jpeg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-1.jpeg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-1.jpeg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-5.jpg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-2.jpeg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-2.jpeg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-2.jpeg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-2.jpeg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-2.jpeg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-2.jpeg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-2.jpeg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-2.jpeg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-2.jpeg',
-    userId: uuidv4(),
-  },
-  {
-    userImg: 'user-2.jpeg',
-    userId: uuidv4(),
-  },
-];
 const Slider = () => {
   // This is just shitty calculating
-  const calcNumberOfSliding = Math.floor((data.length * 65) / 255);
-  const calcSpace = data.length * 39;
+  const calcNumberOfSliding = Math.floor((dataSlider.length * 65) / 255);
+  const calcSpace = dataSlider.length * 39;
   const { prevSlide, nextSlide, slideIndex } = useSlider(calcNumberOfSliding);
 
   const calcfinal: any = slideIndex === calcNumberOfSliding ? '13' : '15';
@@ -101,7 +19,7 @@ const Slider = () => {
           transform: `translateX(${-calcfinal * slideIndex}rem)`,
         }}
       >
-        {data.map((img, index) => (
+        {dataSlider.map((img, index) => (
           <div
             key={img.userId}
             className={`flex items-center justify-center flex-col gap-2  `}
