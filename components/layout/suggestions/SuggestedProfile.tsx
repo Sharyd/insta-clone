@@ -32,12 +32,9 @@ const SuggestedProfile = ({ uid, photoURL, displayName, email }: Props) => {
           },
         }}
         className="font-[500] textMainColor"
+        onClick={() => localStorage.setItem('uid', uid)}
       >
         Show user
-        {/* {followers?.map((follower: DocumentData) =>
-          follower.data().uid === suggestUser.uid ? 'Following' : ''
-        )}
-        {followers.length === 0 && 'Show user'} */}
       </Link>
     </div>
   );

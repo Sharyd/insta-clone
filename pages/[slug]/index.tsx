@@ -64,6 +64,7 @@ const ProfilePage = () => {
       ) !== -1
     );
   }, [user, loggedUser?.uid]);
+  console.log(user[0]);
 
   const getUserData = useCallback(() => {
     const unsubscribe = onSnapshot(
@@ -80,7 +81,7 @@ const ProfilePage = () => {
   }, [getUserData]);
 
   const handleFollowUser = async () => {
-    //Following - if is followed set in following array the userId of user
+    //Following - if is not followed set in following array the userId of user
     setIsFollowed(prev => !prev);
     try {
       await updateDoc(doc(db, 'users', loggedUser?.uid ?? ''), {
@@ -89,7 +90,7 @@ const ProfilePage = () => {
     } catch (err) {
       console.log(err);
     }
-    //Followers - if is followed set in followers array the userId of the logged user
+    //Followers - if is not followed set in followers array the userId of the logged user
     try {
       await updateDoc(doc(db, 'users', storageUserID ?? ''), {
         followers: isFollowed
