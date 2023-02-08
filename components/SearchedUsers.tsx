@@ -20,6 +20,7 @@ const SearchedUsers = ({ users }: Props) => {
           photoURL: users?.photoURL,
         },
       }}
+      onClick={() => localStorage.setItem('uid', users.uid)}
     >
       <div className="p-2 flex items-center gap-2 w-full  hover:bg-gray-100 cursor-pointer">
         <img

@@ -84,6 +84,8 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
           uid: res.user.uid,
           displayName,
           email,
+          following: [],
+          followers: [],
           photoURL: 'https://graph.facebook.com/9002313636460828/picture',
         });
         await setDoc(doc(db, 'userChat', res.user.uid), {});

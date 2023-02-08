@@ -1,12 +1,61 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../../firebase';
+import { auth, db } from '../../../firebase';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  DocumentData,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+  QueryDocumentSnapshot,
+  setDoc,
+  where,
+} from 'firebase/firestore';
+import useSnapshotWithId from '../../../hooks/use-snapshotWithId';
+import useIsAlreadySet from '../../../hooks/use-isAlreadySet';
+import { useRecoilState } from 'recoil';
+
+import SuggestedProfile from './SuggestedProfile';
 const Suggestions = () => {
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
   const getFullYear = new Date().getFullYear();
+  const [users, setUsers] = useState<DocumentData[]>([]);
+  const [singleUserId, setSingleUserId] = useState('');
+
+  const [following, setFollowing] = useState<DocumentData[]>([]);
+
+  // this is not finished !
+
+  // const getFollowing = useCallback(() => {
+  //   const unsubscribe = onSnapshot(
+  //     query(collection(db, 'users'), where('uid', '==', user?.uid)),
+  //     snapshot => {
+  //       setFollowing(snapshot.docs.flatMap(user => user.data().following));
+  //     }
+  //   );
+  //   return unsubscribe;
+  // }, [db, user?.uid]);
+
+  // useEffect(() => getFollowing(), [getFollowing]);
+
+  // console.log(singleUserId);
+
+  const { value: isFollowing } = useIsAlreadySet(following, user?.uid ?? '');
+
+  useEffect(() => {
+    if (!user?.uid) return;
+    onSnapshot(
+      query(collection(db, 'users'), limit(4), where('uid', '!=', user?.uid)),
+      snapshot => setUsers(snapshot.docs.map(users => users.data()))
+    ),
+      [db, user?.uid];
+  });
 
   return (
     <div className="flex flex-col text-[0.7rem] mt-10 ml-4 w-[325px] text-gray-700">
@@ -46,62 +95,15 @@ const Suggestions = () => {
           </h3>
           <button className="text-gray-800">See All</button>
         </div>
-        <div className="flex items-center justify-between">
-          <div className="p-2 flex gap-3">
-            <img
-              src="user-5.jpg"
-              alt="user-profile"
-              className="w-9 h-9 rounded-full"
-            />
-            <div className="flex flex-col">
-              <p className="font-[500] text-[0.8rem]">MichaelXXX</p>
-              <p className="text-gray-500">Followed by Alex + 3 more</p>
-            </div>
-          </div>
-          <button className="font-[500] textMainColor">Follow</button>
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="p-2 flex gap-3">
-            <img
-              src="user-5.jpg"
-              alt="user-profile"
-              className="w-9 h-9 rounded-full"
-            />
-            <div className="flex flex-col">
-              <p className="font-[500] text-sm text-[0.8rem]">MichaelXXX</p>
-              <p className=" text-gray-500">Followed by Alex + 3 more</p>
-            </div>
-          </div>
-          <button className=" font-[500] textMainColor">Follow</button>
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="p-2 flex gap-3">
-            <img
-              src="user-5.jpg"
-              alt="user-profile"
-              className="w-9 h-9 rounded-full"
-            />
-            <div className="flex flex-col">
-              <p className="font-[500] text-sm text-[0.8rem]">MichaelXXX</p>
-              <p className=" text-gray-500">Followed by Alex + 3 more</p>
-            </div>
-          </div>
-          <button className="font-[500] textMainColor">Follow</button>
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="p-2 flex gap-3">
-            <img
-              src="user-5.jpg"
-              alt="user-profile"
-              className="w-9 h-9 rounded-full"
-            />
-            <div className="flex flex-col">
-              <p className="font-[500] text-sm text-[0.8rem]">MichaelXXX</p>
-              <p className="text-gray-500">Followed by Alex + 3 more</p>
-            </div>
-          </div>
-          <button className="font-[500] textMainColor">Follow</button>
-        </div>
+        {users?.map((suggestUser: DocumentData) => (
+          <SuggestedProfile
+            key={suggestUser.uid}
+            photoURL={suggestUser.photoURL}
+            uid={suggestUser.uid}
+            displayName={suggestUser.displayName}
+            email={suggestUser.email}
+          />
+        ))}
 
         <nav className="mt-6 text-gray-400 opacity-60 text-[0.65rem] ">
           <ul className="flex gap-2 flex-wrap">

@@ -37,6 +37,8 @@ const Home: NextPage = () => {
         uid: res.user.uid,
         displayName: res.user.displayName,
         email: res.user.email,
+        following: [],
+        followers: [],
         photoURL: res.user.photoURL,
       });
       await setDoc(doc(db, 'userChat', res.user.uid), {});
