@@ -27,31 +27,31 @@ const Feed = () => {
     DocumentData[]
   >([]);
 
-  useEffect(() => {
-    if (!loggedUser?.uid) return;
-    onSnapshot(
-      query(collection(db, 'users'), where('uid', '==', loggedUser?.uid)),
-      snapshot =>
-        setLoggedUserFollowing(
-          snapshot.docs.flatMap(user => user.data().following)
-        )
-    ),
-      [db, loggedUser?.uid];
-  });
+  // useEffect(() => {
+  //   if (!loggedUser?.uid) return;
+  //   onSnapshot(
+  //     query(collection(db, 'users'), where('uid', '==', loggedUser?.uid)),
+  //     snapshot =>
+  //       setLoggedUserFollowing(
+  //         snapshot.docs.flatMap(user => user.data().following)
+  //       )
+  //   ),
+  //     [db, loggedUser?.uid];
+  // });
 
-  useEffect(() => {
-    if (loggedUserFollowing.length !== 0) {
-      const unsubscribe = onSnapshot(
-        query(
-          collection(db, 'posts'),
-          orderBy('timestamp', 'desc'),
-          where('userid', 'in', loggedUserFollowing)
-        ),
-        snapshot => setPosts(snapshot.docs)
-      );
-      return () => unsubscribe();
-    }
-  }, [db, loggedUserFollowing]);
+  // useEffect(() => {
+  //   if (loggedUserFollowing.length !== 0) {
+  //     const unsubscribe = onSnapshot(
+  //       query(
+  //         collection(db, 'posts'),
+  //         orderBy('timestamp', 'desc'),
+  //         where('userid', 'in', loggedUserFollowing)
+  //       ),
+  //       snapshot => setPosts(snapshot.docs)
+  //     );
+  //     return () => unsubscribe();
+  //   }
+  // }, [db, loggedUserFollowing]);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(

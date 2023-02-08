@@ -28,7 +28,7 @@ const Suggestions = () => {
   const [users, setUsers] = useState<DocumentData[]>([]);
   const [singleUserId, setSingleUserId] = useState('');
 
-  const [following, setFollowing] = useState<DocumentData[]>([]);
+  // const [following, setFollowing] = useState<DocumentData[]>([]);
 
   // this is not finished !
 
@@ -46,7 +46,7 @@ const Suggestions = () => {
 
   // console.log(singleUserId);
 
-  const { value: isFollowing } = useIsAlreadySet(following, user?.uid ?? '');
+  // const { value: isFollowing } = useIsAlreadySet(following, user?.uid ?? '');
 
   useEffect(() => {
     if (!user?.uid) return;
