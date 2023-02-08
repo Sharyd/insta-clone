@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import Post from '../post/Post';
 
@@ -27,31 +27,33 @@ const Feed = () => {
     DocumentData[]
   >([]);
 
-  // useEffect(() => {
-  //   if (!loggedUser?.uid) return;
-  //   onSnapshot(
-  //     query(collection(db, 'users'), where('uid', '==', loggedUser?.uid)),
-  //     snapshot =>
-  //       setLoggedUserFollowing(
-  //         snapshot.docs.flatMap(user => user.data().following)
-  //       )
-  //   ),
-  //     [db, loggedUser?.uid];
-  // });
+  const getFollowing = useCallback(() => {
+    const unsubscribe = onSnapshot(
+      query(collection(db, 'users'), where('uid', '==', loggedUser?.uid)),
+      snapshot => {
+        setLoggedUserFollowing(
+          snapshot.docs.flatMap(user => user.data().following)
+        );
+      }
+    );
+    return unsubscribe;
+  }, [db, loggedUser?.uid]);
 
-  // useEffect(() => {
-  //   if (loggedUserFollowing.length !== 0) {
-  //     const unsubscribe = onSnapshot(
-  //       query(
-  //         collection(db, 'posts'),
-  //         orderBy('timestamp', 'desc'),
-  //         where('userid', 'in', loggedUserFollowing)
-  //       ),
-  //       snapshot => setPosts(snapshot.docs)
-  //     );
-  //     return () => unsubscribe();
-  //   }
-  // }, [db, loggedUserFollowing]);
+  useEffect(() => getFollowing(), [getFollowing]);
+
+  useEffect(() => {
+    if (loggedUserFollowing.length !== 0) {
+      const unsubscribe = onSnapshot(
+        query(
+          collection(db, 'posts'),
+          orderBy('timestamp', 'desc'),
+          where('userid', 'in', loggedUserFollowing)
+        ),
+        snapshot => setPosts(snapshot.docs)
+      );
+      return () => unsubscribe();
+    }
+  }, [db, loggedUserFollowing]);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(

@@ -8,21 +8,14 @@ import Layout from '../../components/layout/Layout';
 
 import Link from 'next/link';
 import {
-  addDoc,
   arrayRemove,
   arrayUnion,
   collection,
-  deleteDoc,
-  deleteField,
   doc,
   DocumentData,
-  DocumentReference,
-  FieldValue,
   onSnapshot,
   query,
-  QueryConstraint,
   QueryDocumentSnapshot,
-  setDoc,
   updateDoc,
   where,
 } from 'firebase/firestore';
@@ -32,12 +25,8 @@ import { RotatingLines } from 'react-loader-spinner';
 import { useRecoilState } from 'recoil';
 import { modalState, modalTypeState } from '../../atoms/modalAtom';
 
-import useIsAlreadySet from '../../hooks/use-isAlreadySet';
-
-import useSnapshotWithId from '../../hooks/use-snapshotWithId';
-
 const ProfilePage = () => {
-  // I will refactor this code and I renaming some things!
+  // I will refactor this code!
 
   const [loggedUser, loading] = useAuthState(auth);
   const [isSaved, setIsSaved] = useState(false);
@@ -112,9 +101,9 @@ const ProfilePage = () => {
     }
   };
 
-  const getCreatedData = () => {
+  const getCreatedPosts = () => {
     let unsubscribe;
-
+    setIsSaved(false);
     if (uid) {
       unsubscribe = onSnapshot(
         query(collection(db, 'posts'), where('userid', '==', uid)),
@@ -134,7 +123,8 @@ const ProfilePage = () => {
     return unsubscribe;
   };
 
-  const getSavedData = () => {
+  const getSavedPosts = () => {
+    if (uid !== loggedUser?.uid) return;
     const unsubscribe = onSnapshot(
       query(
         collection(db, 'posts'),
@@ -151,7 +141,7 @@ const ProfilePage = () => {
   useEffect(() => {
     if (!loggedUser || !userData || !storageUserID) return;
 
-    getCreatedData();
+    getCreatedPosts();
   }, [db, router?.query, storageUserID, loggedUser]);
 
   return (
@@ -207,7 +197,6 @@ const ProfilePage = () => {
                             <button type="button">
                               {isFollowed ? 'unFollow' : 'Follow'}
                             </button>
-                            {/* {user[0]?.followers.length === 0 && 'Follow'} */}
                           </div>
                         ) : (
                           ''
@@ -277,7 +266,7 @@ const ProfilePage = () => {
                       <button
                         onClick={() => {
                           setIsSaved(true);
-                          getSavedData();
+                          getSavedPosts();
                         }}
                       >
                         SAVED

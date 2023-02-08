@@ -48,14 +48,27 @@ const Suggestions = () => {
 
   // const { value: isFollowing } = useIsAlreadySet(following, user?.uid ?? '');
 
-  useEffect(() => {
+  const getUsersWithLimit = useCallback(() => {
     if (!user?.uid) return;
-    onSnapshot(
+    const unsubscribe = onSnapshot(
       query(collection(db, 'users'), limit(4), where('uid', '!=', user?.uid)),
       snapshot => setUsers(snapshot.docs.map(users => users.data()))
-    ),
-      [db, user?.uid];
-  });
+    );
+
+    return () => unsubscribe();
+  }, [db, user?.uid]);
+
+  useEffect(() => getUsersWithLimit(), [getUsersWithLimit]);
+
+  // useEffect(() => {
+  //   if (!user?.uid) return;
+  // onSnapshot(
+  //   query(collection(db, 'users'), limit(4), where('uid', '!=', user?.uid)),
+  //   snapshot => setUsers(snapshot.docs.map(users => users.data()))
+  // ),
+  //     [db, user?.uid];
+  // });
+  console.log(users);
 
   return (
     <div className="flex flex-col text-[0.7rem] mt-10 ml-4 w-[325px] text-gray-700">

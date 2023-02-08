@@ -19,7 +19,7 @@ const SuggestedProfile = ({ uid, photoURL, displayName, email }: Props) => {
         />
         <div className="flex flex-col">
           <p className="font-[500] text-[0.8rem]">{displayName}</p>
-          <p className="text-gray-500">Followed by Alex + 3 more</p>
+          <p className="text-gray-500">Followed by + Alex 3 more</p>
         </div>
       </div>
       <Link
