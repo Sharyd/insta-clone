@@ -57,6 +57,7 @@ const Suggestions = ({ followingUsers }: Props) => {
           <Link
             href={`/${user?.uid}`}
             className="flex items-center cursor-pointer"
+            onClick={() => localStorage.setItem('uid', user?.uid ?? '')}
           >
             <img
               src={

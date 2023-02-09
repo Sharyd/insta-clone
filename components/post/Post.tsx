@@ -178,6 +178,7 @@ const Post = ({ post, id, modalPost }: Props) => {
             },
           }}
           className="flex items-center gap-2"
+          onClick={() => localStorage.setItem('uid', userid)}
         >
           <img
             src={userImg}

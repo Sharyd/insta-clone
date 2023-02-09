@@ -171,6 +171,7 @@ const Sidebar = ({
             href={{
               pathname: `/${user?.uid}`,
             }}
+            onClick={() => localStorage.setItem('uid', user?.uid ?? '')}
           >
             <SidebarLink
               text="Profile"

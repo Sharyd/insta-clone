@@ -43,6 +43,7 @@ const ProfilePage = () => {
   const { slug: uid, displayName, photoURL } = userData;
   const { slug: loggedUserId } = router?.query;
 
+  console.log(user[0]);
   const [createdPosts, setCreatedPosts] = useState<
     QueryDocumentSnapshot<DocumentData>[]
   >([]);
