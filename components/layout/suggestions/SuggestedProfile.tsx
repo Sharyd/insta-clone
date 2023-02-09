@@ -14,7 +14,7 @@ const SuggestedProfile = ({ uid, photoURL, displayName, email }: Props) => {
       <div className="p-2 flex gap-3">
         <img
           src={photoURL}
-          alt="user-profile"
+          alt="users profiles"
           className="w-9 h-9 rounded-full"
         />
         <div className="flex flex-col">

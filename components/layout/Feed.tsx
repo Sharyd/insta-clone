@@ -23,17 +23,13 @@ const Feed = () => {
     []
   );
   const [loggedUser] = useAuthState(auth);
-  const [loggedUserFollowing, setLoggedUserFollowing] = useState<
-    DocumentData[]
-  >([]);
+  const [followingUsers, setFollowingUsers] = useState<DocumentData[]>([]);
 
   const getFollowing = useCallback(() => {
     const unsubscribe = onSnapshot(
       query(collection(db, 'users'), where('uid', '==', loggedUser?.uid)),
       snapshot => {
-        setLoggedUserFollowing(
-          snapshot.docs.flatMap(user => user.data().following)
-        );
+        setFollowingUsers(snapshot.docs.flatMap(user => user.data().following));
       }
     );
     return unsubscribe;
@@ -42,20 +38,21 @@ const Feed = () => {
   useEffect(() => getFollowing(), [getFollowing]);
 
   useEffect(() => {
-    if (loggedUserFollowing.length !== 0) {
+    if (followingUsers.length !== 0) {
       const unsubscribe = onSnapshot(
         query(
           collection(db, 'posts'),
           orderBy('timestamp', 'desc'),
-          where('userid', 'in', loggedUserFollowing)
+          where('userid', 'in', followingUsers)
         ),
         snapshot => setPosts(snapshot.docs)
       );
       return () => unsubscribe();
     }
-  }, [db, loggedUserFollowing]);
+  }, [db, followingUsers]);
 
   useEffect(() => {
+    if (!loggedUser?.uid) return;
     const unsubscribe = onSnapshot(
       query(
         collection(db, 'posts'),
@@ -87,7 +84,7 @@ const Feed = () => {
         )}
       </div>
       <div className="hidden lg:flex">
-        <Suggestions />
+        <Suggestions followingUsers={followingUsers} />
       </div>
     </section>
   );

@@ -64,7 +64,6 @@ const ProfilePage = () => {
       ) !== -1
     );
   }, [user, loggedUser?.uid]);
-  console.log(user[0]);
 
   const getUserData = useCallback(() => {
     const unsubscribe = onSnapshot(

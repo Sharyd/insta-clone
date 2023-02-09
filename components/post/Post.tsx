@@ -339,7 +339,7 @@ const Post = ({ post, id, modalPost }: Props) => {
               <div className="absolute bottom-0 right-0 ml-2">
                 <EmojiPicker
                   onEmojiClick={addEmoji}
-                  width={350}
+                  width={300}
                   height={350}
                   emojiStyle={EmojiStyle.FACEBOOK}
                 />

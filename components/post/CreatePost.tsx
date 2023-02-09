@@ -316,8 +316,8 @@ const CreatePost = () => {
                         <div className="absolute bottom-0 right-0">
                           <EmojiPicker
                             onEmojiClick={addEmoji}
-                            width={305}
-                            height={350}
+                            width={300}
+                            height={320}
                             emojiStyle={EmojiStyle.FACEBOOK}
                           />
                         </div>

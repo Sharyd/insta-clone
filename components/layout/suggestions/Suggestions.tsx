@@ -5,70 +5,50 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import {
   collection,
-  deleteDoc,
-  doc,
   DocumentData,
   limit,
   onSnapshot,
-  orderBy,
   query,
-  QueryDocumentSnapshot,
-  setDoc,
   where,
 } from 'firebase/firestore';
-import useSnapshotWithId from '../../../hooks/use-snapshotWithId';
-import useIsAlreadySet from '../../../hooks/use-isAlreadySet';
-import { useRecoilState } from 'recoil';
 
 import SuggestedProfile from './SuggestedProfile';
-const Suggestions = () => {
+
+interface Props {
+  followingUsers: DocumentData[];
+}
+
+const Suggestions = ({ followingUsers }: Props) => {
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
   const getFullYear = new Date().getFullYear();
   const [users, setUsers] = useState<DocumentData[]>([]);
-  const [singleUserId, setSingleUserId] = useState('');
 
-  // const [following, setFollowing] = useState<DocumentData[]>([]);
-
-  // this is not finished !
-
-  // const getFollowing = useCallback(() => {
-  //   const unsubscribe = onSnapshot(
-  //     query(collection(db, 'users'), where('uid', '==', user?.uid)),
-  //     snapshot => {
-  //       setFollowing(snapshot.docs.flatMap(user => user.data().following));
-  //     }
-  //   );
-  //   return unsubscribe;
-  // }, [db, user?.uid]);
-
-  // useEffect(() => getFollowing(), [getFollowing]);
-
-  // console.log(singleUserId);
-
-  // const { value: isFollowing } = useIsAlreadySet(following, user?.uid ?? '');
-
-  const getUsersWithLimit = useCallback(() => {
-    if (!user?.uid) return;
-    const unsubscribe = onSnapshot(
-      query(collection(db, 'users'), limit(4), where('uid', '!=', user?.uid)),
-      snapshot => setUsers(snapshot.docs.map(users => users.data()))
-    );
-
-    return () => unsubscribe();
-  }, [db, user?.uid]);
-
-  useEffect(() => getUsersWithLimit(), [getUsersWithLimit]);
-
-  // useEffect(() => {
-  //   if (!user?.uid) return;
-  // onSnapshot(
-  //   query(collection(db, 'users'), limit(4), where('uid', '!=', user?.uid)),
-  //   snapshot => setUsers(snapshot.docs.map(users => users.data()))
-  // ),
-  //     [db, user?.uid];
-  // });
-  console.log(users);
+  useEffect(() => {
+    if (followingUsers?.length !== 0) {
+      const unsubscribe = onSnapshot(
+        query(
+          collection(db, 'users'),
+          limit(5),
+          where('uid', 'not-in', followingUsers)
+        ),
+        snapshot =>
+          // setUsers without logged user
+          setUsers(
+            snapshot.docs
+              .filter(u => u.data().uid !== user?.uid)
+              .map(u => u.data())
+          )
+      );
+      return () => unsubscribe();
+    } else {
+      const unsubscribe = onSnapshot(
+        query(collection(db, 'users'), limit(4), where('uid', '!=', user?.uid)),
+        snapshot => setUsers(snapshot.docs.map(u => u.data()))
+      );
+      return () => unsubscribe();
+    }
+  }, [followingUsers, db, user?.uid]);
 
   return (
     <div className="flex flex-col text-[0.7rem] mt-10 ml-4 w-[325px] text-gray-700">
