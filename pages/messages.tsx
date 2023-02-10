@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import Layout from '../components/layout/Layout';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, db, storage } from '../firebase';
+import { auth, db, storage } from '../firebase/firebase';
 import ChatUsers from '../components/chat/ChatUsers';
 import { BsTelephone, BsCameraVideo, BsImage } from 'react-icons/bs';
 import { AiOutlineInfoCircle, AiOutlineSmile } from 'react-icons/ai';

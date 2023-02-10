@@ -1,7 +1,7 @@
 import { DocumentData } from 'firebase/firestore';
 import React, { useContext, useEffect, useRef } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../../firebase';
+import { auth } from '../../firebase/firebase';
 import { ChatContext } from '../../store/ChatContext';
 
 interface Props {

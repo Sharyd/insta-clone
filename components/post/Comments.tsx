@@ -12,7 +12,7 @@ import React, { useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, db } from '../../firebase';
+import { auth, db } from '../../firebase/firebase';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { useRecoilValue } from 'recoil';
 import { getPostIdState } from '../../atoms/postAtom';

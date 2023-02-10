@@ -4,7 +4,7 @@ import Post from '../post/Post';
 
 import Slider from '../stories/Slider';
 import Suggestions from './suggestions/Suggestions';
-import useSnapshot from '../../hooks/use-snapshot';
+
 import {
   collection,
   DocumentData,
@@ -14,7 +14,7 @@ import {
   QueryDocumentSnapshot,
   where,
 } from 'firebase/firestore';
-import { auth, db } from '../../firebase';
+import { auth, db } from '../../firebase/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 const Feed = () => {
@@ -26,6 +26,7 @@ const Feed = () => {
   const [followingUsers, setFollowingUsers] = useState<DocumentData[]>([]);
 
   const getFollowing = useCallback(() => {
+    if (!loggedUser?.uid) return;
     const unsubscribe = onSnapshot(
       query(collection(db, 'users'), where('uid', '==', loggedUser?.uid)),
       snapshot => {
@@ -74,7 +75,9 @@ const Feed = () => {
         {myPosts?.map(post => (
           <Post key={post.id} id={post.id} post={post.data()} modalPost />
         ))}
-        {myPosts?.length === 0 && posts?.length === 0 ? (
+        {myPosts?.length === 0 &&
+        posts?.length === 0 &&
+        followingUsers?.length === 0 ? (
           <p className="text-center m-auto p-16">
             Start following someone and see their posts! Or create your own
             posts.

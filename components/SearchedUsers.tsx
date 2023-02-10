@@ -2,7 +2,7 @@ import { DocumentData } from 'firebase/firestore';
 import Link from 'next/link';
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../firebase';
+import { auth } from '../firebase/firebase';
 
 interface Props {
   users: DocumentData;

@@ -7,7 +7,7 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import { AiOutlinePlusCircle, AiOutlineSmile } from 'react-icons/ai';
 import { AiOutlineClose } from 'react-icons/ai';
 import BtnSlider from '../stories/SliderBtn';
-import { auth } from '../../firebase';
+import { auth } from '../../firebase/firebase';
 
 import useSlider from '../../hooks/use-slider';
 import {
@@ -16,7 +16,7 @@ import {
   serverTimestamp,
   setDoc,
 } from 'firebase/firestore';
-import { storage, db } from '../../firebase';
+import { storage, db } from '../../firebase/firebase';
 import { v4 as uuidv4 } from 'uuid';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import Popup from '../ui/Popup';

@@ -14,7 +14,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import SidebarLink from './SidebarLink';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { auth } from '../../../firebase';
+import { auth } from '../../../firebase/firebase';
 import { modalState, modalTypeState } from '../../../atoms/modalAtom';
 import { SetterOrUpdater, useRecoilState } from 'recoil';
 import SidebarWindow from './SidebarWindow';

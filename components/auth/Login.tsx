@@ -6,7 +6,7 @@ import { AiOutlineCheckCircle } from 'react-icons/ai';
 import useInput from '../../hooks/use-input';
 import { isEmailValid } from '../../helpers/isEmailValid';
 import { useRouter } from 'next/router';
-import { auth } from '../../firebase';
+import { auth } from '../../firebase/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import LogoInsta from '../ui/LogoInsta';
 import { ChatContext } from '../../store/ChatContext';

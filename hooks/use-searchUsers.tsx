@@ -5,7 +5,7 @@ import {
   onSnapshot,
   query,
 } from 'firebase/firestore';
-import { auth, db } from '../firebase';
+import { auth, db } from '../firebase/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 const useSearchUsers = () => {

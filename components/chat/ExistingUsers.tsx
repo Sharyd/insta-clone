@@ -1,7 +1,7 @@
 import { doc, DocumentData, onSnapshot } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import React, { useState, useEffect, useContext } from 'react';
-import { auth, db } from '../../firebase';
+import { auth, db } from '../../firebase/firebase';
 import { ChatContext } from '../../store/ChatContext';
 
 const CombinedUsers = () => {

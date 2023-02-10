@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, db } from '../../../firebase';
+import { auth, db } from '../../../firebase/firebase';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import {
@@ -25,6 +25,7 @@ const Suggestions = ({ followingUsers }: Props) => {
   const [users, setUsers] = useState<DocumentData[]>([]);
 
   useEffect(() => {
+    if (!user) return;
     if (followingUsers?.length !== 0) {
       const unsubscribe = onSnapshot(
         query(

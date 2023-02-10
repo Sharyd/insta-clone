@@ -6,7 +6,7 @@ import { FiPlusSquare } from 'react-icons/fi';
 import { IoPaperPlane, IoPaperPlaneOutline } from 'react-icons/io5';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Link from 'next/link';
-import { auth } from '../../firebase';
+import { auth } from '../../firebase/firebase';
 import { SetterOrUpdater } from 'recoil';
 import { useRouter } from 'next/router';
 

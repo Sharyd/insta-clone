@@ -8,7 +8,7 @@ import {
 } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import React, { Dispatch, SetStateAction } from 'react';
-import { auth, db } from '../../firebase';
+import { auth, db } from '../../firebase/firebase';
 
 interface Props {
   user: DocumentData;

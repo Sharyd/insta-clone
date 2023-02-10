@@ -6,7 +6,7 @@ import React from 'react';
 import { BiBookmark } from 'react-icons/bi';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { VscReport } from 'react-icons/vsc';
-import { auth } from '../../../firebase';
+import { auth } from '../../../firebase/firebase';
 
 interface Props {
   user: User | null | undefined;

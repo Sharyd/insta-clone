@@ -4,7 +4,7 @@ import Login from '../components/auth/Login';
 import MobileImages from '../components/MobileImages';
 import Register from '../components/auth/Register';
 import Footer from '../components/layout/Footer';
-import { auth, db } from '../firebase';
+import { auth, db } from '../firebase/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {
   signInWithPopup,

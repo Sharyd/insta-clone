@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import Layout from '../components/layout/Layout';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, db, storage } from '../firebase';
+import { auth, db, storage } from '../firebase/firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { updateEmail, updateProfile } from 'firebase/auth';
 import ChangePassword from '../components/ChangePassword';

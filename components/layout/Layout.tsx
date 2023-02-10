@@ -10,7 +10,7 @@ import Modal from '../ui/Modal';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/router';
 import LoadingSpinner from '../ui/LoadingSpinner';
-import { auth } from '../../firebase';
+import { auth } from '../../firebase/firebase';
 
 interface Props {
   children: JSX.Element[] | JSX.Element;

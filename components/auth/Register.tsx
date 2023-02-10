@@ -7,7 +7,7 @@ import useInput from '../../hooks/use-input';
 import { isEmailValid } from '../../helpers/isEmailValid';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
-import { auth, db } from '../../firebase';
+import { auth, db } from '../../firebase/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { ChatContext } from '../../store/ChatContext';
 import LogoInsta from '../ui/LogoInsta';

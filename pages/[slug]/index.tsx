@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { AiOutlineCamera } from 'react-icons/ai';
-import { auth, db } from '../../firebase';
+import { auth, db } from '../../firebase/firebase';
 import Layout from '../../components/layout/Layout';
 
 import Link from 'next/link';
@@ -32,10 +32,10 @@ const ProfilePage = () => {
   const [isSaved, setIsSaved] = useState(false);
   const [modalOpen, setModalOpen] = useRecoilState(modalState);
   const [modalType, setModalType] = useRecoilState(modalTypeState);
-  const [error, setError] = useState('');
-  const router = useRouter();
-  const [user, setUser] = useState<DocumentData>({});
 
+  const router = useRouter();
+
+  const [user, setUser] = useState<DocumentData>({});
   const [isFollowed, setIsFollowed] = useState(false);
 
   const [storageUserID, setStorageUserID] = useState<null | string>('');
@@ -43,7 +43,6 @@ const ProfilePage = () => {
   const { slug: uid, displayName, photoURL } = userData;
   const { slug: loggedUserId } = router?.query;
 
-  console.log(user[0]);
   const [createdPosts, setCreatedPosts] = useState<
     QueryDocumentSnapshot<DocumentData>[]
   >([]);

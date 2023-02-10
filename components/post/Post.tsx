@@ -26,7 +26,7 @@ import {
   where,
 } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, db } from '../../firebase';
+import { auth, db } from '../../firebase/firebase';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { modalState, modalTypeState } from '../../atoms/modalAtom';
 import { getPostState, getPostIdState } from '../../atoms/postAtom';
