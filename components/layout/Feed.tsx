@@ -19,9 +19,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 const Feed = () => {
   const [posts, setPosts] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
-  const [myPosts, setMyPosts] = useState<QueryDocumentSnapshot<DocumentData>[]>(
-    []
-  );
+
   const [loggedUser] = useAuthState(auth);
   const [followingUsers, setFollowingUsers] = useState<DocumentData[]>([]);
 
@@ -37,33 +35,19 @@ const Feed = () => {
   }, [db, loggedUser?.uid]);
 
   useEffect(() => getFollowing(), [getFollowing]);
-
   useEffect(() => {
-    if (followingUsers.length !== 0) {
+    if (followingUsers.length !== 0 || loggedUser?.uid) {
       const unsubscribe = onSnapshot(
         query(
           collection(db, 'posts'),
           orderBy('timestamp', 'desc'),
-          where('userid', 'in', followingUsers)
+          where('userid', 'in', [...followingUsers, loggedUser?.uid])
         ),
         snapshot => setPosts(snapshot.docs)
       );
       return () => unsubscribe();
     }
-  }, [db, followingUsers]);
-
-  useEffect(() => {
-    if (!loggedUser?.uid) return;
-    const unsubscribe = onSnapshot(
-      query(
-        collection(db, 'posts'),
-        orderBy('timestamp', 'desc'),
-        where('userid', '==', loggedUser?.uid)
-      ),
-      snapshot => setMyPosts(snapshot.docs)
-    );
-    return () => unsubscribe();
-  }, [db, loggedUser?.uid]);
+  }, [db, followingUsers, loggedUser?.uid]);
 
   return (
     <section className="m-auto lg:flex mt-16 gap-4 md:mt-8 ">
@@ -72,12 +56,8 @@ const Feed = () => {
         {posts?.map(post => (
           <Post key={post.id} id={post.id} post={post.data()} modalPost />
         ))}
-        {myPosts?.map(post => (
-          <Post key={post.id} id={post.id} post={post.data()} modalPost />
-        ))}
-        {myPosts?.length === 0 &&
-        posts?.length === 0 &&
-        followingUsers?.length === 0 ? (
+
+        {posts?.length === 0 && followingUsers?.length === 0 ? (
           <p className="text-center m-auto p-16">
             Start following someone and see their posts! Or create your own
             posts.
