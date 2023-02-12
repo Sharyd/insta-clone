@@ -17,9 +17,8 @@ const SuggestedProfile = ({ uid, photoURL, displayName, email }: Props) => {
           alt="users profiles"
           className="w-9 h-9 rounded-full"
         />
-        <div className="flex flex-col">
+        <div className="flex flex-col  justify-center">
           <p className="font-[500] text-[0.8rem]">{displayName}</p>
-          <p className="text-gray-500">Followed by + Alex 3 more</p>
         </div>
       </div>
       <Link
