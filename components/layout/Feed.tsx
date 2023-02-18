@@ -37,6 +37,7 @@ const Feed = () => {
   useEffect(() => getFollowing(), [getFollowing]);
 
   useEffect(() => {
+    if (!loggedUser?.uid) return;
     if (followingUsers.length !== 0 || loggedUser?.uid) {
       const unsubscribe = onSnapshot(
         query(
