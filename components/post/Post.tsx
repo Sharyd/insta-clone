@@ -306,7 +306,7 @@ const Post = ({ post, id, modalPost }: Props) => {
           initial={{ y: '100%' }}
           animate={{ y: '0%' }}
           className={`overflow-y-scroll scrollbar-hide ${
-            comments.length >= 2 && 'h-[8.5rem] md:h-36'
+            comments.length >= 2 && 'h-[8.5rem]  md:h-28'
           }`}
         >
           {comments.map(comment => (
