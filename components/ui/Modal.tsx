@@ -37,7 +37,7 @@ const Modal = ({ type, setModalOpen }: Props) => {
         <>
           <div
             onClick={e => e.stopPropagation()}
-            className="h-[80vh] md:h-[100vh] w-[800px] p-2 md:p-8 scrollbar-hide"
+            className="h-[80vh] w-[800px] md:h-[90vh] p-2 md:p-8 scrollbar-hide"
           >
             <Post post={post} id={id} modalPost />
           </div>
