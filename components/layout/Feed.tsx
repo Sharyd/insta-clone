@@ -16,12 +16,14 @@ import {
 } from 'firebase/firestore';
 import { auth, db } from '../../firebase/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import useIsDefaultText from '../../hooks/use-isDefaultText';
 
 const Feed = () => {
   const [posts, setPosts] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
-  const [message, setMessage] = useState(false)
+
   const [loggedUser] = useAuthState(auth);
   const [followingUsers, setFollowingUsers] = useState<DocumentData[]>([]);
+  const { message } = useIsDefaultText({ posts, followingUsers });
 
   const getFollowing = useCallback(() => {
     if (!loggedUser?.uid) return;
@@ -51,26 +53,10 @@ const Feed = () => {
     }
   }, [db, followingUsers, loggedUser?.uid]);
 
-  useEffect(() => {
-   const timer = setTimeout(() => {
-      if(posts?.length === 0 || followingUsers?.length === 0 ) {
-        return setMessage(true)
-      } else {
-        return setMessage(false)
-      }
-    }, 500);
-    
-    return () => clearTimeout(timer)
-  },[posts.length, followingUsers.length])
-
-
   return (
     <section className="m-auto lg:flex mt-16 gap-4 md:mt-8 ">
       <div className="max-w-[360px] sm:max-w-[460px]  ">
         <Slider />
-        {posts?.map(post => (
-          <Post key={post.id} id={post.id} post={post.data()} modalPost />
-        ))}
 
         {message ? (
           <p className="text-center m-auto p-16">
@@ -78,7 +64,11 @@ const Feed = () => {
             posts.
           </p>
         ) : (
-          ''
+          <>
+            {posts?.map(post => (
+              <Post key={post.id} id={post.id} post={post.data()} modalPost />
+            ))}
+          </>
         )}
       </div>
       <div className="hidden lg:flex">

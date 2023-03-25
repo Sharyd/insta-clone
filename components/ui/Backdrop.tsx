@@ -15,7 +15,7 @@ const Backdrop = ({ children }: Props) => {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 h-full w-full  md:scrollbar-hide overflow-y-auto bg-black/70 flex items-center justify-center z-50  overflow-hidden"
+      className="fixed top-0 left-0 h-full w-full  md:scrollbar-hide overflow-y-auto bg-black/70 flex items-start justify-center z-50  overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

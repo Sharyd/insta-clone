@@ -63,7 +63,7 @@ const Home: NextPage = () => {
       {!user ? (
         <section className="bg-gray-100 min-h-screen flex flex-col p-2">
           <main className="flex flex-col items-center justify-end py-2 flex-1">
-            <div className="flex justify-center ">
+            <div className="flex justify-center items-center ">
               <MobileImages />
               {login && !user && (
                 <Login

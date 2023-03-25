@@ -105,7 +105,7 @@ const Sidebar = ({
               setActiveSearch(prev => !prev);
               setActiveNotifications(false);
             }}
-            className={`${activeSearch && 'border rounded-full'}`}
+            className={`${activeSearch && 'border flex items-center justify-center rounded-full'}`}
           >
             <SidebarLink
               text="Search"

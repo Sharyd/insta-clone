@@ -70,11 +70,9 @@ const Register = ({ setLogin, FacebookProvider }: Props) => {
 
     setLoading(true);
     try {
-      //Create user
       const res = await createUserWithEmailAndPassword(auth, email, password);
 
       try {
-        //Update profile
         await updateProfile(res.user, {
           displayName: displayName,
           photoURL: 'https://graph.facebook.com/9002313636460828/picture',
