@@ -19,7 +19,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 const Feed = () => {
   const [posts, setPosts] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
-
+  const [message, setMessage] = useState(false)
   const [loggedUser] = useAuthState(auth);
   const [followingUsers, setFollowingUsers] = useState<DocumentData[]>([]);
 
@@ -51,6 +51,19 @@ const Feed = () => {
     }
   }, [db, followingUsers, loggedUser?.uid]);
 
+  useEffect(() => {
+   const timer = setTimeout(() => {
+      if(posts?.length === 0 || followingUsers?.length === 0 ) {
+        return setMessage(true)
+      } else {
+        return setMessage(false)
+      }
+    }, 500);
+    
+    return () => clearTimeout(timer)
+  },[posts.length, followingUsers.length])
+
+
   return (
     <section className="m-auto lg:flex mt-16 gap-4 md:mt-8 ">
       <div className="max-w-[360px] sm:max-w-[460px]  ">
@@ -59,7 +72,7 @@ const Feed = () => {
           <Post key={post.id} id={post.id} post={post.data()} modalPost />
         ))}
 
-        {posts?.length === 0 && followingUsers?.length === 0 ? (
+        {message ? (
           <p className="text-center m-auto p-16">
             Start following someone and see their posts! Or create your own
             posts.
