@@ -14,7 +14,7 @@ const SidebarWindow = ({ type }: Props) => {
       initial={{ x: '-100%', opacity: 0.5 }}
       animate={{ x: '85px', opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className="w-[350px] left-[0px] top-0 h-screen absolute bg-white rounded-r-xl -z-20"
+      className="w-[350px] left-[0px] top-0 h-screen absolute overflow-x-auto bg-white rounded-r-xl -z-20"
       exit={{ x: '-100%', opacity: 0.5 }}
     >
       {type === 'search' ? <SidebarSearch /> : <SidebarNotifications />}
