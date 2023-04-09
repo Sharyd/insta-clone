@@ -19,7 +19,7 @@ const useSnapshotWithId = (
   useEffect(
     () =>
       onSnapshot(
-        query(collection(db, firstCollection, id, secondCollection), orderBy('timestamp', 'desc')),
+        query(collection(db, firstCollection, id, secondCollection)),
         snapshot => setValue(snapshot.docs)
       ),
     [db]

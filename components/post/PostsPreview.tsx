@@ -14,6 +14,7 @@ import { modalState, modalTypeState } from '../../atoms/modalAtom';
 import { getPostIdState, getPostState } from '../../atoms/postAtom';
 import Image from 'next/image';
 import useSnapshotWithId from '../../hooks/use-snapshotWithId';
+import useSnapshotIDAndOrderBy from '../../hooks/use-snapshotID&OrderBy';
 interface Props {
   post: DocumentData;
   id: string;
@@ -26,7 +27,7 @@ const PostsPreview = ({ id, post }: Props) => {
   const [postId, setPostId] = useRecoilState(getPostIdState);
 
   const { value: likes } = useSnapshotWithId('posts', id, 'likes');
-  const { value: comments } = useSnapshotWithId('posts', id, 'comments');
+  const { value: comments } = useSnapshotIDAndOrderBy('posts', id, 'comments');
 
   return (
     <div className="max-w-full ">

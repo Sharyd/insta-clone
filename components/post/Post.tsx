@@ -38,6 +38,7 @@ import Comments from './Comments';
 import Image from 'next/image';
 import useIsAlreadySet from '../../hooks/use-isAlreadySet';
 import useSnapshotWithId from '../../hooks/use-snapshotWithId';
+import useSnapshotIDAndOrderBy from '../../hooks/use-snapshotID&OrderBy';
 import Link from 'next/link';
 import { updateUser } from '../../atoms/userAtom';
 
@@ -56,7 +57,6 @@ const Post = ({ post, id, modalPost }: Props) => {
   const [isUserUpdated, setIsUserUpdated] = useRecoilState(updateUser);
 
   const { image, text, userImg, username, userid, email } = post;
-
   const [bookmarks, setBookmarks] = useState<
     QueryDocumentSnapshot<DocumentData>[]
   >([]);
@@ -69,7 +69,7 @@ const Post = ({ post, id, modalPost }: Props) => {
   );
 
   const { value: likes } = useSnapshotWithId('posts', id, 'likes');
-  const { value: comments } = useSnapshotWithId('posts', id, 'comments');
+  const { value: comments } = useSnapshotIDAndOrderBy('posts', id, 'comments');
 
   const { value: liked } = useIsAlreadySet(likes, user?.uid ?? '');
   const { value: bookmarked } = useIsAlreadySet(bookmarks, id);
@@ -178,9 +178,9 @@ const Post = ({ post, id, modalPost }: Props) => {
             },
           }}
           className="flex items-center gap-2"
-          onClick={() =>  {
-            localStorage.setItem('uid', userid)
-            setModalOpen(false)
+          onClick={() => {
+            localStorage.setItem('uid', userid);
+            setModalOpen(false);
           }}
         >
           <img
