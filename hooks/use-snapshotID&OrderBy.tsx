@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { db } from '../firebase/firebase';
 
-const useSnapshotWithId = (
+const useSnapshotIDAndOrderBy = (
   firstCollection: string,
   id: string,
   secondCollection: string
@@ -33,4 +33,4 @@ const useSnapshotWithId = (
   };
 };
 
-export default useSnapshotWithId;
+export default useSnapshotIDAndOrderBy;
