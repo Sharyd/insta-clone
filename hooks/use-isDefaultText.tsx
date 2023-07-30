@@ -8,9 +8,10 @@ interface Props {
 
 const useIsDefaultText = ({ posts, followingUsers }: Props) => {
   const [message, setMessage] = useState(false);
+  console.log(posts);
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (posts?.length === 0 || followingUsers?.length === 0) {
+      if (posts?.length === 0 && followingUsers?.length === 0) {
         return setMessage(true);
       } else {
         return setMessage(false);
