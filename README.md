@@ -1,5 +1,5 @@
 
-# Application is outdated and not fully workable, and needs to be updated !!!
+# Application is outdated and not fully workable.. Needs to be updated !!!
 
 # 🚀 App Instagram Clone
 
